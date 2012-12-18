@@ -5,5 +5,6 @@ public class Test {
 	{
 		System.out.println("Hello world");
 		System.out.println("Hallo Roel");
+		System.out.println("Spawn more Overlords!");
 	}
 }
