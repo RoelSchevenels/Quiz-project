@@ -1,6 +1,8 @@
 package GUI.player;
 
 import java.awt.BorderLayout;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.JPanel;
 
@@ -52,7 +54,7 @@ public class PlayerPanel extends JPanel
 		default:
 			//Knowledge Question
 			pnlQuestion = new QuestionPanel(question);
-			add(pnlQuestion);
+			add(pnlQuestion, BorderLayout.NORTH);
 			
 			break;
 		}
@@ -61,6 +63,7 @@ public class PlayerPanel extends JPanel
 		if(vocalAnswer)
 		{
 			//SpeedAnswerPanel
+			pnlAnswer = new SpeedAnswerPanel();
 		}
 		else if(questionType == MULTIPLE_CHOICE_QUESTION)
 		{
@@ -69,10 +72,24 @@ public class PlayerPanel extends JPanel
 		else
 		{
 			//OpenAnswerPanel
-			pnlAnswer = new OpenAnswerPanel();
-			add(pnlAnswer, BorderLayout.CENTER);
+			pnlAnswer = new OpenAnswerPanel();			
 		}
+		add(pnlAnswer, BorderLayout.CENTER);
 		
 		revalidate();
+	}
+	
+	private class QuestionListener implements PropertyChangeListener
+	{
+		@Override
+		public void propertyChange(PropertyChangeEvent evt)
+		{
+			// TODO Auto-generated method stub
+			
+			if(evt.getPropertyName().equals("Question"))
+			{
+				
+			}
+		}		
 	}
 }

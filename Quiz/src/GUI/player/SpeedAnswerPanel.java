@@ -6,13 +6,14 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 
 
-public class SpeedAnswerPanel
+public class SpeedAnswerPanel extends AnswerPanel
 {
 	private JButton btnPress;
 	
 	public SpeedAnswerPanel()
 	{
-		btnPress = new JButton();
+		btnPress = new JButton("Druk af");
+		add(btnPress);
 		btnPress.addActionListener(new ActionListener() {
 			
 			@Override

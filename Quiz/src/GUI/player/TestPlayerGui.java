@@ -21,6 +21,7 @@ public class TestPlayerGui extends JFrame
 	{
 		setSize(800, 600);
 		setTitle("Player Test");
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
 		btnChange = new JButton("Change Question");
 		btnChange.addActionListener(new ActionListener() {
