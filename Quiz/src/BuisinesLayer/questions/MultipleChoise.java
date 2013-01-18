@@ -5,12 +5,9 @@ package BuisinesLayer.questions;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.persistence.*;
-
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
-import org.hibernate.annotations.JoinColumnOrFormula;
 
 import BuisinesLayer.QuizMaster;
 
@@ -26,6 +23,9 @@ public class MultipleChoise extends Question{
 		super(creator);
 		// TODO Auto-generated constructor stub
 	}
+	
+	@SuppressWarnings("unused")
+	private MultipleChoise() {} //private constructor for hibernate
 	
 	public String[] getValues() {
 		String[] values;

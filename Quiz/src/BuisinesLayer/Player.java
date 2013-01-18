@@ -1,3 +1,7 @@
+/**
+ * Een player
+ * @author vrolijkx
+ */
 package BuisinesLayer;
 
 import java.util.ArrayList;
@@ -24,7 +28,10 @@ public class Player extends User {
 	}
 
 	public void AddTeam(Team team) {
-		this.teams.add(team);
+		if(!teams.contains(team)) {
+			this.teams.add(team);
+			team.addPlayer(this);
+		}
 	}
 	
 

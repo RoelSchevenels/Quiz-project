@@ -48,9 +48,9 @@ public abstract class Question {
 			)
 	private Collection<QuestionRound> questionRounds = new ArrayList<QuestionRound>();
 	
-
 	public Question(QuizMaster creator) {
 		this.creator = creator;
+		this.maxScore = 10;
 	}
  	
 	/*
@@ -89,15 +89,16 @@ public abstract class Question {
 	public void addQuestionRound(QuestionRound round) {
 		if(!questionRounds.contains(round)) {
 			questionRounds.add(round);
+			round.addQuestion(this);
 		}
 	}
 	
 	public void removeQuestionRound(QuestionRound round) {
 		if(questionRounds.contains(round)) {
 			questionRounds.remove(round);
+			round.removeQuestion(this);
 		}
 	}
-
 	
  	public int getMaxScore() {
 		return maxScore;

@@ -1,20 +1,17 @@
+/**
+ * de abstracte klass die questions met blob resources gebruiken
+ * @author vrolijkx
+ */
 package BuisinesLayer.questions;
 
 
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.sql.Blob;
 import java.sql.SQLException;
-
-import javassist.bytecode.ByteArray;
-
 import javax.persistence.*;
-
-import main.test.TestDataBase;
-
 import org.hibernate.Hibernate;
-import org.hibernate.engine.jdbc.BlobImplementer;
 import org.hibernate.engine.jdbc.LobCreator;
+import Util.ConnectionUtil;
 
 import BuisinesLayer.QuizMaster;
 
@@ -28,7 +25,6 @@ public abstract class MediaQuestion extends Question {
 	protected static LobCreator lobCreator;
 	
 	@Column(name="RECOURCE_VALUE")
-	
 	@Lob
 	Blob data;
 	
@@ -37,20 +33,16 @@ public abstract class MediaQuestion extends Question {
 		super(creator);
 		if(lobCreator==null) {
 			//TODO util klassen maken en dit stuk vervangen
-			lobCreator=Hibernate.getLobCreator(TestDataBase.getSession());
+			lobCreator=Hibernate.getLobCreator(ConnectionUtil.getSession());
 		}
 		
 	}
 	
 	public MediaQuestion() {};
 	
-	protected void setData(InputStream input,int length) {
+	protected void setDataStream(InputStream input,int length) {
 		data = lobCreator.createBlob(input,length);
 	}
-	
-//	protected void setData(Byte[] bytes) {
-//		data = lobCreator.createBlob(bytes);
-//	}
 	
 	protected InputStream getDataStream() throws SQLException {
 		return data.getBinaryStream();

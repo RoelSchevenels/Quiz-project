@@ -58,6 +58,7 @@ public class Quiz {
 	/**
 	 * standaard consturctor voor hibernate
 	 */
+	@SuppressWarnings("unused")
 	private Quiz() {}
 	
  	public String getQuizName() {
@@ -125,10 +126,17 @@ public class Quiz {
 		return teams;
 	}
 
-	public void addRound(QuestionRound q) {
-		if(!rounds.contains(q)) {
-			rounds.add(q);
-			q.addQuiz(this);
+	public void addRound(QuestionRound round) {
+		if(!rounds.contains(round)) {
+			rounds.add(round);
+			round.addQuiz(this);
+		}
+	}
+	
+	public void removeRound(QuestionRound round) {
+		if(rounds.contains(round)) {
+			rounds.remove(round);
+			round.removeQuiz(this);
 		}
 	}
 

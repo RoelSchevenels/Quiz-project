@@ -11,7 +11,7 @@ import org.hibernate.annotations.CascadeType;
 
 
 @Entity
-@Table(name="MULTIPLECHOIS")
+@Table(name="MULTIPLECHOISE")
 public class MultipleChoisePosebility {
 	@Id
 	@GeneratedValue

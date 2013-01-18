@@ -1,13 +1,13 @@
+/**
+ * een quizmaster die de vragen gaat lezen en opstellen
+ * @author vrolijkx
+ */
 package BuisinesLayer;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
-
-import org.hibernate.annotations.ManyToAny;
-
-
 
 @Entity
 @DiscriminatorValue(value="MASTER")
@@ -21,5 +21,6 @@ public class QuizMaster extends User {
 		// TODO Auto-generated constructor stub
 	}
 
-	private QuizMaster() {};
+	@SuppressWarnings("unused")
+	private QuizMaster() {}; //hibernate Constructor
 }

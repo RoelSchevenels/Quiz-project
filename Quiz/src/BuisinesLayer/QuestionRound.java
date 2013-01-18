@@ -1,3 +1,7 @@
+/**
+ * een simpele vragen ronde die in meerdere quises kan gebruikt worden
+ * @author vrolijkx
+ */
 package BuisinesLayer;
 
 import java.util.ArrayList;
@@ -16,6 +20,7 @@ public class QuestionRound {
 	private int id;
 	@Column(length=50,name="ROUND_NAME")
 	private String name;
+	
 	@ManyToMany(mappedBy="rounds")
 	private Collection<Quiz> quises = new ArrayList<Quiz>();
 	@ManyToMany(mappedBy="questionRounds")
@@ -41,6 +46,13 @@ public class QuestionRound {
 		if(!quises.contains(q)) {
 			quises.add(q);
 			q.addRound(this);
+		}
+	}
+	
+	public void removeQuiz(Quiz q) {
+		if(quises.contains(q)) {
+			quises.remove(q);
+			q.removeRound(this);
 		}
 	}
 	
