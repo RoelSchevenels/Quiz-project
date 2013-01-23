@@ -3,7 +3,7 @@
  * En het restoren van de backup.
  * @author vrolijkx
  */
-package Util;
+package Util.backup;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,22 +17,30 @@ import java.util.Formatter;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
+
+import javax.swing.plaf.ProgressBarUI;
+
 import org.hibernate.cfg.Configuration;
+
+import Util.ConnectionUtil;
 
 public class Backup {
 	public static void BackupTo(File location,String name) throws IOException {
+		BackupTo(location, name,null);
+	}
+	
+	public static void BackupTo(File location,String name, BackupProgressListener progress) throws IOException {
 		File outputFile;
 		Configuration c = ConnectionUtil.getHibernateConfiguration();
+		
 		name += ".quiz";
 		
 		try {
 			File databasLocation = getDatabaseLocation(c);
-			System.out.println(databasLocation);
-			
 			if(databasLocation.isDirectory() && location.isDirectory()) {
 				outputFile = new File(location,name);
 				outputFile.createNewFile();
-				zipFolder(databasLocation, outputFile, c);
+				zipFolder(databasLocation, outputFile,c ,progress);
 				
 				
 			} else {
@@ -40,11 +48,16 @@ public class Backup {
 			}
 			
 		} catch (IOException e) {
-			throw new IOException("Zip failed");
+			if(progress != null) {
+				progress.fail();
+			}
+			throw new IOException("Zip failed",e);
 		}
 	}
 		
-	private static void zipFolder(File toZipFolder, File outputFile, Configuration config) throws IOException {
+	private static void zipFolder(File toZipFolder, File outputFile, Configuration config, BackupProgressListener progress) throws IOException {
+		final boolean log = progress != null;
+		long totalSize = 0L;
 		Formatter formatter = null;
 		ZipEntry entry;
 		OutputStream output = null;
@@ -61,14 +74,24 @@ public class Backup {
 			}
 		});
 		
+		for (File file : files) {
+			totalSize += file.length();
+		}
 		
 		try {
-			System.out.println("Backup Started");
+			if(log) {	
+				progress.start(totalSize);
+				progress.logg("Backup Started");
+			}
+			
 			output = new FileOutputStream(outputFile);
 			zipOutput = new ZipOutputStream(output);
 			fileInput = null;
 			
 			//info van de backup toevoegen
+			if(log) {	
+				progress.logg("adding backup-info");
+			}
 			entry = new ZipEntry("backup-info");
 			entry.setComment("Extra backup info");
 			zipOutput.putNextEntry(entry);
@@ -85,7 +108,9 @@ public class Backup {
 			
 			//alle files zippen
 			for(File fi : files) {
-				System.out.println("toevoegen aan zip : " + fi.getName());
+				if(log) {	
+					progress.logg("adding to backup:" + fi.getName());
+				}
 				entry = new ZipEntry(fi.getName());
 				zipOutput.putNextEntry(entry);
 				
@@ -99,22 +124,32 @@ public class Backup {
 					
 					//na 1mb output flushen
 					if(flushCounter >= 1048576) {
+						if(log) {
+							progress.progress(flushCounter);
+						}
 						zipOutput.flush();
 						flushCounter = 0;
 					}	
 				}
 				
+				if(log) {
+					progress.progress(flushCounter);
+				}
+				
 				fileInput.close();
 				zipOutput.flush();
-				//zipOutput.closeEntry();
 				
-				
-				//input sluiten
-				System.out.println("toevoegevoegd aan zip : " + fi.getName());
+				if(log) {
+					progress.logg("added to backup : " + fi.getName());
+				}
 			}
-			System.out.println("zip ok");
 			
-		} finally { //alles sluiten
+			if(log) {
+				progress.logg("Backup Ok");
+				progress.finish();
+			}
+			
+		} finally {
 			if(formatter != null) {
 				formatter.close();
 			}
@@ -136,11 +171,24 @@ public class Backup {
 	}
 	
 	public static void RestorBackup(File backupFile) throws IOException {
+		RestorBackup(backupFile, null);
+	}
+	
+	public static void RestorBackup(File backupFile,BackupProgressListener progress) throws IOException {
+		final boolean log = progress != null;
+		
+		if(log) {
+			progress.start(backupFile.length());
+		}
 		//check the backup
 		if(!isValidBackup(backupFile)) {
+			if(log) {
+				progress.fail();
+			}
 			throw new IOException("Invalid backupFile");
 		}
 		//variabelen declareren
+		
 		File databaseLocation;
 		File outputFile;
 		InputStream input = null;
@@ -148,9 +196,8 @@ public class Backup {
 		ZipEntry entry = null;
 		OutputStream output = null;
 		byte[] buffer = new byte[1024]; //buffer van een 1kb.
-		long readedSize = 0;
-		long totalSize = backupFile.length();
 		Configuration c = ConnectionUtil.getHibernateConfiguration();
+		
 		
 		try {
 			databaseLocation = getDatabaseLocation(c);
@@ -161,13 +208,20 @@ public class Backup {
 			while(true) {
 				entry = zipInput.getNextEntry();
 				if(entry==null) {
+					if(log) {
+						progress.logg("Restore Complete");
+						progress.finish();
+					}
 					return;
 				}else if(entry.getName().equals("backup-info")) {
 					//de size van de backup-info bij de gelezen bytes optellen
-					readedSize += entry.getSize();
-					// TODO: progressListener updaten;
+					if(log) {
+						progress.progress((int) entry.getSize());
+					}
 				} else {
-					System.out.println("Restoring: " + entry.getName());
+					if(log) {
+						progress.logg("Restoring: " + entry.getName());
+					}
 					outputFile = new File(databaseLocation,entry.getName());
 					outputFile.createNewFile();
 					output = new FileOutputStream(outputFile);
@@ -177,25 +231,33 @@ public class Backup {
 					//blokken lezen
 					while(-1 != (read = zipInput.read(buffer))) {
 						flushCounter += read;
-						readedSize += read;
 						output.write(buffer, 0, read);
 						
 						//na 1mb output flushen
 						if(flushCounter >= 1048576) {
+							if(log) {
+								progress.progress(flushCounter);
+							}
 							flushCounter = 0;
-							//progress listener updaten
 							output.flush();
 						}	
 					}
 					output.close();
-					
-					System.out.println("Restored: " + entry.getName());
-				};
+					if(log) {
+						progress.progress(flushCounter);
+					}
+					if(log) {
+						progress.logg("Restored: " + entry.getName());
+					}
+				}
 				
-				System.out.println("Restore Complete");
-			}	
+			}
+			
 		} catch(IOException e) {
-			throw new IOException("Restore failed");
+			if(log) {
+				progress.fail();
+			}
+			throw new IOException("Restore failed",e);
 		} finally {
 			if(zipInput != null) {
 				try {
@@ -239,19 +301,19 @@ public class Backup {
 				}
 			}
 		}
-		
 	}
-	
-	
 	
 	//Test main
 	public static void main(String[] args) {
 		try {
-			BackupTo(new File("/Users/vrolijkx/Desktop/"),"backup");
+			BackupTo(new File("/Users/vrolijkx/Desktop/"),"backup",new ProgressAdapter());
 			if(isValidBackup(new File("/Users/vrolijkx/Desktop/backup.quiz"))) {
 				System.out.println("backup terug gevonden");
 			}
 			RestorBackup(new File("/Users/vrolijkx/Desktop/backup.quiz"));
+			BackupInfo b = BackupInfo.getBackupInfo(new File("/Users/vrolijkx/Desktop/backup.quiz"));
+			System.out.println("\n\n" + b);
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
