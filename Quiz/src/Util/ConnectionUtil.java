@@ -18,10 +18,16 @@ public class ConnectionUtil {
 	private static SessionFactory sessionFactory;
 	private static Configuration configuration;
 	
+	public static Configuration getHibernateConfiguration() {
+		if(configuration == null) {
+			configuration = new Configuration().configure();
+		}
+		return configuration;
+	}
+	
 	public static SessionFactory configureSessionFactory() throws HibernateException {
 		if (sessionFactory == null) {
-			configuration = new Configuration().configure();
-			
+			getHibernateConfiguration();
 			ServiceRegistry serviceRegistry = new ServiceRegistryBuilder().applySettings(configuration.getProperties()).buildServiceRegistry();        
 			sessionFactory = configuration.buildSessionFactory(serviceRegistry);	
 		}
@@ -67,7 +73,8 @@ public class ConnectionUtil {
 	public static void CloseSessionFactory() {
 		if(sessionFactory!=null) {
 			sessionFactory.close();
-			sessionFactory= null;
+			sessionFactory = null;
+			configuration = null;
 		}
 	}
 }
