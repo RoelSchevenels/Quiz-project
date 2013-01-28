@@ -4,7 +4,14 @@
  */
 package main.test;
 
+import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
+import java.io.File;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
 
 import org.hibernate.*;
 
@@ -12,6 +19,7 @@ import Util.ConnectionUtil;
 
 import BuisinesLayer.*;
 import BuisinesLayer.questions.MultipleChoise;
+import BuisinesLayer.questions.PictureQuestion;
 import BuisinesLayer.questions.Question;
 import BuisinesLayer.questions.StandardQuestion;
 
@@ -21,10 +29,6 @@ import BuisinesLayer.questions.StandardQuestion;
  */
 public class TestDataBase {
 	
-	
-	/**
-	 * @param args
-	 */
 	public static void main(String[] args) {
 		try {
 			ConnectionUtil.configureSessionFactory();
@@ -45,6 +49,10 @@ public class TestDataBase {
 		createQuestions();
 		System.out.println("Vragen querieen");
 		querieQuestions();
+		System.out.println("Test de foto's");
+		testPictures();
+		
+		
 		ConnectionUtil.CloseSessionFactory();
 	}
 
@@ -155,5 +163,38 @@ public class TestDataBase {
 		
 		
 		t.commit();
+	}
+
+	private static void testPictures() {
+		File f = new File("/Users/vrolijkx/Desktop/uml.png");
+		File f2 = new File("/Users/vrolijkx/Desktop/uml2.jpg");
+		try {
+			Session s = ConnectionUtil.getSession();
+			Transaction t = s.beginTransaction();
+			QuizMaster m = (QuizMaster) s.createCriteria(QuizMaster.class).uniqueResult();
+			
+			BufferedImage image = ImageIO.read(f);
+			PictureQuestion p = new PictureQuestion(m);
+			p.setQuestion("Hoe word dit schema genoemt");
+			p.setCorrectAnswer("Object diagram");
+			p.setImage(image);
+			
+			t.commit();
+			t = s.beginTransaction();
+			s.save(p);
+			t.commit();
+			
+			t = s.beginTransaction();
+			PictureQuestion pic = (PictureQuestion) s.createQuery("select p from PictureQuestion p").uniqueResult();
+			ImageIO.write((RenderedImage) pic.getImage(), "jpg", f2);	
+			s.close();
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

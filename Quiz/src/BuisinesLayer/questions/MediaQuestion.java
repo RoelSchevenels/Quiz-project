@@ -24,8 +24,8 @@ import BuisinesLayer.QuizMaster;
 public abstract class MediaQuestion extends Question {
 	protected static LobCreator lobCreator;
 	
-	@Column(name="RECOURCE_VALUE")
 	@Lob
+	@Column(name="RECOURCE_VALUE",columnDefinition="BLOB")
 	Blob data;
 	
 	
@@ -38,14 +38,20 @@ public abstract class MediaQuestion extends Question {
 		
 	}
 	
-	public MediaQuestion() {};
+	public MediaQuestion() {};//consturctor voor hibernate
 	
 	protected void setDataStream(InputStream input,int length) {
 		data = lobCreator.createBlob(input,length);
 	}
 	
+	protected void setData(byte[] bytes) {
+		data = lobCreator.createBlob(bytes);
+	}
+	
 	protected InputStream getDataStream() throws SQLException {
 		return data.getBinaryStream();
 	}
+	
+	
 	
 }

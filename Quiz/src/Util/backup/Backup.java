@@ -303,21 +303,4 @@ public class Backup {
 		}
 	}
 	
-	//Test main
-	public static void main(String[] args) {
-		try {
-			BackupTo(new File("/Users/vrolijkx/Desktop/"),"backup",new ProgressAdapter());
-			if(isValidBackup(new File("/Users/vrolijkx/Desktop/backup.quiz"))) {
-				System.out.println("backup terug gevonden");
-			}
-			RestorBackup(new File("/Users/vrolijkx/Desktop/backup.quiz"));
-			BackupInfo b = BackupInfo.getBackupInfo(new File("/Users/vrolijkx/Desktop/backup.quiz"));
-			System.out.println("\n\n" + b);
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-	}
 }

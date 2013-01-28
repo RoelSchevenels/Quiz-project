@@ -8,10 +8,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
+import Util.backup.Backup;
 
 /**
  * get the information of a backupFile.
@@ -60,7 +62,7 @@ public class BackupInfo {
 				"database name: %s\n" +
 				"database user: %s\n" +
 				"backup location: %s\n" +
-				"consist of %d files\n", 
+				"consist of %d files", 
 				backupDate,databaseLocation,databaseName,databaseUser,path,amountOfFiles);
 	}
 	
@@ -145,6 +147,42 @@ public class BackupInfo {
 				scanner.close();
 			}
 		}
+	}
+	
+	/**
+	 * Doorzoekt de directory op backup files
+	 * 
+	 * @param dir directory where you want to search
+	 * @param recursifly true if you want to search the folder recursifly
+	 * @param exhaustive true if you want to check every file with every extenstion
+	 * @return list with backupInfo files of all found vallid backup files.
+	 */
+	public static ArrayList<BackupInfo> searchBackups(File dir,boolean recursifly, boolean exhaustive) {
+		ArrayList<BackupInfo> backupInfo = new ArrayList<BackupInfo>();
+		searchBackups(backupInfo, dir, recursifly, exhaustive);
+		return backupInfo;
+	}
+	
+	private static void searchBackups(ArrayList<BackupInfo> info,File file,boolean recursifly, boolean exhaustive) {
+		if(!file.exists() || !file.canRead()) {
+			return;
+		} else if(file.isDirectory() && recursifly) {
+			for (File child : file.listFiles()) {
+				searchBackups(info,child, recursifly, exhaustive);
+			}
+			
+		} else if(file.isFile()) {
+			if(exhaustive && !file.getName().toLowerCase().contains(".quiz")) {
+				return;
+			}
+			if(Backup.isValidBackup(file)) {
+				try {
+					info.add(getBackupInfo(file));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		} 
 	}
 	
 }

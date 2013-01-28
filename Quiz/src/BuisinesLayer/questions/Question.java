@@ -28,7 +28,7 @@ public abstract class Question {
 	private int questionId;
 
 	@Lob
-	@Column(name="QUESTION",nullable=false)
+	@Column(name="QUESTION",nullable=false,columnDefinition="CLOB")
 	private String question;
 
 	@Column(length=150,name="ANSWER",nullable=false)
