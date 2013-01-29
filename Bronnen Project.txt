@@ -1,6 +1,0 @@
-Manier om server te detecteren zonder ip address te weten in een lan omgeving:
-http://blog.javamonday.com/2012/05/using-java-udp-broadcast-to-detect.html 
-
-mss handig om mooie gui's te maken
-http://www.jgoodies.com/
-
