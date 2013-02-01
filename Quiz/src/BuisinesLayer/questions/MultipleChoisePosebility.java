@@ -7,7 +7,7 @@ package BuisinesLayer.questions;
 import javax.persistence.*;
 
 @Entity
-@Table(name="MULTIPLECHOISE")
+@Table(name="MULTIPLECHOICE")
 public class MultipleChoisePosebility {
 	@Id
 	@GeneratedValue

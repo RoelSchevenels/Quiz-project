@@ -5,6 +5,8 @@
  */
 package Util;
 
+import java.io.File;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -37,8 +39,15 @@ public class ConnectionUtil {
 	public static void createCleanDatabase() {
 		if(configuration!=null) {
 			SchemaExport export = new SchemaExport(configuration);
-			export.setOutputFile("/Users/vrolijkx/Desktop/test.sql");
-			export.create(true,true);
+			export.create(false,true);
+		}
+	}
+	
+	public static void exportDDL(File exportFile) {
+		if(configuration!=null) {
+			SchemaExport export = new SchemaExport(configuration);
+			export.setOutputFile(exportFile.getPath());
+			export.create(false,false);
 		}
 	}
 	

@@ -17,6 +17,7 @@ public class Answer {
 	private String answer;
 	@ManyToOne(fetch=FetchType.EAGER)
 	private Question question;	
+	
 	@ManyToOne
 	private Team team;	
 	@ManyToOne

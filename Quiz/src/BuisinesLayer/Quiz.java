@@ -5,6 +5,7 @@
 package BuisinesLayer;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.*;
@@ -26,6 +27,13 @@ public class Quiz {
 	@Column(name="MAX_TEAMS")
 	private int maxTeams;
 	
+	@Column(name="CREATION_DATE")
+	private Date creationDate;
+	
+	@Column(name="LOCATION",length=85) //lengte langste stadsnaam ter wereld (volgens wiki)
+	private String location;
+	
+	@Column(name="DISCRIPTION",length=250)
 	private String beschrijving;
 	
 	//de links met ander objecten
@@ -53,6 +61,8 @@ public class Quiz {
 	public Quiz(String quizName, QuizMaster creator) {
 		this.quizName = quizName;
 		this.creator = creator;
+		minTeams = 2;
+		maxTeams = 5;
 	}
 	
 	/**

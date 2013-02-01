@@ -1,0 +1,97 @@
+/**
+ * een task voor het uitvoeren van een backup
+ * @author vrolijkx
+ */
+package javaFXtasks.backup;
+
+import Util.backup.Backup;
+import Util.backup.BackupProgressAdapter;
+import Util.backup.ProgressListener;
+import java.io.File;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.concurrent.Task;
+
+/**
+ *
+ * @author vrolijkx
+ */
+public class backupTask extends Task implements ProgressListener {
+    private final File file;
+    private final String name;
+    private final boolean restore;
+    
+    
+    /**
+     * @param f the location where to backup to
+     * @param name the name of the backup
+     */
+    public backupTask(File f, String name) {
+        this.file = f;
+        this.name = name;
+        this.restore = false;
+    }
+    
+     /**
+     * @param f the location where to restore from
+     */
+    public backupTask(File f) {
+        this.file = f;
+        this.name = null;
+        this.restore = true;
+    }
+    
+    
+    @Override
+    protected Object call() throws Exception {
+        BackupProgressAdapter adapter = new BackupProgressAdapter();
+        adapter.addProgressListener(this);
+        
+        if(restore) {
+            Backup.RestorBackup(file,adapter);
+        } else {
+            Backup.BackupTo(file, name, adapter);
+        }
+        //extra sleep om progress done tegoei weer te kunnen geven
+        sleep();
+        return null;
+        
+        
+    }
+
+    @Override
+    public void Progress(Long current, Long full) {
+        updateProgress(Math.min(current,full), full);
+    }
+
+    private void sleep() {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    @Override
+    public void finnish() {
+        updateProgress(1, 1);
+        updateMessage("Finnished");
+    }
+
+    @Override
+    public void fail() {
+        updateProgress(0, 1);
+        updateMessage("Failed");
+    }
+
+    @Override
+    public void log(String[] logs) {
+        for(String s : logs) {
+            updateMessage(s);
+        }
+    }
+
+
+    
+    
+}

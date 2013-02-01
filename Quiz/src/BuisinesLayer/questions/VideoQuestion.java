@@ -6,5 +6,5 @@ import javax.persistence.Entity;
 @Entity
 @DiscriminatorValue("VIDEO")
 public class VideoQuestion extends MediaQuestion{
-
+	
 }

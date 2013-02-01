@@ -29,7 +29,14 @@ public class BackupInfo {
 	private File databaseLocation;
 	private File path;
 	
-	private BackupInfo() {} //de publieke constructor ongebruikbaar maken
+	/**
+	 * probeert de backupinfo van een file te vinden.
+	 * @param f
+	 * @throws IOException
+	 */
+	public BackupInfo(File f) throws IOException {
+		create(f);
+	}
 	
  	public Date getBackupDate() {
 		return backupDate;
@@ -109,34 +116,31 @@ public class BackupInfo {
 		return true;		
 	}
 	
-	@SuppressWarnings("resource")
-	public static BackupInfo getBackupInfo(File backupFile) throws IOException {
-		BackupInfo info = new BackupInfo();
-		InputStream input = null;
+ 	private void create(File f) throws IOException {
+ 		InputStream input = null;
 		ZipInputStream zipInput = null;
 		ZipEntry entry = null;
 		Scanner scanner = null;
 		
 		try {
-			input = new FileInputStream(backupFile);
+			input = new FileInputStream(f);
 			zipInput = new ZipInputStream(input);
 			
 			while(true) {
 				entry = zipInput.getNextEntry();
 				if(entry == null) {
 					throw new IOException("Could not find backup-info Entry");
-				} else if(entry.getName().equals("backup-info")) {
+				} else if(entry.getName().toLowerCase().equals("backup-info")) {
 					scanner = new Scanner(zipInput);
 					String read;
 					while(scanner.hasNextLine()) {
 						read = scanner.nextLine();
-						if(!info.parseInfo(read)) {
+						if(!this.parseInfo(read)) {
 							System.out.println("Could not parse: " + read);
 						}
 					}
-					info.path = backupFile;
-					
-					return info;
+					this.path = f;
+					break;
 				}
 			}	
 			
@@ -147,7 +151,9 @@ public class BackupInfo {
 				scanner.close();
 			}
 		}
-	}
+ 		
+ 	}
+ 	
 	
 	/**
 	 * Doorzoekt de directory op backup files
@@ -177,7 +183,7 @@ public class BackupInfo {
 			}
 			if(Backup.isValidBackup(file)) {
 				try {
-					info.add(getBackupInfo(file));
+					info.add(new BackupInfo(file));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

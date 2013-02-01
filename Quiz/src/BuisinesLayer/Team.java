@@ -34,6 +34,8 @@ public class Team {
 	)
 	private List<Player> players = new ArrayList<Player>();
 	
+	@OneToMany(mappedBy="team")
+	private List<Answer> answers = new ArrayList<Answer>();
 	
 	
 	public Team(String teamname,String password) {

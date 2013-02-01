@@ -20,7 +20,7 @@ import BuisinesLayer.QuizMaster;
 @Entity
 //TODO: Kijken of deze join strategie werkt
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
-@Table(name="RECOURCES")
+@Table(name="RESOURCES")
 public abstract class MediaQuestion extends Question {
 	protected static LobCreator lobCreator;
 	

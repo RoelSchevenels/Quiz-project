@@ -166,8 +166,8 @@ public class TestDataBase {
 	}
 
 	private static void testPictures() {
-		File f = new File("/Users/vrolijkx/Desktop/uml.png");
-		File f2 = new File("/Users/vrolijkx/Desktop/uml2.jpg");
+		File f = new File("/Users/vrolijkx/Desktop/UMLconnection.gif");
+		File f2 = new File("/Users/vrolijkx/Desktop/UMLconnection2.png");
 		try {
 			Session s = ConnectionUtil.getSession();
 			Transaction t = s.beginTransaction();
@@ -186,7 +186,7 @@ public class TestDataBase {
 			
 			t = s.beginTransaction();
 			PictureQuestion pic = (PictureQuestion) s.createQuery("select p from PictureQuestion p").uniqueResult();
-			ImageIO.write((RenderedImage) pic.getImage(), "jpg", f2);	
+			ImageIO.write((RenderedImage) pic.getImage(), "png", f2);	
 			s.close();
 			
 		} catch (IOException e) {
