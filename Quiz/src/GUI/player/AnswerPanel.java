@@ -1,3 +1,6 @@
+/**
+ * @author Jorne De Smedt
+ */
 package GUI.player;
 
 import javax.swing.JPanel;

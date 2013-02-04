@@ -1,3 +1,6 @@
+/**
+ * @author Jorne De Smedt
+ */
 package GUI.player;
 
 import java.awt.GridLayout;
@@ -39,7 +42,7 @@ public class MultipleChoiceAnswerPanel extends AnswerPanel
 	 *
 	 * @param organization The way it gets organized
 	 */
-	private void drawButtons(int organization)
+	public void drawButtons(int organization)
 	{
 		switch (organization)
 		{
@@ -52,8 +55,22 @@ public class MultipleChoiceAnswerPanel extends AnswerPanel
 		case TRIPPLE_COLUMN:
 			setLayout(new GridLayout(Math.round(answerButtons.size()/3.0f), 3, 5, 5));
 			break;
+		case SINGLE_ROW:
+			setLayout(new GridLayout( 1, answerButtons.size(), 5, 5));
+			break;
+		case DOUBLE_ROW:
+			setLayout(new GridLayout( 2, Math.round(answerButtons.size()/2.0f), 5, 5));
+			break;
+		case TRIPPLE_ROW:
+			setLayout(new GridLayout( 3, Math.round(answerButtons.size()/3.0f), 5, 5));
+			break;
 		default:
 			break;
+		}
+		
+		for (JButton button : answerButtons)
+		{
+			add(button);
 		}
 	}
 }
