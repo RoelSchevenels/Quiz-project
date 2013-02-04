@@ -1,32 +1,48 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * dit is de controller voor het backupPanel / backupAnchor
+ * wordt automatisch uit de fxml geladen
+ * @author vrolijkx
  */
 package javaFXpanels.Backup;
 
 import Util.SizeConversion;
 import Util.backup.Backup;
 import Util.backup.BackupInfo;
+
+import java.io.Console;
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.logging.ConsoleHandler;
+
+import javaFXpanels.MessageProvider.MessageProvider;
 import javaFXtasks.backup.backupTask;
 import javaFXtasks.backup.searchBackupTask;
-
+import javafx.animation.AnimationBuilder;
+import javafx.animation.Interpolator;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.SequentialTransition;
+import javafx.animation.SequentialTransitionBuilder;
+import javafx.animation.Timeline;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.concurrent.WorkerStateEvent;
+import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
@@ -36,10 +52,12 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.util.Callback;
+import javafx.util.Duration;
 
 /**
  * FXML Controller class
- * voor het controleren van de gui
+ * wordt aangemaakt bij het aanmaken van de gui
+ * 
  * @see FXMLtest.fxml
  * @author vrolijkx
  */
@@ -47,7 +65,23 @@ public class FXMLBackupController implements Initializable {
     @FXML
     private AnchorPane backupAnchor;
     @FXML
+    private AnchorPane backupInfoAnchor;
+    @FXML
     private ProgressIndicator progressIndicator;
+    @FXML
+    private Label databaseNameLabel;
+    @FXML
+    private Label databaseUserLabel;
+    @FXML
+    private Label sizeLabel;
+    @FXML
+    private Label dateLabel;
+    @FXML
+    private Label amountOfFilesLabel;
+    @FXML
+    private Label locationLabel;
+    @FXML
+    private Label pervieusLocationLabel;
     @FXML
     private Button restoreButton;
     @FXML
@@ -56,6 +90,8 @@ public class FXMLBackupController implements Initializable {
     private Button createBackupButton;
     @FXML
     private Button searchFolderButton;
+    
+    //voor de tabel
     @FXML
     private TableView<BackupInfo> table;
     private ObservableList<BackupInfo> info;
@@ -63,11 +99,22 @@ public class FXMLBackupController implements Initializable {
     private FileChooser fileChooser;
     private DirectoryChooser directoryChooser;
     
+    //de animatie
+    private Timeline showAnimation;
+    private Timeline hideAnimation;
+    private boolean backup_Expanded;
+    
+    
+    //weergeven van messages
+    private MessageProvider messageMaker;
+    
+    
     /**
      * Initializes the controller class.
      */
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
+     public void initialize(URL url, ResourceBundle rb) {
+    	messageMaker = new MessageProvider(backupAnchor);
         progressIndicator.setVisible(false);
         progressIndicator.setProgress(-0.1);
         
@@ -88,9 +135,48 @@ public class FXMLBackupController implements Initializable {
         
         initTable();
         centerprogress();
+        initAnimation();
+        
+        
     }  
     
-    private void initTable() {
+    /**
+     * de animatie voor backupInfo tevoorschijn
+     * en te laten komen en te laten verdwijnen
+     */
+    private void initAnimation() {        
+        //FIXME: zorgen dat de uitschijving uit het het niets komt en niet met die overloop
+    	
+    	//uitgeklapt zetten
+        KeyValue kv1 = new KeyValue(backupInfoAnchor.prefHeightProperty(), 100.0, Interpolator.EASE_BOTH);
+        KeyValue kv2 = new KeyValue(backupInfoAnchor.maxHeightProperty(), 100.0, Interpolator.LINEAR);
+        KeyValue kv3 = new KeyValue(backupInfoAnchor.opacityProperty(),	 1, Interpolator.EASE_BOTH);
+        
+        //alles op null zetten
+        KeyValue kv4 = new KeyValue(backupInfoAnchor.prefHeightProperty(), 0.0, Interpolator.EASE_BOTH);
+        KeyValue kv5 = new KeyValue(backupInfoAnchor.maxHeightProperty(), 0.0, Interpolator.LINEAR);
+        KeyValue kv6 = new KeyValue(backupInfoAnchor.opacityProperty(),	 0.0, Interpolator.EASE_BOTH);
+        
+        //keyframes voor openen
+        KeyFrame kf1 = new KeyFrame(Duration.millis(500),kv1,kv2,kv3);
+        KeyFrame kf2 = new KeyFrame(Duration.ZERO, kv4,kv5,kv6);
+        
+        //keyframes voor sluiten
+        KeyFrame kf3 = new KeyFrame(Duration.millis(500),  kv4,kv5,kv6);
+        KeyFrame kf4 = new KeyFrame(Duration.ZERO, kv1,kv2,kv3);
+        
+        showAnimation = new Timeline(kf2,kf1);
+        hideAnimation = new Timeline(kf3,kf4);
+
+        backup_Expanded = false;
+	}
+
+    /**
+     * kolomen aan de tabel toevoegen en de obserabel list
+     * declareren en binden
+     */
+	@SuppressWarnings("unchecked")
+	private void initTable() {
         info = FXCollections.observableArrayList();
         
         table.setEditable(false);
@@ -101,7 +187,7 @@ public class FXMLBackupController implements Initializable {
         
         //breete aanpassen
         backupDateColumn.setPrefWidth(400);
-        databseNameColumn.setPrefWidth(800);
+        databseNameColumn.setPrefWidth(600);
         
         //de backupinfo property's aan de collomen binden
         backupDateColumn.setCellValueFactory(new Callback<CellDataFeatures<BackupInfo, String>, ObservableValue<String>>() {
@@ -130,6 +216,17 @@ public class FXMLBackupController implements Initializable {
         
         
         table.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        table.getSelectionModel().getSelectedCells().addListener(new ListChangeListener() {
+
+			@Override
+			public void onChanged(Change c) {
+				checkTableSelection();
+				
+			}
+        	
+        });
+        
+        
         table.getColumns().addAll(backupDateColumn,databseNameColumn,sizeColumn);
         table.setItems(info);
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
@@ -143,21 +240,40 @@ public class FXMLBackupController implements Initializable {
         progressIndicator.relocate(width, height);
     }
     
+    private void hideCurrentBackup() {
+    	if(backup_Expanded) {
+    		hideAnimation.play();
+    		restoreButton.setDisable(true);
+    		backup_Expanded = false;
+    	}
+    	
+    }
+    
     private void setCurrentBackupInfo(BackupInfo b) {
         this.selectedBackupinfo = b;
         this.restoreButton.setDisable(false);
-        //Todo backupInfo weergeven
-    
+        this.backupInfoAnchor.setVisible(true);
+        
+        //zet de backup gegeven 
+        dateLabel.setText(String.format("%1$te/%1$tm/%1$tY om %1$tH:%1$tM:%1$tS", b.getBackupDate()));
+        databaseNameLabel.setText(b.getDatabaseName());
+        databaseUserLabel.setText(b.getDatabaseUser());
+        locationLabel.setText(b.getPath().toString());
+        amountOfFilesLabel.setText("" + b.getAmountOfFiles());
+        sizeLabel.setText(SizeConversion.makeReadable(b.getPath().length()));
+        pervieusLocationLabel.setText(b.getDatabaseLocation().toString());
+       
+        
+        if(!backup_Expanded) {
+        	backup_Expanded = true;
+        	showAnimation.play();
+        } 
     }
-    
-    private void showMessage(String message) {
-        System.out.println("message " + message);
-     };
-    
+       
     @SuppressWarnings("unchecked")
 	@FXML 
     private void restore() {
-        
+        hideCurrentBackup();
         progressIndicator.setVisible(true);
         centerprogress();
         //create the backup task
@@ -181,7 +297,7 @@ public class FXMLBackupController implements Initializable {
                 progressIndicator.progressProperty().unbind();
                 progressIndicator.setProgress(-1.0);
                 progressIndicator.setVisible(false);
-                showMessage("terugzetten van backup mislukt");
+                messageMaker.showError("terugzetten van backup mislukt");
             }
         });
         
@@ -197,14 +313,17 @@ public class FXMLBackupController implements Initializable {
             directoryChooser.setTitle("Kies folder om in te zoeken");
         }
         
-        File f = directoryChooser.showDialog(null);
+        
+        File f = directoryChooser.showDialog(null); //TODO: null proberen te vervangen door window
         if(f == null || !f.isDirectory()) {
             return;
         }
+        
         centerprogress();
+        hideCurrentBackup();
+        info.clear();
         progressIndicator.setProgress(-1.0);
         progressIndicator.setVisible(true);
-        restoreButton.setDisable(true);
         
         
         //de searchFolderTask aanmaken
@@ -214,7 +333,6 @@ public class FXMLBackupController implements Initializable {
             @Override
             public void handle(WorkerStateEvent t) {
                 if(task.getBackupInfo() != null) {
-                    info.clear();
                     info.addAll(task.getBackupInfo());
                 }
                 progressIndicator.setVisible(false);
@@ -228,7 +346,7 @@ public class FXMLBackupController implements Initializable {
             @Override
             public void handle(WorkerStateEvent t) {
                 progressIndicator.setVisible(false);
-                showMessage("Error when searching for backups");
+                messageMaker.showError("fout bij zoeken naar backups");
             }
         });
                 
@@ -246,27 +364,30 @@ public class FXMLBackupController implements Initializable {
        
        fileChooser.setTitle("Kies een backup");
        FileChooser.ExtensionFilter ext = new FileChooser.ExtensionFilter("backup files *.quiz", "*.quiz");
-       fileChooser.getExtensionFilters().add(ext);
-       restoreButton.setDisable(true);
+       FileChooser.ExtensionFilter ext2 = new FileChooser.ExtensionFilter("Alle bestanden", "*");
+       fileChooser.getExtensionFilters().addAll(ext,ext2);
+       
        
        File f = fileChooser.showOpenDialog(null);
        if(f!=null && f.exists()) { //niet geanuleerd
+    	   hideCurrentBackup();
+    	   info.clear();
            if(Backup.isValidBackup(f)) {
-               info.clear();
                try {
                    b = new BackupInfo(f);
                    info.add(b);
                    table.getSelectionModel().select(b);
                } catch (Exception e) {
-                   showMessage("Problem getting backup Info");
+                   messageMaker.showError("Probleem bij opvragen backup informatie");
                }
            } else {
-               showMessage("Geen geldige backupFile");
+        	   messageMaker.showError("Geen geldige backup bestand");
            }
        }
     }
              
-    @FXML
+    @SuppressWarnings("unchecked")
+	@FXML
     private void createBackup() {
         String name;
         File dir;
@@ -278,18 +399,20 @@ public class FXMLBackupController implements Initializable {
        fileChooser.setTitle("Kies een backup");
        FileChooser.ExtensionFilter ext = new FileChooser.ExtensionFilter("backup files *.quiz", "*.quiz");
        fileChooser.getExtensionFilters().add(ext);
-       restoreButton.setDisable(true);
+       
+       
        
        File f = fileChooser.showSaveDialog(null);
        if(f == null) {
            return;
        }
+       hideCurrentBackup();
        
        name = f.getName();
        dir = f.getParentFile();
            
        if(!dir.isDirectory()) {
-           showMessage("Geen geldige backupLocatie");
+    	   messageMaker.showWarning("Geen geldige backuplocatie");
            return;
        }
        progressIndicator.setVisible(true);
@@ -299,22 +422,22 @@ public class FXMLBackupController implements Initializable {
        //mss een method voor maken om herhaling te voorkomen
        progressIndicator.progressProperty().bind(task.progressProperty());
        
-       task.setOnSucceeded(new EventHandler() {
+       task.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
             @Override
-            public void handle(Event t) {
+            public void handle(WorkerStateEvent t) {
                 progressIndicator.progressProperty().unbind();
                 progressIndicator.setProgress(-1.0);
                 progressIndicator.setVisible(false);
             }
         });
         
-       task.setOnFailed(new EventHandler() {
+       task.setOnFailed(new EventHandler<WorkerStateEvent>() {
             @Override
-            public void handle(Event t) {
+            public void handle(WorkerStateEvent t) {
                 progressIndicator.progressProperty().unbind();
                 progressIndicator.setProgress(-1.0);
                 progressIndicator.setVisible(false);
-                showMessage("maken van backup mislukt");
+                messageMaker.showError("maken van backup mislukt");
             }
         });
         
@@ -322,7 +445,7 @@ public class FXMLBackupController implements Initializable {
         ex.execute(task);
        
     }
-        
+      
     @FXML
     private void checkTableSelection() {
         BackupInfo b = table.getSelectionModel().getSelectedItem();
@@ -330,6 +453,6 @@ public class FXMLBackupController implements Initializable {
             this.setCurrentBackupInfo(b);
         }  
     };
-    
+
     }
 

@@ -147,9 +147,13 @@ public class BackupInfo {
 		} catch(IOException e) {
 			throw new IOException("Could't create backup info",e);
 		} finally {
+			if(zipInput != null) {
+				zipInput.close();
+			}
 			if(scanner != null) {
 				scanner.close();
 			}
+			
 		}
  		
  	}

@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<?import java.lang.*?>
-<?import javafx.scene.layout.AnchorPane?>
-
-<fx:root type="AnchorPane" prefHeight="500.0" prefWidth="551.0" xmlns:fx="http://javafx.com/fxml" />

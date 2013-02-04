@@ -6,3 +6,11 @@
     
 }
 
+.pane_with_border{
+	-fx-border-style: solid;
+	-fx-border-color: rgb(145,145,145);
+	-fx-size: 0.0 cm
+}
+
+
+

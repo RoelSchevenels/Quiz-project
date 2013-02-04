@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javaFXpanels.Backup.FXMLBackupController;
+import javaFXpanels.Backup.backupPane;
 
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
@@ -46,7 +47,7 @@ public class BackupPanel extends JPanel {
     private void createScene() {
         try {
         	//het fxml bestand laden dat zicht bij de backupController bevindt
-            AnchorPane p = FXMLLoader.load(FXMLBackupController.class.getResource("FXMLBackup.fxml"));
+            AnchorPane p = backupPane.getBackupPane();
             Scene s = new Scene(p);
             fxContainer.setScene(s);
             Dimension dPref = new Dimension((int)p.getPrefWidth(), (int)p.getPrefHeight());

@@ -33,8 +33,10 @@ public class Backup {
 		File outputFile;
 		Configuration c = ConnectionUtil.getHibernateConfiguration();
 		
-		name += ".quiz";
-		
+		if(!name.endsWith(".quiz")) {
+			name += ".quiz";
+		}
+			
 		try {
 			File databasLocation = getDatabaseLocation(c);
 			if(databasLocation.isDirectory() && location.isDirectory()) {
