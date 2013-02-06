@@ -4,16 +4,15 @@
  */
 package main.test;
 
-import java.awt.image.BufferedImage;
-import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import javax.imageio.ImageIO;
+import javafx.scene.media.MediaException;
 
 import org.hibernate.*;
+
 
 import Util.ConnectionUtil;
 
@@ -22,12 +21,17 @@ import BuisinesLayer.questions.MultipleChoise;
 import BuisinesLayer.questions.PictureQuestion;
 import BuisinesLayer.questions.Question;
 import BuisinesLayer.questions.StandardQuestion;
+import BuisinesLayer.questions.VideoQuestion;
+import BuisinesLayer.resources.MediaResource;
+import BuisinesLayer.resources.PictureResource;
 
 /**
  * @author vrolijkx
  *
  */
 public class TestDataBase {
+	final static  String TEST_MUSIC = "/Users/vrolijkx/Desktop/02-MoneyForNothing.mp3";
+	final static String TEST_MOVIE = "/Users/vrolijkx/Desktop/HaroldAndKumar.mp4";
 	
 	public static void main(String[] args) {
 		try {
@@ -51,6 +55,10 @@ public class TestDataBase {
 		querieQuestions();
 		System.out.println("Test de foto's");
 		testPictures();
+		System.out.println("Test de video's");
+		testSaveVideoAndAudio();
+		System.out.println("Test load video's"); 
+		testLoadVideoAndAudio();
 		
 		
 		ConnectionUtil.CloseSessionFactory();
@@ -173,11 +181,11 @@ public class TestDataBase {
 			Transaction t = s.beginTransaction();
 			QuizMaster m = (QuizMaster) s.createCriteria(QuizMaster.class).uniqueResult();
 			
-			BufferedImage image = ImageIO.read(f);
 			PictureQuestion p = new PictureQuestion(m);
 			p.setQuestion("Hoe word dit schema genoemt");
 			p.setCorrectAnswer("Object diagram");
-			p.setImage(image);
+			PictureResource pr = new PictureResource(f2);
+			p.setPicture(pr);
 			
 			t.commit();
 			t = s.beginTransaction();
@@ -186,7 +194,7 @@ public class TestDataBase {
 			
 			t = s.beginTransaction();
 			PictureQuestion pic = (PictureQuestion) s.createQuery("select p from PictureQuestion p").uniqueResult();
-			ImageIO.write((RenderedImage) pic.getImage(), "png", f2);	
+			System.out.println(pic.getPicture().getFile());
 			s.close();
 			
 		} catch (IOException e) {
@@ -194,6 +202,47 @@ public class TestDataBase {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+		}
+	}
+	
+	private static void testSaveVideoAndAudio() {
+		File f = new File(TEST_MOVIE);
+		QuizMaster q = new QuizMaster("tonny", "hoby");
+		VideoQuestion v = new VideoQuestion(q);
+		
+		try {
+			Session s = ConnectionUtil.getSession();
+			Transaction t = s.beginTransaction();
+			
+			MediaResource m = new MediaResource(f);
+			v.setQuestion("Welke serie is dit?");
+			v.setCorrectAnswer("Engrenages");
+			v.setMediaResource(m);
+			
+			s.save(q);
+			s.save(v);
+			t.commit();
+			
+		} catch (MediaException | IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private static void testLoadVideoAndAudio() {
+		File f = new File(TEST_MOVIE);
+		
+		try {
+			Session s = ConnectionUtil.getSession();
+			Transaction t = s.beginTransaction();
+			
+			VideoQuestion v = (VideoQuestion) s.createQuery("select q from VideoQuestion q").uniqueResult();
+			MediaResource m = v.getMediaResource();
+			System.out.println(m.getSize());
+			System.out.println(m.getFile().getPath());
+			
+			t.commit();
+			
+		} catch (MediaException | IOException | SQLException e) {
 			e.printStackTrace();
 		}
 	}

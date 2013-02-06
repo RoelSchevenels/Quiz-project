@@ -45,7 +45,7 @@
       <children>
         <AnchorPane id="AnchorPane" VBox.vgrow="ALWAYS">
           <children>
-            <TableView fx:id="table" focusTraversable="true" onMouseClicked="#checkTableSelection" prefHeight="207.0" prefWidth="604.0" tableMenuButtonVisible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <TableView fx:id="table" focusTraversable="true" onMouseClicked="#checkTableSelection" prefHeight="207.0" prefWidth="604.0" scaleZ="1.0" tableMenuButtonVisible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
           </children>
         </AnchorPane>
         <AnchorPane id="AnchorPane" fx:id="backupInfoAnchor" prefHeight="0.0" prefWidth="-1.0" styleClass="pane_with_border" visible="false">

@@ -5,16 +5,19 @@
 package BuisinesLayer.questions;
 
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.SQLException;
 import javax.persistence.*;
 import org.hibernate.Hibernate;
 import org.hibernate.engine.jdbc.LobCreator;
+
 import Util.ConnectionUtil;
 
 import BuisinesLayer.QuizMaster;
-
+import BuisinesLayer.resources.MediaResource;
+import BuisinesLayer.resources.Resource;
 
 
 @Entity
@@ -40,7 +43,7 @@ public abstract class MediaQuestion extends Question {
 	
 	public MediaQuestion() {};//consturctor voor hibernate
 	
-	protected void setDataStream(InputStream input,int length) {
+	protected void setDataStream(InputStream input,long length) {
 		data = lobCreator.createBlob(input,length);
 	}
 	
@@ -52,6 +55,8 @@ public abstract class MediaQuestion extends Question {
 		return data.getBinaryStream();
 	}
 	
-	
+	protected void setResource(MediaResource r) throws IOException {
+		this.setDataStream(r.getInputStream(), r.getSize());
+	}
 	
 }

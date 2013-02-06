@@ -18,12 +18,17 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
-import javax.swing.plaf.ProgressBarUI;
-
+import org.hibernate.Hibernate;
 import org.hibernate.cfg.Configuration;
 
 import Util.ConnectionUtil;
 
+/**
+ * verzameling statiche metodes voor backups
+ * @author vrolijkx
+ * @see ConnectionUtil is nodig voor locatie te bepalen
+ * @see Hibernate
+ */
 public class Backup {
 	public static void BackupTo(File location,String name) throws IOException {
 		BackupTo(location, name,null);

@@ -5,7 +5,12 @@
 package javaFXpanelsToSwing;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,9 +34,9 @@ import javax.swing.UIManager;
 public class BackupPanel extends JPanel {
     private static JFXPanel fxContainer;
 
-
     
     public BackupPanel() {
+    	super(new BorderLayout());
         fxContainer = new JFXPanel();
         fxContainer.setPreferredSize(new Dimension(1000, 1000));
         add(fxContainer, BorderLayout.CENTER);
@@ -57,12 +62,11 @@ public class BackupPanel extends JPanel {
             
         } catch (IOException ex) {
             ex.printStackTrace();
-        }
-        
-        
+        }   
     }
 
     
+    //TODO: main verwijderen
     /**
      * test methode
      */

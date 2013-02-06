@@ -48,6 +48,7 @@ public abstract class Question {
 			)
 	private Collection<QuestionRound> questionRounds = new ArrayList<QuestionRound>();
 	
+	//FXME: zorgen dat question en answer moet worden meegegeven zie ook subClasses
 	public Question(QuizMaster creator) {
 		this.creator = creator;
 		this.maxScore = 10;

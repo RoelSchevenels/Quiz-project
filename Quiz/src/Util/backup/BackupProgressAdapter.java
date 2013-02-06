@@ -76,6 +76,7 @@ public class BackupProgressAdapter implements BackupProgressListener {
 		return maxSize;
 	}
 
+	@SuppressWarnings("unchecked")
 	private void fireProgress() {
 		//eventlistener clonen zodat geen exceptions bij assyncroon aanroepen van addprogresslistener en remove
 		Vector<ProgressListener> clone;
@@ -88,10 +89,11 @@ public class BackupProgressAdapter implements BackupProgressListener {
 
 	};
 
+	@SuppressWarnings("unchecked")
 	private void fireLogg() {
 		//eventlistener clonen zodat geen exceptions bij assyncroon aanroepen van addprogresslistener en remove
 		String[] log = new String[loggs.size()];
-                log = loggs.toArray(log);
+		log = loggs.toArray(log);
 		Vector<ProgressListener> clone;
 		synchronized (listeners) {
 			clone = (Vector<ProgressListener>) listeners.clone();
@@ -102,11 +104,12 @@ public class BackupProgressAdapter implements BackupProgressListener {
 		}
 
 		for(String s: log) {
-                    loggs.remove(s);
+			loggs.remove(s);
 		}
 
 	};
 
+	@SuppressWarnings("unchecked")
 	private void fireFinnish() {
 		//eventlistener clonen zodat geen exceptions bij assyncroon aanroepen van addprogresslistener en remove
 		Vector<ProgressListener> clone;
@@ -119,6 +122,7 @@ public class BackupProgressAdapter implements BackupProgressListener {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private void fireFail() {
 		//eventlistener clonen zodat geen exceptions bij assyncroon aanroepen van addprogresslistener en remove
 		Vector<ProgressListener> clone;
@@ -156,15 +160,15 @@ public class BackupProgressAdapter implements BackupProgressListener {
 			}
 
 			if(fail) {
-                            fireFail();
+				fireFail();
 			} else {
-                            fireFinnish();
-                        }
-                        
-                        try {
-                            Thread.sleep(1000);
+				fireFinnish();
+			}
+
+			try {
+				Thread.sleep(1000);
 			} catch (InterruptedException e) {
-                            e.printStackTrace();
+				e.printStackTrace();
 			}
 
 

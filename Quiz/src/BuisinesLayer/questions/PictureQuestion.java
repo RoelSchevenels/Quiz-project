@@ -13,7 +13,9 @@ import java.sql.SQLException;
 import javax.imageio.ImageIO;
 import javax.persistence.*;
 
+
 import BuisinesLayer.QuizMaster;
+import BuisinesLayer.resources.PictureResource;
 
 @Entity
 @DiscriminatorValue("PICTURE")
@@ -25,11 +27,15 @@ public class PictureQuestion extends MediaQuestion{
 	
 	private PictureQuestion() {} //hibernate constructor
 	
-	public Image getImage() throws IOException, SQLException {
-		return ImageIO.read(getDataStream());
+	public PictureResource getPicture() throws IOException, SQLException {
+		return new PictureResource(getDataStream());
 	}
 	
-	public void setImage(BufferedImage image) throws IOException {
+	public void setPicture(PictureResource p) throws IOException {
+		this.setImage(p.getBufferdImage());
+	}
+	
+	private void setImage(BufferedImage image) throws IOException {
 		//image naar een byteArray omzetten
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		ImageIO.write( image, "jpg", baos );

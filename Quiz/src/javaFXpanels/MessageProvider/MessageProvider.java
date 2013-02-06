@@ -71,18 +71,19 @@ public class MessageProvider {
 		//de showTransition
 		showTransition = TranslateTransitionBuilder
 				.create()
-				.byY(messagePane.getHeight()+9)
 				.duration(Duration.millis(500))
 				.node(messagePane)
 				.build();
 		
+		showTransition.byYProperty().bind(messagePane.heightProperty().add(9));
 		//de hide transition
 		hideTransition = TranslateTransitionBuilder
 				.create()
-				.byY(-messagePane.getHeight()-9)
 				.duration(Duration.millis(500))
 				.node(messagePane)
 				.build();
+		
+		hideTransition.byYProperty().bind(messagePane.heightProperty().add(9).multiply(-1));
 		
 		//messagPane verbergen na hide trasition
 		hideTransition.onFinishedProperty().addListener(new ChangeListener<Object>() {
@@ -155,7 +156,7 @@ public class MessageProvider {
 	
 	
 	private void hide() {
-		hideTransition.setByY(-messagePane.getPrefHeight()-9);
+		//hideTransition.setByY(-messagePane.getPrefHeight()-9);
 		hideTransition.play();
 		
 		for(Node n: notMouseTransparantChilderen) {
@@ -166,7 +167,7 @@ public class MessageProvider {
 	
 	private void show() {
 		messagePane.setVisible(true);
-		showTransition.setByY(messagePane.getPrefHeight()+9);
+		//showTransition.setByY(messagePane.getPrefHeight()+9);
 		showTransition.play();
 		
 		

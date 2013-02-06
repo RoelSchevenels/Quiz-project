@@ -1,8 +1,15 @@
 package BuisinesLayer.questions;
 
+import java.io.IOException;
+import java.sql.SQLException;
+
+import javafx.scene.media.MediaException;
+
 import javax.persistence.*;
 
+
 import BuisinesLayer.QuizMaster;
+import BuisinesLayer.resources.MediaResource;
 
 
 @Entity
@@ -20,4 +27,12 @@ public class MusicQuestion extends MediaQuestion {
 	public static String getDiscription() {
         throw new IllegalStateException("Beluister het geluidsfragment en los de vraag op");
     }
+	
+	public void setMediaResource(MediaResource resource) throws IOException {
+		super.setResource(resource);
+	}
+	
+	public MediaResource getMediaResource() throws MediaException, IOException, SQLException {
+		return new MediaResource(super.getDataStream());
+	}
 }

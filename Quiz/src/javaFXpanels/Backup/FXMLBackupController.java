@@ -17,6 +17,10 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.logging.ConsoleHandler;
 
+import javax.swing.JFrame;
+
+import com.sun.javafx.tk.quantum.WindowStage;
+
 import javaFXpanels.MessageProvider.MessageProvider;
 import javaFXtasks.backup.backupTask;
 import javaFXtasks.backup.searchBackupTask;
@@ -51,6 +55,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import javafx.stage.Window;
 import javafx.util.Callback;
 import javafx.util.Duration;
 
@@ -146,6 +152,7 @@ public class FXMLBackupController implements Initializable {
      */
     private void initAnimation() {        
         //FIXME: zorgen dat de uitschijving uit het het niets komt en niet met die overloop
+    	//clipping gebruiken hiervoor
     	
     	//uitgeklapt zetten
         KeyValue kv1 = new KeyValue(backupInfoAnchor.prefHeightProperty(), 100.0, Interpolator.EASE_BOTH);
@@ -313,8 +320,8 @@ public class FXMLBackupController implements Initializable {
             directoryChooser.setTitle("Kies folder om in te zoeken");
         }
         
-        
-        File f = directoryChooser.showDialog(null); //TODO: null proberen te vervangen door window
+
+        File f = directoryChooser.showDialog(getWindow()); 
         if(f == null || !f.isDirectory()) {
             return;
         }
@@ -368,7 +375,7 @@ public class FXMLBackupController implements Initializable {
        fileChooser.getExtensionFilters().addAll(ext,ext2);
        
        
-       File f = fileChooser.showOpenDialog(null);
+       File f = fileChooser.showOpenDialog(getWindow());
        if(f!=null && f.exists()) { //niet geanuleerd
     	   hideCurrentBackup();
     	   info.clear();
@@ -396,13 +403,13 @@ public class FXMLBackupController implements Initializable {
             fileChooser = new FileChooser();   
        }
        
-       fileChooser.setTitle("Kies een backup");
+       fileChooser.setTitle("Kies een locatie");
        FileChooser.ExtensionFilter ext = new FileChooser.ExtensionFilter("backup files *.quiz", "*.quiz");
        fileChooser.getExtensionFilters().add(ext);
        
        
        
-       File f = fileChooser.showSaveDialog(null);
+       File f = fileChooser.showSaveDialog(getWindow());
        if(f == null) {
            return;
        }
@@ -454,5 +461,8 @@ public class FXMLBackupController implements Initializable {
         }  
     };
 
+    private Window getWindow(){
+    	return backupAnchor.getScene().getWindow();
+    }
     }
 

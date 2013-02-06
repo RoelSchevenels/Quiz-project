@@ -19,6 +19,10 @@ public class Answer {
 	private Question question;	
 	
 	@ManyToOne
+	private Quiz quiz;
+	@ManyToOne 
+	private QuestionRound round;
+	@ManyToOne
 	private Team team;	
 	@ManyToOne
 	private Jury jury;	
@@ -28,10 +32,11 @@ public class Answer {
 	private Date antwoordDatum;
 	
 	
-	public Answer(Question q,Team t,String answer) {
+	public Answer(Question q,Team t,Quiz quiz, QuestionRound round) {
+		this.quiz = quiz;
+		this.round = round;
 		antwoordDatum = new Date();
 		this.team = t;
-		this.answer = answer;
 	}
 	
 	@SuppressWarnings("unused")
@@ -49,6 +54,19 @@ public class Answer {
 		return question.getMaxScore();
 	}
 	
+	
+	public Quiz getQuiz() {
+		return quiz;
+	}
+
+	public QuestionRound getRound() {
+		return round;
+	}
+
+	public Team getTeam() {
+		return team;
+	}
+
 	private void setJury(Jury j) {
 		if(this.jury != j) {
 			this.jury=j;

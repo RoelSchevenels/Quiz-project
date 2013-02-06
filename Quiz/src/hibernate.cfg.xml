@@ -26,6 +26,8 @@
   <mapping class="BuisinesLayer.questions.MultipleChoisePosebility"/>
   <mapping class="BuisinesLayer.questions.MediaQuestion"/>
   <mapping class="BuisinesLayer.questions.PictureQuestion"/>
+  <mapping class="BuisinesLayer.questions.VideoQuestion"/>
+  <mapping class="BuisinesLayer.questions.PictureQuestion"/>
   
  </session-factory>
 </hibernate-configuration>
