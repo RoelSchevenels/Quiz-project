@@ -21,7 +21,6 @@ public class MultipleChoise extends Question{
 	
 	public MultipleChoise(QuizMaster creator) {
 		super(creator);
-		// TODO Auto-generated constructor stub
 	}
 	
 	@SuppressWarnings("unused")

@@ -28,7 +28,6 @@ public abstract class User {
 	@Column(name="EMAIL",length=256,unique=true)
 	protected String Email;
 	
-	//TODO: zoeken waarom de salt zo lang blijkt te zijn
 	@Column(name="SALT",length=80)
 	private String salt;
 	@Column(name="PASS",length=50)

@@ -30,8 +30,18 @@ import BuisinesLayer.resources.PictureResource;
  *
  */
 public class TestDataBase {
-	final static  String TEST_MUSIC = "/Users/vrolijkx/Desktop/02-MoneyForNothing.mp3";
-	final static String TEST_MOVIE = "/Users/vrolijkx/Desktop/HaroldAndKumar.mp4";
+	final static String TEST_MUSIC_PATH = "~/Desktop/02-MoneyForNothing.mp3";
+	final static String TEST_MOVIE_PATH = "~/Desktop/HaroldAndKumar.mp4";
+	final static String TEST_PIC_PATH   = "~/Desktop/UMLconnection.gif";
+	final static File TEST_MOVIE;
+	final static File TEST_MUSIC;
+	final static File TEST_PIC;
+	
+	static {
+		TEST_PIC   = new File(TEST_PIC_PATH.replace("~", System.getProperty("user.home")));
+		TEST_MOVIE = new File(TEST_MOVIE_PATH.replace("~", System.getProperty("user.home")));
+		TEST_MUSIC = new File(TEST_MUSIC_PATH.replace("~", System.getProperty("user.home")));
+	}
 	
 	public static void main(String[] args) {
 		try {
@@ -42,6 +52,8 @@ public class TestDataBase {
 			e.printStackTrace();
 			return;
 		}
+
+		
 		
 		System.out.println("Start users toevoegen");
 		testUsers();
@@ -174,8 +186,6 @@ public class TestDataBase {
 	}
 
 	private static void testPictures() {
-		File f = new File("/Users/vrolijkx/Desktop/UMLconnection.gif");
-		File f2 = new File("/Users/vrolijkx/Desktop/UMLconnection2.png");
 		try {
 			Session s = ConnectionUtil.getSession();
 			Transaction t = s.beginTransaction();
@@ -184,7 +194,7 @@ public class TestDataBase {
 			PictureQuestion p = new PictureQuestion(m);
 			p.setQuestion("Hoe word dit schema genoemt");
 			p.setCorrectAnswer("Object diagram");
-			PictureResource pr = new PictureResource(f2);
+			PictureResource pr = new PictureResource(TEST_PIC);
 			p.setPicture(pr);
 			
 			t.commit();
@@ -197,16 +207,12 @@ public class TestDataBase {
 			System.out.println(pic.getPicture().getFile());
 			s.close();
 			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		} catch (IOException | SQLException e) {
 			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 		}
 	}
 	
 	private static void testSaveVideoAndAudio() {
-		File f = new File(TEST_MOVIE);
 		QuizMaster q = new QuizMaster("tonny", "hoby");
 		VideoQuestion v = new VideoQuestion(q);
 		
@@ -214,7 +220,7 @@ public class TestDataBase {
 			Session s = ConnectionUtil.getSession();
 			Transaction t = s.beginTransaction();
 			
-			MediaResource m = new MediaResource(f);
+			MediaResource m = new MediaResource(TEST_MOVIE);
 			v.setQuestion("Welke serie is dit?");
 			v.setCorrectAnswer("Engrenages");
 			v.setMediaResource(m);
@@ -229,7 +235,6 @@ public class TestDataBase {
 	}
 	
 	private static void testLoadVideoAndAudio() {
-		File f = new File(TEST_MOVIE);
 		
 		try {
 			Session s = ConnectionUtil.getSession();

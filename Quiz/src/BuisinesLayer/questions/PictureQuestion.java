@@ -3,10 +3,8 @@
  */
 package BuisinesLayer.questions;
 
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -25,6 +23,7 @@ public class PictureQuestion extends MediaQuestion{
 		super(creator);
 	}
 	
+	@SuppressWarnings("unused")
 	private PictureQuestion() {} //hibernate constructor
 	
 	public PictureResource getPicture() throws IOException, SQLException {

@@ -18,7 +18,6 @@ public class Team {
 	@Column(length=50,nullable=false,name="TEAM_NAME")
 	private String teamName;
 	
-	//TODO: zoeken waarom de salt zo lang blijkt te zijn
 	@Column(name="SALT",length=80)
 	private String salt;
 	@Column(name="PASS",length=50)

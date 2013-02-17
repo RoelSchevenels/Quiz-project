@@ -3,7 +3,7 @@
  */
 package main.test;
 
-import javaFXpanels.Backup.backupPane;
+import javaFXpanels.Backup.BackupPane;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -20,7 +20,7 @@ public class Main extends Application {
 	
 	@Override
 	public void start(Stage stage) throws Exception {
-	     Scene scene = new Scene(backupPane.getBackupPane());
+	     Scene scene = new Scene(BackupPane.getBackupPane());
 	     stage.setScene(scene);
 	     stage.sizeToScene();
 	     stage.centerOnScreen();

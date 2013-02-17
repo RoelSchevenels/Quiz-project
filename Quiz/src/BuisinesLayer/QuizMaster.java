@@ -18,7 +18,6 @@ public class QuizMaster extends User {
 	
 	public QuizMaster(String userName, String password) {
 		super(userName, password);
-		// TODO Auto-generated constructor stub
 	}
 
 	@SuppressWarnings("unused")

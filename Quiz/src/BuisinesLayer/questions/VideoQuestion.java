@@ -7,6 +7,7 @@ import javafx.scene.media.MediaException;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.Transient;
 
 import BuisinesLayer.QuizMaster;
 import BuisinesLayer.resources.MediaResource;
@@ -15,10 +16,11 @@ import BuisinesLayer.resources.MediaResource;
 @Entity
 @DiscriminatorValue("VIDEO")
 public class VideoQuestion extends MediaQuestion{
+	@Transient
+	private MediaResource resource;
 	
 	public VideoQuestion(QuizMaster creator) {
 		super(creator);
-		// TODO Auto-generated constructor stub
 	}
 	
 	@SuppressWarnings("unused")
@@ -26,10 +28,15 @@ public class VideoQuestion extends MediaQuestion{
 
 	
 	public void setMediaResource(MediaResource resource) throws IOException {
+		this.resource = resource;
 		super.setResource(resource);
 	}
 	
 	public MediaResource getMediaResource() throws MediaException, IOException, SQLException {
-		return new MediaResource(super.getDataStream());
+		if(resource==null) {
+			this.resource = new MediaResource(super.getDataStream());
+		}
+		
+		return this.resource;
 	}
 }

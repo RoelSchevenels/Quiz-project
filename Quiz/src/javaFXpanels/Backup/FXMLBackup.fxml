@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane id="AnchorPane" fx:id="backupAnchor" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="700.0" rotate="0.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml" fx:controller="javaFXpanels.Backup.FXMLBackupController">
+<AnchorPane id="AnchorPane" fx:id="backupAnchor" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="700.0" rotate="0.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml" fx:controller="javaFXpanels.Backup.BackupController">
   <children>
     <HBox id="HBox" alignment="CENTER" prefWidth="600.0" spacing="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="11.0">
       <children>

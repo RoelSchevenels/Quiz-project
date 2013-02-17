@@ -165,6 +165,9 @@ public class Backup {
 	
 	public static File getDatabaseLocation(Configuration c) throws IOException {
 		String place = c.getProperty("hibernate.connection.url").split(":")[2];
+		//tild teken enzo vervangen
+		place = place.replace("~", System.getProperty("user.home"));
+		
 		File databasLocation = new File(place);
 		databasLocation = new File(databasLocation.getCanonicalPath()).getParentFile();
 		return databasLocation;

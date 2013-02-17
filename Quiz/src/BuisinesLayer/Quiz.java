@@ -92,21 +92,17 @@ public class Quiz {
 		return minTeams;
 	}
 
-
 	public void setMinTeams(int minTeams) {
 		this.minTeams = minTeams;
 	}
-
 
 	public int getMaxTeams() {
 		return maxTeams;
 	}
 
-
 	public void setMaxTeams(int maxTeams) {
 		this.maxTeams = maxTeams;
 	}
-
 
 	public QuizMaster getCreator() {
 		return creator;
@@ -150,4 +146,7 @@ public class Quiz {
 		}
 	}
 
+	public List<QuestionRound> getRounds() {
+		return rounds;
+	}
 }

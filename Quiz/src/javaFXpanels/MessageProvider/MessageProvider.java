@@ -217,6 +217,7 @@ public class MessageProvider {
 	
 	/**
 	 * hoogte bepalen aan de hand van de font en het aantal regels
+	 * van de message
 	 */
 	private void calcPrefHeight() {
 		String text = message.getText();

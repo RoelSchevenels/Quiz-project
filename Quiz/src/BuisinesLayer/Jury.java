@@ -17,7 +17,6 @@ public class Jury extends User {
 	
 	public Jury(String userName, String password) {
 		super(userName, password);
-		// TODO Auto-generated constructor stub
 	}
 	
 	/*

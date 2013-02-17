@@ -17,15 +17,18 @@ import Util.ConnectionUtil;
 
 import BuisinesLayer.QuizMaster;
 import BuisinesLayer.resources.MediaResource;
-import BuisinesLayer.resources.Resource;
 
 
 @Entity
-//TODO: Kijken of deze join strategie werkt
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 @Table(name="RESOURCES")
 public abstract class MediaQuestion extends Question {
-	protected static LobCreator lobCreator;
+	protected static final LobCreator lobCreator;
+	
+	static {
+		lobCreator=Hibernate.getLobCreator(ConnectionUtil.getSession());
+	}
+	
 	
 	@Lob
 	@Column(name="RECOURCE_VALUE",columnDefinition="BLOB")
@@ -34,11 +37,6 @@ public abstract class MediaQuestion extends Question {
 	
 	public MediaQuestion(QuizMaster creator) {
 		super(creator);
-		if(lobCreator==null) {
-			//TODO util klassen maken en dit stuk vervangen
-			lobCreator=Hibernate.getLobCreator(ConnectionUtil.getSession());
-		}
-		
 	}
 	
 	public MediaQuestion() {};//consturctor voor hibernate

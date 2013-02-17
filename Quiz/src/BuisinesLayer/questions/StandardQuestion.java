@@ -12,7 +12,6 @@ public class StandardQuestion extends Question {
 
 	public StandardQuestion(QuizMaster creator) {
 		super(creator);
-		// TODO Auto-generated constructor stub
 	}
 	
 	public StandardQuestion(QuizMaster creator, String question, String answer) {
@@ -21,9 +20,8 @@ public class StandardQuestion extends Question {
 		this.setQuestion(question);
 	}
 	
-	/*
-	 * no argument consturctor for hibernate
-	 */
-	private StandardQuestion() {};
+	
+	@SuppressWarnings("unused")
+	private StandardQuestion() {}; //no argument constructor for hibernate
 
 }
