@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" fx:id="container" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="64.0" prefWidth="296.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml" fx:controller="javaFXpanels.MediaPane.MediaControllerController">
+  <children>
+    <HBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="64.0" prefWidth="232.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <children>
+        <AnchorPane id="playPauzPane" blendMode="SRC_OVER" cache="false" depthTest="INHERIT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mouseTransparent="false" onMouseClicked="#playPauze" onMouseEntered="#imageEnter" onMouseExited="#imageExit" onTouchPressed="#playPauze" pickOnBounds="true" prefHeight="64.0" prefWidth="64.0" translateX="0.0" translateY="0.0">
+          <children>
+            <ImageView fx:id="playImage" fitHeight="64.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" scaleX="1.0" scaleY="1.0" translateX="0.0" translateY="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+              <image>
+                <Image url="@button_play.png" />
+              </image>
+            </ImageView>
+            <ImageView fx:id="pauzeImage" fitHeight="64.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+              <image>
+                <Image url="@button_pauze.png" />
+              </image>
+            </ImageView>
+          </children>
+          <padding>
+            <Insets />
+          </padding>
+          <HBox.margin>
+            <Insets right="20.0" />
+          </HBox.margin>
+        </AnchorPane>
+        <ImageView fx:id="muteImage" fitHeight="64.0" fitWidth="64.0" onMouseClicked="#mute" onMouseEntered="#imageEnter" onMouseExited="#imageExit" onTouchPressed="#mute" pickOnBounds="true" preserveRatio="true">
+          <image>
+            <Image url="@button_volume_mute.png" />
+          </image>
+          <HBox.margin>
+            <Insets right="10.0" fx:id="x1" />
+          </HBox.margin>
+        </ImageView>
+        <ImageView fx:id="lowerSoundImage" fitHeight="64.0" fitWidth="64.0" onMouseClicked="#soundDown" onMouseEntered="#imageEnter" onMouseExited="#imageExit" onTouchPressed="#soundUp" pickOnBounds="true" preserveRatio="true" HBox.margin="$x1">
+          <image>
+            <Image url="@button_volume_down.png" />
+          </image>
+        </ImageView>
+        <ImageView fx:id="upperSoundImage" fitHeight="64.0" fitWidth="64.0" onMouseClicked="#soundUp" onMouseEntered="#imageEnter" onMouseExited="#imageExit" onTouchPressed="#soundDown" pickOnBounds="true" preserveRatio="true">
+          <image>
+            <Image url="@button_volume_up.png" />
+          </image>
+        </ImageView>
+      </children>
+    </HBox>
+  </children>
+  <effect>
+    <DropShadow height="30.788095238095238" radius="15.988690476190477" width="35.16666666666667" />
+  </effect>
+  <stylesheets>
+    <URL value="@mediacontroller.css" />
+  </stylesheets>
+</AnchorPane>
