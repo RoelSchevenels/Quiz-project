@@ -22,20 +22,12 @@
                 <Image url="@login_portal.png" preserveRatio="true" smooth="true" />
               </image>
             </ImageView>
-            <ImageView id="login_portal.png" fitHeight="192.0" fitWidth="241.0" layoutX="164.0" layoutY="31.0">
-              <effect>
-                <Reflection topOffset="-10.0" />
-              </effect>
-              <image>
-                <Image url="@login_portal.png" preserveRatio="true" smooth="true" />
-              </image>
-            </ImageView>
             <ImageView id="login_portal.png" fitHeight="188.0" fitWidth="229.0" layoutX="170.0" layoutY="35.0">
               <effect>
                 <Reflection fraction="0.5119047619047619" topOffset="-10.5" topOpacity="0.4920634920634921" />
               </effect>
               <image>
-                <Image url="@../Documents/login_portal.png" preserveRatio="true" smooth="true" />
+                <Image url="@login_portal.png" preserveRatio="true" smooth="true" />
               </image>
             </ImageView>
             <Button layoutX="329.0" layoutY="255.0" mnemonicParsing="false" prefHeight="22.000099999997474" prefWidth="55.0" text="GO!" />

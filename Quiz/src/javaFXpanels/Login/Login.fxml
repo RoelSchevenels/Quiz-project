@@ -22,19 +22,11 @@
                 <Image url="@login_portal.png" preserveRatio="true" smooth="true" />
               </image>
             </ImageView>
-            <ImageView id="login_portal.png" fitHeight="188.0" fitWidth="229.0" layoutX="170.0" layoutY="35.0">
-              <effect>
-                <Reflection fraction="0.5119047619047619" topOffset="-10.5" topOpacity="0.4920634920634921" />
-              </effect>
-              <image>
-                <Image url="@../Documents/login_portal.png" preserveRatio="true" smooth="true" />
-              </image>
-            </ImageView>
             <Button layoutX="329.0" layoutY="255.0" mnemonicParsing="false" prefHeight="22.000099999997474" prefWidth="55.0" text="GO!" />
             <Label layoutX="102.0" layoutY="225.0" text="Gebruiker:" />
             <Label layoutX="87.0" layoutY="259.0" text="Wachtwoord:" />
             <PasswordField layoutX="184.0" layoutY="255.0" prefWidth="133.0" text="" />
-            <TextField layoutX="184.0" layoutY="223.0" prefWidth="200.0" text="Test" />
+            <TextField layoutX="184.0" layoutY="223.0" prefWidth="200.0" />
           </children>
         </AnchorPane>
       </content>
