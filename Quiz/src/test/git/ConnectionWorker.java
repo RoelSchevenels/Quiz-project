@@ -9,9 +9,9 @@ import java.net.SocketException;
 public abstract class ConnectionWorker implements Runnable{
 	private final Socket socket;
 	private boolean communicating;
-	private String toSend;
+	private Object toSend;
 	private int refreshrate;
-	private int id;
+	protected int id;
 	
 	public ConnectionWorker(Socket sock, int id)
 	{
@@ -40,7 +40,8 @@ public abstract class ConnectionWorker implements Runnable{
 					toSend = "";
 				}
 				if(socket.getInputStream().available() > 0 ){
-					String msg = in.readObject().toString();
+					Object msg = in.readObject();
+					System.out.println(msg.getClass().toString());
 					//System.out.printf("\"%s\" received\n", msg);
 					handleData(msg);
 				}
@@ -65,14 +66,14 @@ public abstract class ConnectionWorker implements Runnable{
 		} 
 	}
 	
-	public synchronized void send(String message)
+	public synchronized void send(Object data)
 	{
-		this.toSend = message;
+		this.toSend = data;
 	}
 	public synchronized void updateID(int change)
 	{
 		this.id += change;
 	}
-	public abstract void handleData(String data);
+	public abstract void handleData(Object data);
 	public abstract void handleDeath(int id);
 }

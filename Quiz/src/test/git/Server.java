@@ -51,9 +51,9 @@ public class Server {
 			super(sock, id);
 		}
 
-		public void handleData(String data)
+		public void handleData(Object data)
 		{
-			sendAll(data);
+			sendAll(data, id);
 		}
 
 		public void handleDeath(int id)
@@ -63,12 +63,25 @@ public class Server {
 		
 	}
 	
-	private synchronized void sendAll(String message)
+	@SuppressWarnings("unused")
+	private synchronized void sendAll(Object data)
 	{
 		for(int i=0;i<workers.size();i++){
-			workers.get(i).send(message);
+			workers.get(i).send(data);
 
-			System.out.printf("sent \"%s\" to %d\n", message, i);
+			System.out.printf("sent \"%s\" to %d\n", data, i);
+		}
+	}
+	
+	// Naar allen behalve degene die het zelf gestuurd heeft
+	private synchronized void sendAll(Object data, int except)
+	{
+		for(int i=0;i<workers.size();i++){
+			if(i != except){
+				workers.get(i).send(data);
+		
+				System.out.printf("sent \"%s\" to %d\n", data, i);
+			}
 		}
 	}
 	
