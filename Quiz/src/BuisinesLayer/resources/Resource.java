@@ -1,4 +1,9 @@
-package BuisinesLayer.resources;
+/**
+ * supperclassen van alle resources
+ * @author vrolijkx
+ */
+ package BuisinesLayer.resources;
+ 
 
 import java.io.File;
 import java.io.FileInputStream;
