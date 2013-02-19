@@ -153,17 +153,15 @@ public class MessageProvider {
 		AnchorPane.setRightAnchor(messagePane,sideOfset);
 		AnchorPane.setLeftAnchor(messagePane, sideOfset);
 	}
-	
-	
+		
 	private void hide() {
 		//hideTransition.setByY(-messagePane.getPrefHeight()-9);
 		hideTransition.play();
 		
 		for(Node n: notMouseTransparantChilderen) {
 			n.setMouseTransparent(false);
-		}
+		}	
 	}
-	
 	
 	private void show() {
 		messagePane.setVisible(true);
@@ -179,6 +177,7 @@ public class MessageProvider {
 			}
 		}
 		
+		hideButton.requestFocus();
 		
 	}
 

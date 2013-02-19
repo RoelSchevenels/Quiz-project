@@ -1,9 +1,7 @@
 package GUI.quizMaster;
 
-import java.util.Random;
 
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 import Util.ConnectionUtil;
 

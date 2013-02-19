@@ -8,7 +8,6 @@ import java.io.IOException;
 import javaFXpanels.Backup.BackupController;
 import javafx.scene.layout.AnchorPane;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 

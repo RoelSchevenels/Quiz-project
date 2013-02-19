@@ -1,4 +1,7 @@
-
+/**
+ * 
+ * @author vrolijkx
+ */
 package javaFXToSwing;
 
 
@@ -15,7 +18,12 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 
 
-
+/**
+ * @author vrolijkx
+ *
+ * @param <T> de root element type of the FxmlDocument
+ * @param <C> de controller class
+ */
 public class FXMLToPanel<T extends Pane,C extends Initializable> extends JFXPanel {
 	private static final long serialVersionUID = 4273971103636857634L;
 	private T contentPane;
@@ -23,6 +31,7 @@ public class FXMLToPanel<T extends Pane,C extends Initializable> extends JFXPane
 
 
 
+	@SuppressWarnings("unchecked")
 	public  FXMLToPanel(URL FXMLdocument) throws IOException {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(FXMLdocument);
