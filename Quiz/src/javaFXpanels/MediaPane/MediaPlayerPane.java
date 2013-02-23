@@ -139,7 +139,7 @@ public class MediaPlayerPane extends AnchorPane {
 		});
 	}
 
-	public void SetMovie(MediaResource m) {
+	public void setMovie(MediaResource m) {
 		setMedia(m.getMedia());
 
 		player.setOnReady(new Runnable() {

@@ -37,7 +37,7 @@ public class tesMediaPlayerPane extends Application {
 		primaryStage.setMinHeight(200);
 		primaryStage.setMinWidth(200);
 		
-		player.SetMovie(r);
+		player.setMovie(r);
 
 	}
 	

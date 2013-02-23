@@ -27,6 +27,8 @@ public class  MediaControllerTest extends JFrame {
 		
 		PaneToPanel<MediaPlayerPane> media = 
 				new PaneToPanel<MediaPlayerPane>(new MediaPlayerPane());
+        PaneToPanel<MediaPlayerPane> media2 = 
+				new PaneToPanel<MediaPlayerPane>(new MediaPlayerPane());
 		try {
 			controller = new FXMLToPanel<AnchorPane,MediaControllerController>(MediaControllerController
 					.class.getResource("mediaController.fxml"));
@@ -47,8 +49,20 @@ public class  MediaControllerTest extends JFrame {
 		}
 		
 		
-		media.getContentPane().SetMovie(r);
-		media.getContentPane().setController((MediaPaneController) controller.getController());
+		media.getContentPane().setMovie(r);
+        media2.getContentPane().setMovie(r);
+		media.getContentPane().setController(controller.getController());
+		media2.getContentPane().setController(controller.getController());
+		
+		
+		//een 2de frame maken om simultane weergaven met 2 movies te testen;
+		JFrame f = new JFrame();
+		f.setLayout(new BorderLayout());
+		f.add(media2,BorderLayout.CENTER);
+		f.setSize(800,800);
+		f.setVisible(true);
+		
+		
 		
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
