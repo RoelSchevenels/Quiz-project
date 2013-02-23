@@ -10,25 +10,28 @@
 
 <AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml">
   <children>
-    <Pane layoutX="300.0" layoutY="200.0" prefHeight="200.0" prefWidth="200.0" />
-    <AnchorPane id="Content" layoutX="72.0" layoutY="43.0" minHeight="0.0" minWidth="0.0" prefHeight="343.0" prefWidth="448.0">
-      <children>
-        <ImageView id="login_portal.png" fitHeight="205.0" fitWidth="276.0" layoutX="87.0" layoutY="14.0">
-          <effect>
-            <Reflection topOffset="-15.0" />
-          </effect>
-          <image>
-            <Image url="@login_portal.png" preserveRatio="true" smooth="true" />
-          </image>
-        </ImageView>
-        <Label layoutX="102.0" layoutY="225.0" text="Gebruiker:" />
-        <Label layoutX="87.0" layoutY="259.0" text="Wachtwoord:" />
-        <Label layoutX="128.0" layoutY="313.0" text="Nog geen gebruiker?" />
-        <TextField layoutX="184.0" layoutY="223.0" prefWidth="200.0" />
-        <PasswordField layoutX="184.0" layoutY="255.0" prefWidth="133.0" text="" />
-        <Button layoutX="329.0" layoutY="254.0" mnemonicParsing="false" prefHeight="22.000099999997474" prefWidth="55.0" text="GO!" />
-        <Button layoutX="265.0" layoutY="309.0" mnemonicParsing="false" text="Registreer" />
-      </children>
-    </AnchorPane>
+    <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <center>
+        <AnchorPane id="Content" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="343.0" prefWidth="448.0">
+          <children>
+            <ImageView id="login_portal.png" fitHeight="205.0" fitWidth="276.0" AnchorPane.bottomAnchor="124.0" AnchorPane.leftAnchor="87.0" AnchorPane.rightAnchor="85.0" AnchorPane.topAnchor="14.0">
+              <effect>
+                <Reflection topOffset="-15.0" />
+              </effect>
+              <image>
+                <Image url="@login_portal.png" preserveRatio="true" smooth="true" />
+              </image>
+            </ImageView>
+            <Label layoutX="102.0" layoutY="225.0" text="Gebruiker:" />
+            <Label text="Wachtwoord:" AnchorPane.bottomAnchor="68.0" AnchorPane.leftAnchor="87.0" AnchorPane.rightAnchor="279.0" AnchorPane.topAnchor="259.0" />
+            <Label text="Nog geen gebruiker?" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="128.0" AnchorPane.rightAnchor="189.0" AnchorPane.topAnchor="313.0" />
+            <TextField prefWidth="200.0" AnchorPane.bottomAnchor="98.0" AnchorPane.leftAnchor="184.0" AnchorPane.rightAnchor="64.0" AnchorPane.topAnchor="223.0" />
+            <PasswordField prefWidth="133.0" text="" AnchorPane.bottomAnchor="66.0" AnchorPane.leftAnchor="184.0" AnchorPane.rightAnchor="131.0" AnchorPane.topAnchor="255.0" />
+            <Button mnemonicParsing="false" prefHeight="22.000099999997474" prefWidth="55.0" text="GO!" AnchorPane.bottomAnchor="66.0" AnchorPane.leftAnchor="329.0" AnchorPane.rightAnchor="64.0" AnchorPane.topAnchor="254.0" />
+            <Button mnemonicParsing="false" text="Registreer" AnchorPane.bottomAnchor="13.0" AnchorPane.leftAnchor="265.0" AnchorPane.rightAnchor="97.0" AnchorPane.topAnchor="309.0" />
+          </children>
+        </AnchorPane>
+      </center>
+    </BorderPane>
   </children>
 </AnchorPane>
