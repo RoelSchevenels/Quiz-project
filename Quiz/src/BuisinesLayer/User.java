@@ -10,7 +10,13 @@
 
 package BuisinesLayer;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 
 import Util.Security;
 
@@ -19,7 +25,9 @@ import Util.Security;
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 public abstract class User {
 	@Id
-	@Column(name="USER_ID",length=20)
+	@GeneratedValue
+	private int id;
+	@Column(name="USER_NAME",length=20,unique=true)
 	protected String userName;
 	@Column(name="FIRST_NAME",length=20)
 	protected String firstName;
@@ -69,5 +77,7 @@ public abstract class User {
 		Email = email;
 	}
 	
-	
+	public int getId() {
+		return id;
+	}	
 }

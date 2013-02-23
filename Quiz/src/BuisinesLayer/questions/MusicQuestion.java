@@ -5,8 +5,9 @@ import java.sql.SQLException;
 
 import javafx.scene.media.MediaException;
 
-import javax.persistence.*;
-
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.Transient;
 
 import BuisinesLayer.QuizMaster;
 import BuisinesLayer.resources.MediaResource;

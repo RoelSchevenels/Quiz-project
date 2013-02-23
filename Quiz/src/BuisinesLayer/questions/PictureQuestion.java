@@ -9,8 +9,8 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 import javax.imageio.ImageIO;
-import javax.persistence.*;
-
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 
 import BuisinesLayer.QuizMaster;
 import BuisinesLayer.resources.PictureResource;

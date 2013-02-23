@@ -9,14 +9,20 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.SQLException;
-import javax.persistence.*;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.Lob;
+import javax.persistence.Table;
+
 import org.hibernate.Hibernate;
 import org.hibernate.engine.jdbc.LobCreator;
 
-import Util.ConnectionUtil;
-
 import BuisinesLayer.QuizMaster;
 import BuisinesLayer.resources.MediaResource;
+import Util.ConnectionUtil;
 
 
 @Entity

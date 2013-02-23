@@ -6,7 +6,10 @@ package BuisinesLayer;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import javax.persistence.*;
+
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 
 
 @Entity
