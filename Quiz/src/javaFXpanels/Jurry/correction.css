@@ -5,3 +5,33 @@
 .mainFxmlClass {
 
 }
+
+#correctionPane {
+    -fx-background-color: transparent;
+}
+
+
+/* het stackpane waarin zich het geven antwoord bevindt */
+#answerBox {
+    
+}
+
+#answerText {
+    
+}
+
+#questionBox {
+    
+}
+
+#questionText {
+    
+}
+
+#correctAnswerBox {
+    
+}
+
+#correctAnswerText {
+    
+}

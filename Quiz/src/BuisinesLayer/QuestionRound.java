@@ -35,6 +35,9 @@ public class QuestionRound {
 		this.setName(roundName);
 	}
 	
+	@SuppressWarnings("unused")
+	private QuestionRound() {}; //constructor voor hibernate
+	
 	public String getName() {
 		return name;
 	}

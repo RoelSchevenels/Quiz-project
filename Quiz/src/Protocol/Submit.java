@@ -1,6 +1,8 @@
 package Protocol;
 
-public abstract class Submit {
+import java.io.Serializable;
+
+public abstract class Submit implements Serializable {
 	//
 	//Er wordt iets doorgegeven maar er wordt
 	//geen response terug verwacht.
