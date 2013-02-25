@@ -2,7 +2,7 @@
  * een quizmaster die de vragen gaat lezen en opstellen
  * @author vrolijkx
  */
-package BuisinesLayer;
+package BussinesLayer;
 
 import java.util.ArrayList;
 import java.util.List;

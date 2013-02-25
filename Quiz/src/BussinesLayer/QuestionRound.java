@@ -2,7 +2,7 @@
  * een simpele vragen ronde die in meerdere quises kan gebruikt worden
  * @author vrolijkx
  */
-package BuisinesLayer;
+package BussinesLayer;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,7 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-import BuisinesLayer.questions.Question;
+import BussinesLayer.questions.Question;
 
 @Entity
 @Table(name="ROUND")

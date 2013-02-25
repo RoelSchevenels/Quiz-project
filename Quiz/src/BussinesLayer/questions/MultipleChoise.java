@@ -1,7 +1,7 @@
 /**
  * multiplechois question 
  */
-package BuisinesLayer.questions;
+package BussinesLayer.questions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +14,7 @@ import javax.persistence.OneToMany;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
-import BuisinesLayer.QuizMaster;
+import BussinesLayer.QuizMaster;
 
 
 @Entity

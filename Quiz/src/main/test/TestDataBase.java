@@ -16,14 +16,14 @@ import org.hibernate.*;
 
 import Util.ConnectionUtil;
 
-import BuisinesLayer.*;
-import BuisinesLayer.questions.MultipleChoise;
-import BuisinesLayer.questions.PictureQuestion;
-import BuisinesLayer.questions.Question;
-import BuisinesLayer.questions.StandardQuestion;
-import BuisinesLayer.questions.VideoQuestion;
-import BuisinesLayer.resources.MediaResource;
-import BuisinesLayer.resources.PictureResource;
+import BussinesLayer.*;
+import BussinesLayer.questions.MultipleChoise;
+import BussinesLayer.questions.PictureQuestion;
+import BussinesLayer.questions.Question;
+import BussinesLayer.questions.StandardQuestion;
+import BussinesLayer.questions.VideoQuestion;
+import BussinesLayer.resources.MediaResource;
+import BussinesLayer.resources.PictureResource;
 
 /**
  * @author vrolijkx

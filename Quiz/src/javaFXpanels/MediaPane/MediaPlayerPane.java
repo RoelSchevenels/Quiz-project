@@ -12,7 +12,7 @@ import java.util.HashSet;
 
 import org.hibernate.mapping.Set;
 
-import BuisinesLayer.resources.MediaResource;
+import BussinesLayer.resources.MediaResource;
 
 
 import javafx.application.Platform;

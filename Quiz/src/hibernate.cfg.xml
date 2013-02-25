@@ -13,21 +13,21 @@
   <property name="hibernate.use_sql_comments">true</property>
   <property name="hibernate.format_sql">true</property>
   
-  <mapping class="BuisinesLayer.Jury"/>
-  <mapping class="BuisinesLayer.Player"/>
-  <mapping class="BuisinesLayer.QuizMaster"/>
-  <mapping class="BuisinesLayer.User"/>
-  <mapping class="BuisinesLayer.Answer"/>
-  <mapping class="BuisinesLayer.Team" />
-  <mapping class="BuisinesLayer.Quiz" />
-  <mapping class="BuisinesLayer.QuestionRound"/>
-  <mapping class="BuisinesLayer.questions.StandardQuestion"/>
-  <mapping class="BuisinesLayer.questions.MultipleChoise"/>
-  <mapping class="BuisinesLayer.questions.MultipleChoisePosebility"/>
-  <mapping class="BuisinesLayer.questions.MediaQuestion"/>
-  <mapping class="BuisinesLayer.questions.PictureQuestion"/>
-  <mapping class="BuisinesLayer.questions.VideoQuestion"/>
-  <mapping class="BuisinesLayer.questions.PictureQuestion"/>
+  <mapping class="BussinesLayer.Jury"/>
+  <mapping class="BussinesLayer.Player"/>
+  <mapping class="BussinesLayer.QuizMaster"/>
+  <mapping class="BussinesLayer.User"/>
+  <mapping class="BussinesLayer.Answer"/>
+  <mapping class="BussinesLayer.Team" />
+  <mapping class="BussinesLayer.Quiz" />
+  <mapping class="BussinesLayer.QuestionRound"/>
+  <mapping class="BussinesLayer.questions.StandardQuestion"/>
+  <mapping class="BussinesLayer.questions.MultipleChoise"/>
+  <mapping class="BussinesLayer.questions.MultipleChoisePosebility"/>
+  <mapping class="BussinesLayer.questions.MediaQuestion"/>
+  <mapping class="BussinesLayer.questions.PictureQuestion"/>
+  <mapping class="BussinesLayer.questions.VideoQuestion"/>
+  <mapping class="BussinesLayer.questions.PictureQuestion"/>
   
  </session-factory>
 </hibernate-configuration>

@@ -1,4 +1,4 @@
-package BuisinesLayer.questions;
+package BussinesLayer.questions;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -9,8 +9,8 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Transient;
 
-import BuisinesLayer.QuizMaster;
-import BuisinesLayer.resources.MediaResource;
+import BussinesLayer.QuizMaster;
+import BussinesLayer.resources.MediaResource;
 
 
 @Entity

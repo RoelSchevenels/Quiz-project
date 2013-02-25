@@ -2,7 +2,7 @@
  * supperclassen van alle resources
  * @author vrolijkx
  */
- package BuisinesLayer.resources;
+ package BussinesLayer.resources;
  
 
 import java.io.File;

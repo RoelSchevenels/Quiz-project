@@ -8,6 +8,11 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
+import javaFXpanels.MediaPane.MediaControllerController;
+import javaFXpanels.MessageProvider.MessageProvider;
+
+import screenManger.ScreenManeger;
+
 import javafx.animation.FadeTransition;
 import javafx.animation.FadeTransitionBuilder;
 import javafx.animation.Interpolator;
@@ -24,6 +29,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.ListView;
@@ -46,14 +52,14 @@ import javafx.scene.text.Text;
 import javafx.util.Callback;
 import javafx.util.Duration;
 
-import BuisinesLayer.QuestionRound;
-import BuisinesLayer.Quiz;
-import BuisinesLayer.questions.MultipleChoise;
-import BuisinesLayer.questions.MusicQuestion;
-import BuisinesLayer.questions.PictureQuestion;
-import BuisinesLayer.questions.Question;
-import BuisinesLayer.questions.VideoQuestion;
-import BuisinesLayer.resources.Resource;
+import BussinesLayer.QuestionRound;
+import BussinesLayer.Quiz;
+import BussinesLayer.questions.MultipleChoise;
+import BussinesLayer.questions.MusicQuestion;
+import BussinesLayer.questions.PictureQuestion;
+import BussinesLayer.questions.Question;
+import BussinesLayer.questions.VideoQuestion;
+import BussinesLayer.resources.Resource;
 
 
 
@@ -73,6 +79,7 @@ public class QuizMasterDisplay extends AnchorPane{
 	private StackPane slideInBar;
 	private ImageView slideInImage;
 	private ListView<QuestionRound> roundsList;
+	private MessageProvider messageMaker;
 
 	//animations
 	private RotateTransition rotateAnimation;
@@ -92,6 +99,7 @@ public class QuizMasterDisplay extends AnchorPane{
 		initComponents();
 		initActions();
 		setDefaultStyle();
+		messageMaker = new MessageProvider(this);
 
 		if(rounds.size() > 0) {
 			this.setQuestionRound(rounds.get(roundNumber));
@@ -347,6 +355,8 @@ public class QuizMasterDisplay extends AnchorPane{
 		question.wrappingWidthProperty().bind(content.widthProperty().add(-20));
 		
 		content.getChildren().add(question);
+		
+		
 		//TODO: mss een spacing element toevoegen
 		if(q instanceof MultipleChoise) {
 			MultipleChoise m = (MultipleChoise) q;
@@ -374,8 +384,7 @@ public class QuizMasterDisplay extends AnchorPane{
 				image.getStyleClass().add("question-image");
 				content.getChildren().add(image);
 			} catch (IOException | SQLException  e) {
-				// TODO default image laden
-				e.printStackTrace();
+				messageMaker.showError("kon afbeelding niet laden");
 			} 
 		}
 		
@@ -386,11 +395,32 @@ public class QuizMasterDisplay extends AnchorPane{
 		
 		content.getChildren().add(answer);
 		
-		if(q instanceof VideoQuestion ) {
-			//FXMLLoader.load(location);
+		if(q instanceof VideoQuestion || q instanceof MusicQuestion) {
+			MediaFrame f = ScreenManeger.getInstance().getMediaFrame();
 			
-		} else if(q instanceof MusicQuestion) {
-			
+			//controls aanmaken
+			try{
+				FXMLLoader loader = new FXMLLoader();
+				loader.setLocation(MediaControllerController.class.getResource("mediaController.fxml"));
+				AnchorPane controller = (AnchorPane) loader.load();
+				controller.getStylesheets().add("question-mediacontrols");
+				content.getChildren().add(controller);
+				
+				MediaControllerController c = loader.getController();
+				f.setController(c);
+				
+				if(q instanceof VideoQuestion) {
+					VideoQuestion v = (VideoQuestion) q;
+					f.setMovie(v.getMediaResource());
+				} else {
+					MusicQuestion m = (MusicQuestion) q;
+					f.setMusic(m.getMediaResource());
+				}
+				
+				
+			} catch(Exception e) {
+				messageMaker.showError(e.getMessage());
+			}
 		}
 	}
 
@@ -477,7 +507,6 @@ public class QuizMasterDisplay extends AnchorPane{
 			questionNavigator.setCurrentPageIndex(0);
 		}
 	}
-
 
 	//properties waar andere objecten heen kunnen luisteren zoals de mediaPane
 	public ReadOnlyObjectProperty<Question> getCurrentQuestionProperty() {

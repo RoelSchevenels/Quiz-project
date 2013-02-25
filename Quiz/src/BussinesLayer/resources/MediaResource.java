@@ -3,7 +3,7 @@
  * die in en uit de database gelezen kan worden
  * @author vrolijkx
  */
-package BuisinesLayer.resources;
+package BussinesLayer.resources;
 
 import java.io.File;
 import java.io.FileOutputStream;

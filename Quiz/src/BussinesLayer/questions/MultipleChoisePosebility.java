@@ -2,7 +2,7 @@
  * een mogelijkheid die vasthangt aan een multiplechoisevraag
  * @author vrolijkx
  */
-package BuisinesLayer.questions;
+package BussinesLayer.questions;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

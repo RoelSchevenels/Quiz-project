@@ -3,7 +3,7 @@
  * Uit de datebase te krijgen
  * @author vrolijkx
  */
-package BuisinesLayer.resources;
+package BussinesLayer.resources;
 
 import java.awt.image.BufferedImage;
 import java.io.File;

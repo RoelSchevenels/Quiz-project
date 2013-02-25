@@ -2,7 +2,7 @@
  * de abstracte klass die questions met blob resources gebruiken
  * @author vrolijkx
  */
-package BuisinesLayer.questions;
+package BussinesLayer.questions;
 
 
 import java.io.IOException;
@@ -20,8 +20,8 @@ import javax.persistence.Table;
 import org.hibernate.Hibernate;
 import org.hibernate.engine.jdbc.LobCreator;
 
-import BuisinesLayer.QuizMaster;
-import BuisinesLayer.resources.MediaResource;
+import BussinesLayer.QuizMaster;
+import BussinesLayer.resources.MediaResource;
 import Util.ConnectionUtil;
 
 

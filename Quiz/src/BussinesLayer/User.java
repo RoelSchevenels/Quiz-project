@@ -8,7 +8,7 @@
  * @author vrolijkx
  */
 
-package BuisinesLayer;
+package BussinesLayer;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;

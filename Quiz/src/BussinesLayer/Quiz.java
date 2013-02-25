@@ -2,7 +2,7 @@
  * @author vrolijkx
  * Het quizobject
  */
-package BuisinesLayer;
+package BussinesLayer;
 
 import java.util.ArrayList;
 import java.util.Date;

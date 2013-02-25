@@ -1,9 +1,9 @@
-package BuisinesLayer.questions;
+package BussinesLayer.questions;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
-import BuisinesLayer.QuizMaster;
+import BussinesLayer.QuizMaster;
 
 
 @Entity

@@ -2,7 +2,7 @@
  * @author vrolijkx
  * 
  */
-package BuisinesLayer.questions;
+package BussinesLayer.questions;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,8 +22,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import BuisinesLayer.QuestionRound;
-import BuisinesLayer.QuizMaster;
+import BussinesLayer.QuestionRound;
+import BussinesLayer.QuizMaster;
 
 
 @Entity

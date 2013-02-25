@@ -2,7 +2,7 @@
  * Een player
  * @author vrolijkx
  */
-package BuisinesLayer;
+package BussinesLayer;
 
 import java.util.ArrayList;
 import java.util.Collection;

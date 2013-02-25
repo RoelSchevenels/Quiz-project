@@ -1,7 +1,7 @@
 /**
  * een foto vraag
  */
-package BuisinesLayer.questions;
+package BussinesLayer.questions;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -12,8 +12,8 @@ import javax.imageio.ImageIO;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
-import BuisinesLayer.QuizMaster;
-import BuisinesLayer.resources.PictureResource;
+import BussinesLayer.QuizMaster;
+import BussinesLayer.resources.PictureResource;
 
 @Entity
 @DiscriminatorValue("PICTURE")

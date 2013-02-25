@@ -2,7 +2,7 @@
  * een jurry implementatie 
  * @author vrolijkx
  */
-package BuisinesLayer;
+package BussinesLayer;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,10 +1,10 @@
-package BuisinesLayer;
+package BussinesLayer;
 
 import java.util.Date;
 
 import javax.persistence.*;
 
-import BuisinesLayer.questions.Question;
+import BussinesLayer.questions.Question;
 
 @Entity
 @Table(name="ANSWER")
