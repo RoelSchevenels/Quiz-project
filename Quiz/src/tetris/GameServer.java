@@ -8,6 +8,10 @@ import java.util.Vector;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import Protocol.AuthSubmit;
+import Protocol.TetrisStartSubmit;
+import Protocol.TetrisSubmit;
+
 import network.ConnectionWorker;
 
 public class GameServer {
@@ -71,41 +75,39 @@ public class GameServer {
 	// Interpreteten van ontvangen commando's.
 	private synchronized void interpret(Object data, int id)
 	{
-		String cmd = (String)data;
-		System.out.println(cmd);
-		String param = "";
-		if(cmd.contains(" ")){
-			param = cmd.split(" ")[1];
-			cmd = cmd.split(" ")[0];
-		}
-		
-		System.out.println("cmd:"+cmd+";param:"+param);
-		
-		if(roles.containsKey(id) && roles.get(id).equals(activePlayer)){
-			System.out.println("Correct");
-			if(cmd.equals("down")){
-				game.down();
-			}else if(cmd.equals("right")){
-				game.right();
-			}else if(cmd.equals("left")){
-				game.left();
-			}else if(cmd.equals("rotate")){
-				game.rotate();
+		if(data instanceof TetrisSubmit) {
+			if(roles.containsKey(id) && roles.get(id).equals(activePlayer)) {
+				char dir = ((TetrisSubmit)data).getMovement();
+				switch(dir){
+				case 'l':
+					game.left();
+					break;
+				case 'd':
+					game.down();
+					break;
+				case 'r':
+					game.right();
+					break;
+				case 'u':
+					game.rotate();
+					break;
+				}
 			}
-		}
-		
-		if(cmd.equals("start") && roles.get(id).equals("jury")){
-			activePlayer = param;
-			game.start(param);
-		}else if(cmd.equals("init")){
-			if (param.equals("player")){
-				if (roles.contains("player1"))
-					param = "player2";
-				else
-					param = "player1";
+		}else if(data instanceof TetrisStartSubmit) {
+			if(roles.get(id).equals("jury")){
+				TetrisStartSubmit tss = (TetrisStartSubmit)data; 
+				activePlayer = tss.getPlayer();
+				int pieces = tss.getPieces();
+				game.start(activePlayer, pieces);
 			}
-			roles.put(id, param);
-			System.out.println(param + " added");
+		}else if(data instanceof AuthSubmit) {
+			String role = ((AuthSubmit)data).getRole();
+			if(role.equals("player")) {
+				// Als de rol player is, er player1 en player2 van maken.
+				role = (roles.contains("player1")) ? "player2" : "player1";
+			}
+			roles.put(id, role);
+			System.out.printf("User with role %s connected\n",role);
 		}
 	}
 	

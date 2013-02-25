@@ -11,6 +11,7 @@ public class Game{
 	private JFrame frame;
 	private int[][] grid;
 	private int player;
+	private int pieces;
 	private int interval;
 	private Piece p;
 	private boolean playing;
@@ -57,25 +58,17 @@ public class Game{
 			if(p.predict(grid, 0, 1)){
 				grid = p.apply(grid);
 				clearLines();
-				playing = false;
+				pieces--;
+				if(pieces == 0)
+					playing = false;
+				else
+					p = new Piece(3,2,player);
 			}else{
 				p.move(0,1);
 				panel.update(p.apply(grid));
 			}
 		}
 	}
-	
-	/*
-	private void textrender(int[][] grid)
-	{
-		for(int y=0;y<grid[0].length;y++){
-			for(int x=0;x<grid.length;x++){
-				System.out.print(grid[x][y]);
-			}
-			System.out.println();
-		}
-	}
-	*/
 	
 	public void left()
 	{
@@ -142,10 +135,11 @@ public class Game{
 			return false;
 		}
 	}
-	public void start(String player)
+	public void start(String player, int pieces)
 	{
 		int num = Integer.parseInt(player.substring(6));
 		if(setPlayer(num)){
+			this.pieces = pieces;
 			playing = true;
 			p = new Piece(3,2,num);
 			ex.execute(new Core());

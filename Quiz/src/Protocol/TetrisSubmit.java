@@ -1,8 +1,21 @@
 package Protocol;
 
 public class TetrisSubmit extends Submit {
-	//hier laat je zien welke move
-	//dus knop er door de teamSpeler wordt gedrukt
-	//
+	private char movement;
 
+	public char getMovement()
+	{
+		return movement;
+	}
+
+	public void setMovement(char movement)
+	{
+		this.movement = movement;
+	}
+
+	public TetrisSubmit(char movement)
+	{
+		super();
+		this.movement = movement;
+	}	
 }

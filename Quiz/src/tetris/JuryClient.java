@@ -1,5 +1,6 @@
 package tetris;
 
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -9,15 +10,23 @@ import java.net.UnknownHostException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 
 import network.ConnectionWorker;
+import Protocol.AuthSubmit;
+import Protocol.TetrisStartSubmit;
 
 public class JuryClient extends ConnectionWorker{
+	private JFrame frame;
+	private JPanel panel;
+	private JSpinner pieces;
+	
 	public JuryClient() throws UnknownHostException, IOException
 	{
 		super(new Socket("127.0.0.1", 1337), 0);
 		makeGUI();
-		send("init jury");
+		send(new AuthSubmit("jury"));
 	}
 	
 	public static void main(String arg[])
@@ -33,9 +42,11 @@ public class JuryClient extends ConnectionWorker{
 	
 	public void makeGUI()
 	{
-		JFrame frame = new JFrame("Jury client");
-		JPanel panel = new JPanel();
+		frame = new JFrame("Jury client");
+		panel = new JPanel();
+		pieces = new JSpinner(new SpinnerNumberModel(1,1,5,1));
 		frame.add(panel);
+		frame.add(pieces, BorderLayout.NORTH);
 		
 		JButton one = new JButton("player1");
 		JButton two = new JButton("player2");
@@ -67,8 +78,9 @@ public class JuryClient extends ConnectionWorker{
 		@Override
 		public void actionPerformed(ActionEvent ae)
 		{
-			String text = "start " + ((JButton)ae.getSource()).getText();
-			send(text);
+			int pieceCount = (Integer)pieces.getValue();
+			String text =((JButton)ae.getSource()).getText();
+			send(new TetrisStartSubmit(text,pieceCount));
 		}
 	}
 }

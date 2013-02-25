@@ -11,13 +11,15 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import network.ConnectionWorker;
+import Protocol.AuthSubmit;
+import Protocol.TetrisSubmit;
 
 public class GameClient extends ConnectionWorker{
 	public GameClient() throws UnknownHostException, IOException
 	{
 		super(new Socket("127.0.0.1", 1337), 0);
 		makeGUI();
-		send("init player");
+		send(new AuthSubmit("player"));
 	}
 	
 	public static void main(String arg[])
@@ -63,10 +65,10 @@ public class GameClient extends ConnectionWorker{
 		{
 			int keycode = ke.getKeyCode();
 			if(keycode >= 37 && keycode <= 40){
-				String[] keys = {"left", "rotate", "right", "down"};
-				String cmd = keys[keycode-37];
+				char[] keys = {'l', 'u', 'r', 'd'};	// Left, up (rotate), right, down
+				char dir = keys[keycode-37];
 				
-				send(cmd);
+				send(new TetrisSubmit(dir));
 			}
 		}
 
