@@ -2,7 +2,10 @@ package Protocol;
 
 import java.io.Serializable;
 
-
+/**
+ * een aanvraag aan de server voor een bepaalde functie
+ * @author vrolijkx
+ */
 public abstract class Request implements Serializable {
 	private static final long serialVersionUID = 8950145620171342174L;
 	protected transient responsListener responseHandler;

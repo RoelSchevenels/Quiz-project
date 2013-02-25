@@ -91,8 +91,7 @@ public class Team {
 		players.clear();
 	}
 	
-	public Boolean hassPassword(String pass) {
-		return Security.checkPassword(pass, salt, this.password);
-		
+	public boolean checkPassword(String password) {
+		return Security.checkPassword(password, this.password, this.salt);
 	}
 }

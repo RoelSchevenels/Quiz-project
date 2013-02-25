@@ -10,6 +10,8 @@
 
 package BussinesLayer;
 
+import java.net.PasswordAuthentication;
+
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
@@ -51,6 +53,10 @@ public abstract class User {
 		this.userName = userName;
 		this.salt = Security.getRandomSalt();
 		this.password = Security.encrypt(password, salt);
+	}
+	
+	public boolean checkPassword(String password) {
+		return Security.checkPassword(password, this.password, this.salt);
 	}
 	
 	public String getFirstName() {

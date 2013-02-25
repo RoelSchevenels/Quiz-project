@@ -1,39 +1,22 @@
 package Protocol;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 public class GetTeamsResponse extends Response {
 	private static final long serialVersionUID = -497557832590297235L;
-	private ArrayList<TeamItem> teamItems = new ArrayList<TeamItem>();
+	private HashMap<Integer,String> teamItems = new HashMap<Integer,String>();
 	
-
+	
 	public GetTeamsResponse(int RequestId) {
 		super(RequestId);
 	}
 	
 	public void addTeamItem(String name, int id) {
-		
+		teamItems.put(id, name);
 	}
 		
-	public ArrayList<TeamItem> getTeamItems() {
+	public HashMap<Integer, String> getTeamItems() {
 		return teamItems;
 	}
 
-	public class TeamItem {
-		private int id;
-		private String name;
-		
-		public TeamItem(int id, String name) {
-			this.id = id;
-			this.name = name;
-		}
-		
-		public int getId() {
-			return id;
-		}
-
-		public String getName() {
-			return name;
-		}
-	}
 }

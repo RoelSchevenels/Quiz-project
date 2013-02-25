@@ -10,7 +10,7 @@ public class GetTeamsRequest extends Request {
 	}
 
 	@Override
-	public Response createResponse() {
+	public GetTeamsResponse createResponse() {
 		GetTeamsResponse s = new GetTeamsResponse(requestId);
 		return s;
 	}

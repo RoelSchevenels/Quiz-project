@@ -14,14 +14,17 @@ public class TetrisStartSubmit extends Submit{
 	{
 		return player;
 	}
+	
 	public void setPlayer(String player)
 	{
 		this.player = player;
 	}
+	
 	public int getPieces()
 	{
 		return pieces;
 	}
+	
 	public void setPieces(int pieces)
 	{
 		this.pieces = pieces;
