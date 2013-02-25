@@ -70,10 +70,12 @@ public abstract class ConnectionWorker implements Runnable{
 	{
 		this.toSend = data;
 	}
+	
 	public synchronized void updateID(int change)
 	{
 		this.id += change;
 	}
+	
 	public abstract void handleData(Object data);
 	public abstract void handleDeath(int id);
 }

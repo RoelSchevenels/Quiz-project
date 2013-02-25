@@ -1,9 +1,12 @@
 package Protocol;
 
 public class AnswerResponse extends Response {
-	//
-	// Een niet verbeterd antwoord doorgeven dat naar de jurry
-	// word doorgeven
-	//
-	//
+	private static final long serialVersionUID = -616834543470440095L;
+
+	public AnswerResponse(int RequestId) {
+		super(RequestId);
+		// TODO Auto-generated constructor stub
+	}
+
+	
 }

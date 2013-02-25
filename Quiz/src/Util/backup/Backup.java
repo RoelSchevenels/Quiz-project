@@ -37,6 +37,7 @@ public class Backup {
 	public static void BackupTo(File location,String name, BackupProgressListener progress) throws IOException {
 		File outputFile;
 		Configuration c = ConnectionUtil.getHibernateConfiguration();
+		ConnectionUtil.CloseSessionFactory();
 		
 		if(!name.endsWith(".quiz")) {
 			name += ".quiz";
@@ -108,6 +109,7 @@ public class Backup {
 			formatter.format("Database User: %s\n", config.getProperty("hibernate.connection.username" ));
 			formatter.format("Database name: %s\n", getDatabaseName(config));
 			formatter.format("Database location: %s\n", getDatabaseLocation(config));
+			formatter.format("total size: %d\n", totalSize);
 			formatter.flush();
 			zipOutput.flush();
 			zipOutput.closeEntry();

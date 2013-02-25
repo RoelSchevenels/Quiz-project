@@ -44,25 +44,6 @@ public class Server {
 		}
 	}
 	
-	private class ServerConnectionWorker extends ConnectionWorker{
-
-		public ServerConnectionWorker(Socket sock, int id)
-		{
-			super(sock, id);
-		}
-
-		public void handleData(Object data)
-		{
-			sendAll(data, id);
-		}
-
-		public void handleDeath(int id)
-		{
-			removeThread(id);
-		}
-		
-	}
-	
 	@SuppressWarnings("unused")
 	private synchronized void sendAll(Object data)
 	{
@@ -92,6 +73,7 @@ public class Server {
 		clientSocket = null;
 		workers = new Vector<ConnectionWorker>();
 	}
+	
 	public Server(int port)
 	{
 		this.port = port;
@@ -100,5 +82,24 @@ public class Server {
 	public static void main(String arg[])
 	{
 		new Server().start();
+	}
+
+	private class ServerConnectionWorker extends ConnectionWorker{
+
+		public ServerConnectionWorker(Socket sock, int id)
+		{
+			super(sock, id);
+		}
+
+		public void handleData(Object data)
+		{
+			sendAll(data, id);
+		}
+
+		public void handleDeath(int id)
+		{
+			removeThread(id);
+		}
+		
 	}
 }

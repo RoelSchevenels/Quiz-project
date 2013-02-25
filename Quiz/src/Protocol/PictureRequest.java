@@ -1,8 +1,16 @@
 package Protocol;
 
-public class PictureRequest {
-	//
-	// vraag een picture van een image question aan
-	// hier moet zeker de question id van de vraag aan doorgeven worden
-	//
+public class PictureRequest extends Request{
+	public int questionId;
+
+	
+	
+	
+	@Override
+	public Response createResponse() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
 }

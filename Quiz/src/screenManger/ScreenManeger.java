@@ -22,6 +22,8 @@ import javaFXpanels.MediaPane.MediaControllerController;
 import javaFXpanels.MediaPane.MediaPaneController;
 
 import javafx.application.Platform;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.AnchorPane;
 
@@ -77,7 +79,9 @@ public class ScreenManeger {
 		frames.put(name, w);
 		bindFrame(f, w);
 		
-		setFullScreenIfPossible(w);
+		if(prefFullScreen) {
+			setFullScreenIfPossible(w);
+		}
 
 		return f;
 	}
@@ -187,13 +191,33 @@ public class ScreenManeger {
 
 	}
 
-	private void setFullScreenIfPossible(FrameWrapper w) {
-		ScreenWrapper emptyScreen = getEmptyScreen();
+	private void setFullScreenIfPossible(final FrameWrapper w) {
+		final ScreenWrapper emptyScreen = getEmptyScreen();
+
 		//is er een leeg scherm vrij
 		if(emptyScreen != null && emptyScreen.getGraphicsDevice().isFullScreenSupported()) {
 			w.relocate(emptyScreen);
 			w.setFullScreen(emptyScreen);
 		};
+		
+		emptyScreen.getFrames().addListener(new InvalidationListener() {
+			
+			@Override
+			public void invalidated(Observable arg0) {
+				if(emptyScreen.getFrameCount() > 1) {
+					try {
+						emptyScreen.getGraphicsDevice().setFullScreenWindow(null);
+					} catch(Exception e) {
+						//gooit door een of andere reden een exception die niet echt nodig is
+					}
+				} else if (emptyScreen.getFrameCount() == 1 
+						&& emptyScreen.getFrames().get(0).equals(w)
+						&& emptyScreen.getGraphicsDevice().getFullScreenWindow() == null) {
+					//w.relocate(emptyScreen);
+					//w.setFullScreen(emptyScreen);
+				}	
+			}
+		});
 	}
 
 

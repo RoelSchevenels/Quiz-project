@@ -25,10 +25,8 @@ import javafx.application.Application;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javax.swing.SwingUtilities;
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
-public class TestQuizMasterPanel extends Application {
+public class TestQuizMasterFrame extends Application {
 
     @Override
     public void start(Stage primaryStage) {
@@ -76,8 +74,9 @@ public class TestQuizMasterPanel extends Application {
 
     public static void main(String[] args) {
         //launch(args);
-        JFrame f = ScreenManeger.getInstance().getFrame("quiz",true);
+        JFrame f = ScreenManeger.getInstance().getFrame("quiz",false);
         f.setVisible(true);
+        f.setSize(500, 500);
         
         //MediaFrame f2 = ScreenManeger.getInstance().getMediaFrame();
         

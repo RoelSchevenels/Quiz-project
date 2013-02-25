@@ -69,7 +69,6 @@ public class FrameWrapper {
 		}
 	}
 	
-
 	
 	/**
 	 * verplaats het frame van zijn huidige scherm naar een nieuw scherm
@@ -110,7 +109,7 @@ public class FrameWrapper {
 	}
 	
 	private void getScreens() {
-		ArrayList<ScreenWrapper> newscreens = new ArrayList<ScreenWrapper>();
+		ArrayList<ScreenWrapper> newscreens = ScreenWrapper.getScreens(frame);
 		
 		//vorige schermen verwijderen
 		for(ScreenWrapper sw: screens) {

@@ -41,21 +41,12 @@ public class ScreenWrapper {
 	public void remove(FrameWrapper frameWrapper) {
 		if(frames.contains(frameWrapper)) {
 			frames.remove(frameWrapper);
-			//het scherm stond in fullscreen
-			if(screen.getFullScreenWindow()!=null) {
-				screen.setFullScreenWindow(null);
-			}
 		}	
 	};
 	
 	public void add(FrameWrapper frameWrapper) {
 		if(!frames.contains(frameWrapper)) {
 			frames.add(frameWrapper);
-			if(frames.size() == 1 && frameWrapper.isPrefersFullScreen()) {
-				screen.setFullScreenWindow(frameWrapper.getFrame());
-			} else if(screen.getFullScreenWindow() != null) {
-				screen.setFullScreenWindow(null);
-			}
 		}
 	}
 	
