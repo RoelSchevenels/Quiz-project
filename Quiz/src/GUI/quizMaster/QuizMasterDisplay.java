@@ -396,25 +396,23 @@ public class QuizMasterDisplay extends AnchorPane{
 		content.getChildren().add(answer);
 		
 		if(q instanceof VideoQuestion || q instanceof MusicQuestion) {
-			MediaFrame f = ScreenManeger.getInstance().getMediaFrame();
 			
 			//controls aanmaken
 			try{
 				FXMLLoader loader = new FXMLLoader();
 				loader.setLocation(MediaControllerController.class.getResource("mediaController.fxml"));
 				AnchorPane controller = (AnchorPane) loader.load();
-				controller.getStylesheets().add("question-mediacontrols");
+				controller.getStyleClass().add("question-mediacontrols");
 				content.getChildren().add(controller);
 				
 				MediaControllerController c = loader.getController();
-				f.setController(c);
 				
 				if(q instanceof VideoQuestion) {
 					VideoQuestion v = (VideoQuestion) q;
-					f.setMovie(v.getMediaResource());
+					ScreenManeger.getInstance().CreateMediaFrame(c, v.getMediaResource(), true);
 				} else {
 					MusicQuestion m = (MusicQuestion) q;
-					f.setMusic(m.getMediaResource());
+					ScreenManeger.getInstance().CreateMediaFrame(c, m.getMediaResource(), false);
 				}
 				
 				

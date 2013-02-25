@@ -75,8 +75,9 @@ public class ScreenManeger {
 		w = new FrameWrapper(f,name);
 		w.setPrefersFullScreen(prefFullScreen);
 		frames.put(name, w);
-
 		bindFrame(f, w);
+		
+		setFullScreenIfPossible(w);
 
 		return f;
 	}
@@ -92,17 +93,33 @@ public class ScreenManeger {
 			w.setPrefersFullScreen(true);
 			frames.put("media", w);
 			f.setVisible(true);
-			ScreenWrapper emptyScreen = getEmptyScreen();
-			//is er een leeg scherm vrij
-			if(emptyScreen != null) {
-				w.relocate(emptyScreen);
-				w.setFullScreen(emptyScreen);
-			};
+			setFullScreenIfPossible(w);
 		}
 		
 		return f;
-
-
+	}
+	
+	/**
+	 * deze maakt een mediaframe aan op de event dispatch thread
+	 * @param controller
+	 * @param r
+	 * @param movie
+	 */
+	public void CreateMediaFrame(final MediaPaneController controller,final MediaResource r, final boolean movie) {
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() { 
+				MediaFrame f = getMediaFrame();
+				f.setController(controller);
+				if(movie) {
+					f.setMovie(r);
+				} else {
+					f.setMusic(r);
+				}
+				
+			}
+		});
+		
 	}
 
 	private void bindFrame(final JFrame f, final FrameWrapper w) {
@@ -142,7 +159,7 @@ public class ScreenManeger {
 	public ScreenWrapper getEmptyScreen() {
 		updateScreens();
 		for(ScreenWrapper w: availableScreens) {
-			if(w.getFrameCount() == 0) {
+			if(w.getFrameCount() == 0 && w.getGraphicsDevice().getFullScreenWindow() == null) {
 				return w;
 			}
 		}
@@ -166,13 +183,18 @@ public class ScreenManeger {
 		return instance;
 	}
 
-
-
-
 	public static void main(String[] args) {
 
 	}
 
+	private void setFullScreenIfPossible(FrameWrapper w) {
+		ScreenWrapper emptyScreen = getEmptyScreen();
+		//is er een leeg scherm vrij
+		if(emptyScreen != null && emptyScreen.getGraphicsDevice().isFullScreenSupported()) {
+			w.relocate(emptyScreen);
+			w.setFullScreen(emptyScreen);
+		};
+	}
 
 
 	//  veroorzaakt onverklaarbare applicatie crach zonder exception
