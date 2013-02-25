@@ -14,8 +14,8 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
 import network.ConnectionWorker;
-import Protocol.AuthSubmit;
-import Protocol.TetrisStartSubmit;
+import Protocol.submits.AuthSubmit;
+import Protocol.submits.TetrisStartSubmit;
 
 public class JuryClient extends ConnectionWorker{
 	private JFrame frame;

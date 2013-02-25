@@ -1,4 +1,4 @@
-package Protocol;
+package Protocol.requests;
 
 public class ScoreRequest {
 	//

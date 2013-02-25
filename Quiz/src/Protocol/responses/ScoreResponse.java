@@ -1,4 +1,4 @@
-package Protocol;
+package Protocol.responses;
 
 public class ScoreResponse {
 	//

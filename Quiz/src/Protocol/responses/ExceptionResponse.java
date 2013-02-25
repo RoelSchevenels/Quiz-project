@@ -1,4 +1,4 @@
-package Protocol;
+package Protocol.responses;
 
 public class ExceptionResponse extends Response {
 	private static final long serialVersionUID = -7275174109536120357L;

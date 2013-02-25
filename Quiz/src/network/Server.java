@@ -7,7 +7,7 @@ import java.util.Vector;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import Protocol.IdRangeSubmit;
+import Protocol.submits.IdRangeSubmit;
 
 public class Server {
 	ServerSocket serverSocket;

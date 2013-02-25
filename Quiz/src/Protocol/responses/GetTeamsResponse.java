@@ -1,4 +1,4 @@
-package Protocol;
+package Protocol.responses;
 
 import java.util.HashMap;
 

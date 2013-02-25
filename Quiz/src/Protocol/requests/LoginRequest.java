@@ -1,4 +1,6 @@
-package Protocol;
+package Protocol.requests;
+
+import Protocol.responses.LoginResponse;
 
 public class LoginRequest extends Request{
 	private static final long serialVersionUID = -6885893663339115052L;

@@ -1,4 +1,4 @@
-package Protocol;
+package Protocol.submits;
 
 public class TetrisSubmit extends Submit {
 	private char movement;

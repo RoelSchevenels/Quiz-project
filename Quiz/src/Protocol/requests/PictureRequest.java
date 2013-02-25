@@ -1,4 +1,6 @@
-package Protocol;
+package Protocol.requests;
+
+import Protocol.responses.Response;
 
 public class PictureRequest extends Request{
 	public int questionId;

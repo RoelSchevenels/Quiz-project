@@ -9,10 +9,10 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import network.ConnectionWorker;
-import Protocol.AuthSubmit;
-import Protocol.IdRangeSubmit;
-import Protocol.TetrisStartSubmit;
-import Protocol.TetrisSubmit;
+import Protocol.submits.AuthSubmit;
+import Protocol.submits.IdRangeSubmit;
+import Protocol.submits.TetrisStartSubmit;
+import Protocol.submits.TetrisSubmit;
 
 public class GameServer {
 	Game game;

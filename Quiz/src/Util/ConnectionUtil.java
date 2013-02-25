@@ -18,6 +18,8 @@ import org.hibernate.service.ServiceRegistry;
 import org.hibernate.service.ServiceRegistryBuilder;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
 
+import BussinesLayer.Jury;
+
 public class ConnectionUtil {
 	private static SessionFactory sessionFactory;
 	private static Configuration configuration;
@@ -73,7 +75,21 @@ public class ConnectionUtil {
 		}
 		SchemaExport export = new SchemaExport(configuration);
 		export.create(false,true);
+		createBasicObjects();
 
+	}
+
+	private static void createBasicObjects() {
+		Jury computer = new Jury("Computer", "Computer");
+		computer.setFirstName("PC");
+		computer.setLastName("De alwetende");
+		
+		
+		Session s = getSession();
+		Transaction t = s.beginTransaction();
+		s.save(computer);
+		t.commit();
+		s.close();
 	}
 
 	public static void exportDDL(File exportFile) {

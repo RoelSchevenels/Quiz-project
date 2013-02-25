@@ -1,4 +1,4 @@
-package Protocol;
+package Protocol.submits;
 
 public class AnswerSubmit extends Submit {
 	//

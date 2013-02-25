@@ -1,29 +1,45 @@
+/**
+ * een hulpklassen die vanalles naar de 
+ * database wegschrijft en terug ophaalt
+ * @author vrolijkx
+ */
 package Util;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.persistence.EntityExistsException;
 
-import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.internal.StaticFilterAliasGenerator;
 
+import com.sun.javafx.css.converters.EnumConverter;
+
+import BussinesLayer.Answer;
 import BussinesLayer.Jury;
 import BussinesLayer.Player;
 import BussinesLayer.QuizMaster;
 import BussinesLayer.Team;
 import BussinesLayer.User;
-import Protocol.CreateUserRequest;
-import Protocol.GetTeamsRequest;
-import Protocol.GetTeamsResponse;
-import Protocol.LoginRequest;
-import Protocol.LoginResponse;
-import Protocol.LoginResponse.UserType;
+import BussinesLayer.questions.MultipleChoise;
+import Protocol.requests.AnswerRequest;
+import Protocol.requests.CreateUserRequest;
+import Protocol.requests.GetTeamsRequest;
+import Protocol.requests.LoginRequest;
+import Protocol.responses.AnswerResponse;
+import Protocol.responses.GetTeamsResponse;
+import Protocol.responses.LoginResponse;
+import Protocol.responses.LoginResponse.UserType;
 
 public class DatabaseUtil {
-
+	//map met Al verzonden antwoorden
+	private static ConcurrentHashMap<Integer, Answer> sendAnswers = new ConcurrentHashMap<Integer, Answer>();
+	
+	
 	/**
 	 * sla een object op in de database
 	 * @param b object to be saved in the datbase
@@ -49,8 +65,30 @@ public class DatabaseUtil {
 					.uniqueResult();
 	}
 	
-	public static void handleLogin(LoginRequest request) {
-
+	public static Team getTeam(int teamId) {
+		Session s = ConnectionUtil.getSession();
+		return  (Team) s.createQuery("select t from Team t where t.teamId = :id")
+					.setParameter("id", teamId)
+					.uniqueResult();
+	}
+	
+	public static Answer getAnwer(int anwserId) {
+		Session s = ConnectionUtil.getSession();
+		return  (Answer) s.createQuery("select a from Answer a where a.answerId = :id")
+					.setParameter("id", anwserId)
+					.uniqueResult();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static List<Answer> getUncorrectedAnswers(int quizId) {
+		Session s = ConnectionUtil.getSession();
+		return  s.createQuery("select a from Answer a where a.jury = null and a.quiz.quizID = :id")
+					.setParameter("id", quizId)
+					.setMaxResults(20)
+					.list();
+	}
+	
+	public static void handleLoginRequest(LoginRequest request) {
 		try {
 			User user = getUser(request.getUserName());
 			
@@ -85,7 +123,7 @@ public class DatabaseUtil {
 	
 	}
 
-	public static void handleGetTeams(GetTeamsRequest request) {
+	public static void handleGetTeamsRequest(GetTeamsRequest request) {
 		Session s = ConnectionUtil.getSession();
 
 		try {
@@ -110,7 +148,7 @@ public class DatabaseUtil {
 
 	}
 
-	public static void handleCreateUser(CreateUserRequest request) {
+	public static void handleCreateUserRequest(CreateUserRequest request) {
 		User user;
 		try {
 			if(request.getUserType().equals(UserType.PLAYER)) {
@@ -154,5 +192,41 @@ public class DatabaseUtil {
 		}
 	}
 	
+	public static void handleAnswerRequest(AnswerRequest request) {
+		try {
+			for(Answer a: getUncorrectedAnswers(request.getQuizId())) {
+				if(!sendAnswers.containsKey(a.getAnswerId())) {
+					sendAnswers.put(a.getAnswerId(), a);
+					AnswerResponse answer = request.createResponse();
+					//Todo: answerResponse invullen
+					
+					answer.send();
+					return;
+				}
+			}
+			
+		} catch(HibernateException ex) {
+			request.sendException("Fout bij het doorzoeken van de database");
+		} catch (Exception e) {
+			request.sendException("Onverwachte fout voorgedaan");
+		}
+	};
 	
+	public static void correctMultipleChoise(Answer a) {
+		if(!(a.getQuestion() instanceof MultipleChoise)) {
+			throw new IllegalArgumentException("kan alleen multiple choise exceptions verbeteren");
+		}
+		
+		Jury computer = (Jury) getUser("Computer");
+		MultipleChoise q = (MultipleChoise) a.getQuestion();
+		
+		if(a.getAnswer().equals(q.getCorrectAnswer())) {
+			a.correct(computer, a.getMaxScore());
+		} else {
+			a.correct(computer, 0);
+		}
+		
+		saveObject(a);
+	}
+
 }

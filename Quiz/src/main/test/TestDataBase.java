@@ -175,7 +175,7 @@ public class TestDataBase {
 		
 		Team te = (Team) s.createQuery("select t from Team t where t.teamName = 'Tafel 7'").uniqueResult();
 		
-		if(te.hassPassword("abcd123")) {
+		if(te.checkPassword("abcd123")) {
 			System.out.println("team " + te.getTeamName() + "password match");
 		} else {
 			System.out.println("fail");

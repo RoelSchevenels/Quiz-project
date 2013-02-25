@@ -1,4 +1,6 @@
-package Protocol;
+package Protocol.requests;
+
+import Protocol.responses.GetTeamsResponse;
 
 public class GetTeamsRequest extends Request {
 	private static final long serialVersionUID = 6588272773200109384L;

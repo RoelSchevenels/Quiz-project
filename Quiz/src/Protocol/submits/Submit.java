@@ -1,4 +1,4 @@
-package Protocol;
+package Protocol.submits;
 
 import java.io.Serializable;
 

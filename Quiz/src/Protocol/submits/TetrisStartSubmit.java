@@ -1,4 +1,4 @@
-package Protocol;
+package Protocol.submits;
 
 public class TetrisStartSubmit extends Submit{
 	private String player;

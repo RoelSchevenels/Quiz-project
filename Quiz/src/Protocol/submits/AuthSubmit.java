@@ -1,4 +1,4 @@
-package Protocol;
+package Protocol.submits;
 
 public class AuthSubmit extends Submit{
 	private String role;

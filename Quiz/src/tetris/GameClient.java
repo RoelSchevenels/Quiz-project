@@ -11,8 +11,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import network.ConnectionWorker;
-import Protocol.AuthSubmit;
-import Protocol.TetrisSubmit;
+import Protocol.submits.AuthSubmit;
+import Protocol.submits.TetrisSubmit;
 
 public class GameClient extends ConnectionWorker{
 	public GameClient() throws UnknownHostException, IOException

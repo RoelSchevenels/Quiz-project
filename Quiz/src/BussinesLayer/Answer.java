@@ -62,7 +62,11 @@ public class Answer {
 	public QuestionRound getRound() {
 		return round;
 	}
-
+	
+	public Question getQuestion() {
+		return this.question;
+	}
+	
 	public Team getTeam() {
 		return team;
 	}
@@ -72,7 +76,22 @@ public class Answer {
 			this.jury=j;
 			jury.addAnswer(this);
 		}
-		
+	}
+	
+	public Jury getJury() {
+		return this.jury;
+	}
+	
+	public void setAnwer(String answer) {
+		this.answer = answer;
+	}
+	
+	public String getAnswer() {
+		return this.answer;
+	}
+	
+	public int getAnswerId() {
+		return this.answerId;
 	}
 	
 }

@@ -7,7 +7,7 @@ package javaFXpanels.Jurry;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import Protocol.AnswerResponse;
+import Protocol.responses.AnswerResponse;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;

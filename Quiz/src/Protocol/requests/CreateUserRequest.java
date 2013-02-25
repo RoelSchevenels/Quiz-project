@@ -1,6 +1,8 @@
-package Protocol;
+package Protocol.requests;
 
-import Protocol.LoginResponse.UserType;
+import Protocol.responses.LoginResponse;
+import Protocol.responses.Response;
+import Protocol.responses.LoginResponse.UserType;
 
 /**
  * een request voor een nieuwe user maken

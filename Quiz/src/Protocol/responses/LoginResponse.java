@@ -1,4 +1,4 @@
-package Protocol;
+package Protocol.responses;
 
 public class LoginResponse extends Response{
 	private static final long serialVersionUID = -67840159000689435L;

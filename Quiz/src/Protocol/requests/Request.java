@@ -1,6 +1,10 @@
-package Protocol;
+package Protocol.requests;
 
 import java.io.Serializable;
+
+import Protocol.responsListener;
+import Protocol.responses.ExceptionResponse;
+import Protocol.responses.Response;
 
 /**
  * een aanvraag aan de server voor een bepaalde functie

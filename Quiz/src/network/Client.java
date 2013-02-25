@@ -12,7 +12,7 @@ import java.util.concurrent.Executors;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
-import Protocol.IdRangeSubmit;
+import Protocol.submits.IdRangeSubmit;
 
 public class Client extends ConnectionWorker{
 	private int minReqId;
