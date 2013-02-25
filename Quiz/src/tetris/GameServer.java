@@ -8,11 +8,11 @@ import java.util.Vector;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import network.ConnectionWorker;
 import Protocol.AuthSubmit;
+import Protocol.IdRangeSubmit;
 import Protocol.TetrisStartSubmit;
 import Protocol.TetrisSubmit;
-
-import network.ConnectionWorker;
 
 public class GameServer {
 	Game game;
@@ -59,6 +59,7 @@ public class GameServer {
 		public ServerConnectionWorker(Socket sock, int id)
 		{
 			super(sock, id);
+			send(new IdRangeSubmit(id*100, id*100 + 99));
 		}
 
 		public void handleData(Object data)

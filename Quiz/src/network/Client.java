@@ -12,7 +12,13 @@ import java.util.concurrent.Executors;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
+import Protocol.IdRangeSubmit;
+
 public class Client extends ConnectionWorker{
+	private int minReqId;
+	private int maxReqId;
+	private int curReqId;
+	
 		
 	public Client() throws UnknownHostException, IOException
 	{
@@ -59,8 +65,16 @@ public class Client extends ConnectionWorker{
 	@Override
 	public void handleData(Object data)
 	{
-
 		System.out.println("Class " + data.getClass().toString());
+		
+		if(data instanceof IdRangeSubmit){
+			IdRangeSubmit irs = (IdRangeSubmit)data;
+			
+			minReqId = irs.getMin();
+			maxReqId = irs.getMax();
+			curReqId = minReqId;
+		}
+		
 		if(data.getClass().toString().equals("class javax.swing.ImageIcon")){
 			new ImageViewer((ImageIcon) data);
 		}else{
@@ -73,5 +87,12 @@ public class Client extends ConnectionWorker{
 	public void handleDeath(int id)
 	{
 		System.out.println("Server closed the connection.");
+	}
+	
+	private int nextId()
+	{
+		if(curReqId++ > maxReqId)
+			curReqId = minReqId;
+		return curReqId;
 	}
 }

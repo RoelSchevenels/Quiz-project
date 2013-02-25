@@ -7,6 +7,8 @@ import java.util.Vector;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import Protocol.IdRangeSubmit;
+
 public class Server {
 	ServerSocket serverSocket;
 	Socket clientSocket;
@@ -89,6 +91,7 @@ public class Server {
 		public ServerConnectionWorker(Socket sock, int id)
 		{
 			super(sock, id);
+			send(new IdRangeSubmit(id*100, id*100 + 99));
 		}
 
 		public void handleData(Object data)
