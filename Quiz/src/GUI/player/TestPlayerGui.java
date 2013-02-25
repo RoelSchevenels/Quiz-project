@@ -12,8 +12,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import BuisinesLayer.QuizMaster;
-import BuisinesLayer.questions.*;
+import BussinesLayer.QuizMaster;
+import BussinesLayer.questions.*;
 
 public class TestPlayerGui extends JFrame
 {

@@ -14,7 +14,7 @@ import javassist.expr.Instanceof;
 
 import javax.swing.JPanel;
 
-import BuisinesLayer.questions.*;
+import BussinesLayer.questions.*;
 
 public class PlayerPanel extends JPanel
 {

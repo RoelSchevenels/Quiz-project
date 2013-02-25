@@ -21,6 +21,7 @@ public class PaneToPanel<T extends Pane> extends JFXPanel {
 	private Initializable controller;
 
 	public PaneToPanel(T contentPane) {
+		super();
 		this.contentPane = contentPane;
 		init();
 	}

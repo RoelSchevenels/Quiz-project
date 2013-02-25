@@ -12,7 +12,7 @@ import java.util.HashSet;
 
 import org.hibernate.mapping.Set;
 
-import BuisinesLayer.resources.MediaResource;
+import BussinesLayer.resources.MediaResource;
 
 
 import javafx.application.Platform;
@@ -139,7 +139,7 @@ public class MediaPlayerPane extends AnchorPane {
 		});
 	}
 
-	public void SetMovie(MediaResource m) {
+	public void setMovie(MediaResource m) {
 		setMedia(m.getMedia());
 
 		player.setOnReady(new Runnable() {

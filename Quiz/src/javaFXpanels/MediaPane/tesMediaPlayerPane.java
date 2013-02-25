@@ -2,7 +2,7 @@ package javaFXpanels.MediaPane;
 
 import java.io.File;
 
-import BuisinesLayer.resources.MediaResource;
+import BussinesLayer.resources.MediaResource;
 
 
 import javafx.application.Application;
@@ -37,7 +37,7 @@ public class tesMediaPlayerPane extends Application {
 		primaryStage.setMinHeight(200);
 		primaryStage.setMinWidth(200);
 		
-		player.SetMovie(r);
+		player.setMovie(r);
 
 	}
 	
