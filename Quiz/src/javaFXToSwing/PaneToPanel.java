@@ -28,7 +28,6 @@ public class PaneToPanel<T extends Pane> extends JFXPanel {
 	
 	private void init() {
 		setPreferredSize(new Dimension(1000, 1000));
-		// create JavaFX scene
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {

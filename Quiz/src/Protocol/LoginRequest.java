@@ -1,8 +1,18 @@
 package Protocol;
 
 public class LoginRequest extends Request{
-	//
-	//Stuur de UserName en Password door
-	//OF
-	//Stuur al de gegevens
+	private String userName;
+	private String passWord;
+	
+	public LoginRequest() {
+		
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 }

@@ -71,6 +71,7 @@ public class MediaPlayerPane extends AnchorPane {
 	private void initMovie() {
 		if(this.mediaView == null) {
 			mediaView = new MediaView();
+			
 		}
 
 		mediaView.setMediaPlayer(player);
@@ -88,7 +89,9 @@ public class MediaPlayerPane extends AnchorPane {
 		ArrayList<Node> childeren = new ArrayList<Node>(this.getChildren());
 		childeren.remove(mediaView); 
 		
-		this.getChildren().add(mediaView);
+		if(!this.getChildren().contains(mediaView)) {
+			this.getChildren().add(mediaView);
+		}
 		scaleMovie();
 
 	};

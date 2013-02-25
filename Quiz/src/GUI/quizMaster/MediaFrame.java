@@ -1,9 +1,11 @@
 package GUI.quizMaster;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 
 import javaFXToSwing.PaneToPanel;
 import javaFXpanels.MediaPane.MediaControllerController;
+import javaFXpanels.MediaPane.MediaPaneController;
 import javaFXpanels.MediaPane.MediaPlayerPane;
 
 import javax.swing.JFrame;
@@ -24,15 +26,14 @@ public class MediaFrame extends JFrame {
 		this.add(media,BorderLayout.CENTER);
 		
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		
-		this.setSize(800, 800);
+		this.setPreferredSize(new Dimension(900,400));
 	}
 	
 	public MediaPlayerPane getPlayer() {
 		return media.getContentPane();
 	}
 	
-	public void setController(MediaControllerController c) {
+	public void setController(MediaPaneController c) {
 		media.getContentPane().setController(c);
 	}
 	
