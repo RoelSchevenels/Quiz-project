@@ -20,12 +20,16 @@ import BussinesLayer.Answer;
 import BussinesLayer.Jury;
 import BussinesLayer.Player;
 import BussinesLayer.QuestionRound;
+import BussinesLayer.Quiz;
 import BussinesLayer.QuizMaster;
 import BussinesLayer.Team;
 import BussinesLayer.User;
 import BussinesLayer.questions.MultipleChoise;
+import BussinesLayer.questions.MusicQuestion;
 import BussinesLayer.questions.PictureQuestion;
 import BussinesLayer.questions.Question;
+import BussinesLayer.questions.StandardQuestion;
+import BussinesLayer.questions.VideoQuestion;
 import Protocol.requests.AnswerRequest;
 import Protocol.requests.CreateTeamRequest;
 import Protocol.requests.CreateUserRequest;
@@ -41,6 +45,9 @@ import Protocol.responses.PictureResponse;
 import Protocol.responses.TeamLoginResponse;
 import Protocol.responses.TimeOutResponse;
 import Protocol.submits.CorrectSubmit;
+import Protocol.submits.QuestionSubmit;
+import Protocol.submits.QuestionSubmit.QuestionType;
+import Protocol.submits.RoundSubmit;
 
 public class DatabaseUtil {
 	//map met Al verzonden antwoorden
@@ -341,6 +348,8 @@ public class DatabaseUtil {
 	
 	public static void handlePictureRequest(PictureRequest request) {
 		try {
+			
+			//Todo: de afbeeldingen bufferen zodat de datbase niet word belast
 			PictureQuestion pic = (PictureQuestion) getQuestion(request.questionId);
 			PictureResponse r = request.createResponse();
 			r.setPictureResource(pic.getPicture());
@@ -356,11 +365,47 @@ public class DatabaseUtil {
 		}
 	}
 	
-	public static void submitRound(QuestionRound round) {
+	public static void submitRound(Quiz quiz, QuestionRound round) {
+		RoundSubmit submit = new RoundSubmit(quiz.getQuizID(),
+											round.getRoundId(),
+											round.getQuestions().size(),
+											round.getName());
+		//TODO: send submit
+		
+		for(Question q: round.getQuestions()) {
+			submitQuestion(quiz, round,q);
+		}
+		
 		
 	}
 	
-	public static void submitQuestion() {
+	public static void submitQuestion(Quiz quiz, QuestionRound round,Question q) {
+		QuestionType type;
+		String[] possibilities = null;
+		if(q instanceof MusicQuestion) {
+			type= QuestionType.MUSIC;
+		} else if (q instanceof MusicQuestion) {
+			type = QuestionType.MULTIPLECHOISE;
+			possibilities = ((MultipleChoise) q).getValues();
+		} else if (q instanceof PictureQuestion ) {
+			type = QuestionType.PICTURE;	
+		} else if(q instanceof VideoQuestion) {
+			type = QuestionType.MOVIE;
+		} else if(q instanceof StandardQuestion) {
+			type = QuestionType.OPEN;
+		} else {
+			//als dit zou gebeuren is er iets geks aan de hand
+			return;
+		}
+		
+		
+		QuestionSubmit submit = new QuestionSubmit(type,
+					quiz.getQuizID(),
+					round.getRoundId(),
+					q.getQuestionId(),
+					q.getQuestion(),possibilities);
+		
+		//TODO: submit versturen
 		
 	}
 	
