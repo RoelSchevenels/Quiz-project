@@ -31,19 +31,7 @@ public class PictureQuestion extends MediaQuestion{
 	}
 	
 	public void setPicture(PictureResource p) throws IOException {
-		this.setImage(p.getBufferdImage());
+		setData(p.getAsByteArray());
 	}
 	
-	private void setImage(BufferedImage image) throws IOException {
-		//image naar een byteArray omzetten
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		ImageIO.write( image, "jpg", baos );
-		baos.flush();
-		byte[] imageInBytes = baos.toByteArray();
-		baos.close();
-		//bytes naar de blob omzetten
-		System.out.println(imageInBytes.length);
-		this.setData(imageInBytes);
-		
-	}
 }

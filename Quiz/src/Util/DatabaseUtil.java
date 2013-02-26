@@ -24,16 +24,20 @@ import BussinesLayer.QuizMaster;
 import BussinesLayer.Team;
 import BussinesLayer.User;
 import BussinesLayer.questions.MultipleChoise;
+import BussinesLayer.questions.PictureQuestion;
+import BussinesLayer.questions.Question;
 import Protocol.requests.AnswerRequest;
 import Protocol.requests.CreateTeamRequest;
 import Protocol.requests.CreateUserRequest;
 import Protocol.requests.GetTeamsRequest;
 import Protocol.requests.LoginRequest;
+import Protocol.requests.PictureRequest;
 import Protocol.requests.TeamLoginRequest;
 import Protocol.responses.AnswerResponse;
 import Protocol.responses.GetTeamsResponse;
 import Protocol.responses.LoginResponse;
 import Protocol.responses.LoginResponse.UserType;
+import Protocol.responses.PictureResponse;
 import Protocol.responses.TeamLoginResponse;
 import Protocol.responses.TimeOutResponse;
 import Protocol.submits.CorrectSubmit;
@@ -111,6 +115,13 @@ public class DatabaseUtil {
 				.list();
 	}
 	
+	public static Question getQuestion(int questionId) {
+		Session s = ConnectionUtil.getSession();
+		return  (Question) s.createQuery("select q from Question q where q.questionId = :id")
+					.setParameter("id", questionId)
+					.uniqueResult();
+	}
+	
 	public static Answer getAnswer(int anwserId) {
 		Session s = ConnectionUtil.getSession();
 		return  (Answer) s.createQuery("select a from Answer a where a.answerId = :id")
@@ -158,6 +169,8 @@ public class DatabaseUtil {
 				return;
 			}
 			r.send();
+			
+			
 		} catch(HibernateException ex) {
 			request.sendException("Fout bij het doorzoeken van de database");
 		} catch (Exception e) {
@@ -325,6 +338,23 @@ public class DatabaseUtil {
 		
 		sendAnswers.remove(submit.getAnswerId());
 	};
+	
+	public static void handlePictureRequest(PictureRequest request) {
+		try {
+			PictureQuestion pic = (PictureQuestion) getQuestion(request.questionId);
+			PictureResponse r = request.createResponse();
+			r.setPictureResource(pic.getPicture());
+			r.send();
+			
+			
+		} catch(HibernateException ex) {
+			request.sendException("Fout bij het doorzoeken van de database");
+		} catch (ClassCastException ex) {
+			request.sendException("Dit is helemaal geen foto vraag");
+		} catch (Exception ex) {
+			request.sendException("Onverwachte fout voorgedaan");
+		}
+	}
 	
 	public static void submitRound(QuestionRound round) {
 		

@@ -2,7 +2,7 @@ package Protocol.requests;
 
 import java.io.Serializable;
 
-import Protocol.responseListener;
+import Protocol.ResponseListener;
 import Protocol.responses.ExceptionResponse;
 import Protocol.responses.Response;
 
@@ -12,7 +12,7 @@ import Protocol.responses.Response;
  */
 public abstract class Request implements Serializable {
 	private static final long serialVersionUID = 8950145620171342174L;
-	protected transient responseListener responseHandler;
+	protected transient ResponseListener responseHandler;
 	protected int requestId;
 	
 
@@ -32,7 +32,7 @@ public abstract class Request implements Serializable {
 	 * wat moet er gebeure als er een response op deze request terug komt
 	 * @param listener de gene die naar de response luisterd
 	 */
- 	public void onResponse(responseListener listener) {
+ 	public void onResponse(ResponseListener listener) {
 		responseHandler = listener;
 	}
 	

@@ -1,17 +1,17 @@
 package Protocol.requests;
 
+import Protocol.responses.PictureResponse;
 import Protocol.responses.Response;
 
 public class PictureRequest extends Request{
+	private static final long serialVersionUID = 1L;
 	public int questionId;
-
 	
 	
 	
 	@Override
-	public Response createResponse() {
-		// TODO Auto-generated method stub
-		return null;
+	public PictureResponse createResponse() {
+		return new PictureResponse(requestId);
 	}
 	
 	
