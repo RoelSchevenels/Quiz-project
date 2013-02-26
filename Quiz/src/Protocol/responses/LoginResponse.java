@@ -1,5 +1,7 @@
 package Protocol.responses;
 
+import network.Server;
+
 public class LoginResponse extends Response{
 	private static final long serialVersionUID = -67840159000689435L;
 	public static enum UserType {JURRY,PLAYER}
@@ -12,6 +14,16 @@ public class LoginResponse extends Response{
 
 	public LoginResponse(int requestId) {
 		super(requestId);
+	}
+	
+	@Override
+	public void send() {
+		if(userType.equals(UserType.JURRY)) {
+			Server.getInstance().markRequestAsJurry(requestId);
+		}else if(userType.equals(UserType.PLAYER)) {
+			Server.getInstance().markRequestAsPlayer(requestId);
+		}
+		super.send();
 	}
 		
 	public Integer getUserId() {

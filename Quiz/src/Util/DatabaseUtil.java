@@ -12,6 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import javax.persistence.EntityExistsException;
 
 import main.test.Main;
+import network.Server;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -185,26 +186,6 @@ public class DatabaseUtil {
 		}	
 	}
 
-	public static void handleGetTeamsRequest(GetTeamsRequest request) {
-		try {
-			List<Team> teams = getTeams(request.getUserId());
-			
-			GetTeamsResponse r = (GetTeamsResponse) request.createResponse();
-			
-			for(Team t: teams) {
-				r.addTeamItem(t.getTeamName(), t.getTeamId());
-			}
-			
-			r.send();
-			
-		} catch(HibernateException ex) {
-			request.sendException("Fout bij het doorzoeken van de database");
-		} catch (Exception e) {
-			request.sendException("Onverwachte fout voorgedaan");
-		}
-
-	}
-
 	public static void handleCreateUserRequest(CreateUserRequest request) {
 		User user;
 		try {
@@ -301,7 +282,7 @@ public class DatabaseUtil {
 		}
 	}
 	
-	public static void handelCreateTeamRequest(CreateTeamRequest request) {
+	public static void handleCreateTeamRequest(CreateTeamRequest request) {
 		try {
 			Player creator = (Player) getUser(request.getCreatorId());
 			
@@ -331,6 +312,26 @@ public class DatabaseUtil {
 		} catch (Exception ex) {
 			request.sendException("Onverwachte fout voorgedaan");
 		}
+	}
+	
+	public static void handleGetTeamsRequest(GetTeamsRequest request) {
+		try {
+			List<Team> teams = getTeams(request.getUserId());
+			
+			GetTeamsResponse r = (GetTeamsResponse) request.createResponse();
+			
+			for(Team t: teams) {
+				r.addTeamItem(t.getTeamName(), t.getTeamId());
+			}
+			
+			r.send();
+			
+		} catch(HibernateException ex) {
+			request.sendException("Fout bij het doorzoeken van de database");
+		} catch (Exception e) {
+			request.sendException("Onverwachte fout voorgedaan");
+		}
+
 	}
 	
 	public static void handleCorrectSubmit(CorrectSubmit submit) {

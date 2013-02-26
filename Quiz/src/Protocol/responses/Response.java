@@ -5,17 +5,17 @@ import java.io.Serializable;
 import network.Server;
 
 public abstract class Response implements Serializable { 
-	protected int RequestId; //de id waarop de response een antwoord is
+	protected int requestId; //de id waarop de response een antwoord is
 	
 	public Response(int RequestId) {
-		this.RequestId = RequestId;
+		this.requestId = RequestId;
 	}
 	
 	public int getRequestId() {
-		return RequestId;
+		return requestId;
 	}
 	
 	public void send() {
-		Server.getInstance().replyTo(this, RequestId);
+		Server.getInstance().replyTo(this, requestId);
 	}
 }

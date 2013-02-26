@@ -46,7 +46,7 @@ public abstract class Request implements Serializable {
 	}
 
 	public void send() {
-		Client.getInstance().send(this);
+		Client.getInstance().sendRequest(this);
 	}
 	
 	/**
