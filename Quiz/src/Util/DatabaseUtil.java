@@ -5,10 +5,13 @@
  */
 package Util;
 
+import java.io.InvalidClassException;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.persistence.EntityExistsException;
+
+import main.test.Main;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -16,11 +19,13 @@ import org.hibernate.Transaction;
 import BussinesLayer.Answer;
 import BussinesLayer.Jury;
 import BussinesLayer.Player;
+import BussinesLayer.QuestionRound;
 import BussinesLayer.QuizMaster;
 import BussinesLayer.Team;
 import BussinesLayer.User;
 import BussinesLayer.questions.MultipleChoise;
 import Protocol.requests.AnswerRequest;
+import Protocol.requests.CreateTeamRequest;
 import Protocol.requests.CreateUserRequest;
 import Protocol.requests.GetTeamsRequest;
 import Protocol.requests.LoginRequest;
@@ -262,14 +267,48 @@ public class DatabaseUtil {
 			} 
 			
 			TeamLoginResponse r = request.createResponse();
+			r.setCreatorId(t.getTeamCreator().getId());
 			for(Player p: t.getPlayers()) {
 				r.addPlayer(p.getId(), p.getUserName());
 			}
 			
+			r.send();
 			
 		} catch(HibernateException ex) {
 			request.sendException("Fout bij het doorzoeken van de database");
 		} catch (Exception e) {
+			request.sendException("Onverwachte fout voorgedaan");
+		}
+	}
+	
+	public static void handelCreateTeamRequest(CreateTeamRequest request) {
+		try {
+			Player creator = (Player) getUser(request.getCreatorId());
+			
+			Team t = new Team(request.getTeamName(), request.getPassword(), creator);
+			
+			TeamLoginResponse r = request.createResponse();
+			r.setCreatorId(creator.getId());
+			
+			for(int id : request.getPlayerIds()) {
+				Player p = (Player) getUser(id);
+				t.addPlayer(p);
+				r.addPlayer(p.getId(), p.getUserName());
+			}
+			
+			saveObject(t);
+			
+			r.setTeamId(t.getTeamId());
+			r.send();
+			
+			
+		} catch(EntityExistsException ex) {
+			request.sendException("Je hebt al een team met deze naam aangemaakt");
+		} catch(HibernateException ex) {
+			request.sendException("Fout bij het doorzoeken van de database");
+		} catch (ClassCastException ex) {
+			request.sendException("Er is iemand bij die geen speler is");
+		} catch (Exception ex) {
 			request.sendException("Onverwachte fout voorgedaan");
 		}
 	}
@@ -279,7 +318,7 @@ public class DatabaseUtil {
 			Answer a = getAnswer(submit.getAnswerId());
 			Jury j = (Jury) getUser(submit.getJurryId());
 			a.correct(j,submit.getScore());
-			
+			saveObject(a);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -287,7 +326,15 @@ public class DatabaseUtil {
 		sendAnswers.remove(submit.getAnswerId());
 	};
 	
-	public static void correctMultipleChoise(Answer a) {
+	public static void submitRound(QuestionRound round) {
+		
+	}
+	
+	public static void submitQuestion() {
+		
+	}
+	
+ 	public static void correctMultipleChoise(Answer a) {
 		if(!(a.getQuestion() instanceof MultipleChoise)) {
 			throw new IllegalArgumentException("kan alleen multiple choise exceptions verbeteren");
 		}
