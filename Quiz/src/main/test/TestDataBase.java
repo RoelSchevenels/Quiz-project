@@ -115,7 +115,7 @@ public class TestDataBase {
 		Transaction t = s.beginTransaction();
 		
 		Player p = (Player) s.createQuery("SELECT p FROM Player p").uniqueResult();
-		Team team = new Team("Tafel 7","abcd123");
+		Team team = new Team("Tafel 7","abcd123",p);
 		team.addPlayer(p);
 		
 		QuizMaster m = (QuizMaster) s.createCriteria(QuizMaster.class).uniqueResult();

@@ -2,11 +2,104 @@ package Protocol.responses;
 
 public class AnswerResponse extends Response {
 	private static final long serialVersionUID = -616834543470440095L;
-
+	private int questionID;
+	private int quizId;
+	private int answerId;
+	private String question;
+	private String correctAnswer;
+	private String givenAnswer;
+	private String AnswerPerson;
+	
+	
+	
 	public AnswerResponse(int RequestId) {
 		super(RequestId);
-		// TODO Auto-generated constructor stub
 	}
 
+
+
+	public int getQuestionID() {
+		return questionID;
+	}
+
+
+
+	public void setQuestionID(int questionID) {
+		this.questionID = questionID;
+	}
+
+
+
+	public int getQuizId() {
+		return quizId;
+	}
+
+
+
+	public void setQuizId(int quizId) {
+		this.quizId = quizId;
+	}
+
+
+
+	public int getAnswerId() {
+		return answerId;
+	}
+
+
+
+	public void setAnswerId(int roundId) {
+		this.answerId = roundId;
+	}
+
+
+
+	public String getQuestion() {
+		return question;
+	}
+
+
+
+	public void setQuestion(String question) {
+		this.question = question;
+	}
+
+
+
+	public String getCorrectAnswer() {
+		return correctAnswer;
+	}
+
+
+
+	public void setCorrectAnswer(String correctAnswer) {
+		this.correctAnswer = correctAnswer;
+	}
+
+
+
+	public String getGivenAnswer() {
+		return givenAnswer;
+	}
+
+
+
+	public void setGivenAnswer(String givenAnswer) {
+		this.givenAnswer = givenAnswer;
+	}
+
+
+
+	public String getAnswerPerson() {
+		return AnswerPerson;
+	}
+
+
+
+	public void setAnswerPerson(String answerPerson) {
+		AnswerPerson = answerPerson;
+	}
+
+	
 	
 }

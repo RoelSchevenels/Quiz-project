@@ -5,9 +5,6 @@
  */
 package Util;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -16,9 +13,6 @@ import javax.persistence.EntityExistsException;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-
-import com.sun.javafx.css.converters.EnumConverter;
-
 import BussinesLayer.Answer;
 import BussinesLayer.Jury;
 import BussinesLayer.Player;
@@ -30,10 +24,14 @@ import Protocol.requests.AnswerRequest;
 import Protocol.requests.CreateUserRequest;
 import Protocol.requests.GetTeamsRequest;
 import Protocol.requests.LoginRequest;
+import Protocol.requests.TeamLoginRequest;
 import Protocol.responses.AnswerResponse;
 import Protocol.responses.GetTeamsResponse;
 import Protocol.responses.LoginResponse;
 import Protocol.responses.LoginResponse.UserType;
+import Protocol.responses.TeamLoginResponse;
+import Protocol.responses.TimeOutResponse;
+import Protocol.submits.CorrectSubmit;
 
 public class DatabaseUtil {
 	//map met Al verzonden antwoorden
@@ -47,8 +45,28 @@ public class DatabaseUtil {
 	public static void saveObject(Object b) {
 		Session s = ConnectionUtil.getSession();
 		Transaction t = s.beginTransaction();
-		s.save(b);
+		s.saveOrUpdate(b);
 		t.commit();
+	}
+	
+	/**
+	 * slaat alle meegegeven objecten op.
+	 * een rollback wordt uitgevoerd bij een misluking.
+	 * @param b
+	 */
+	public static void saveObjects(Object... b) {
+		Session s = ConnectionUtil.getSession();
+		Transaction t = s.beginTransaction();
+		try {
+			for(Object o:b) {
+				s.saveOrUpdate(o);
+			}
+			t.commit();
+		} catch(Exception ex) {
+			//rollback uitvoeren en de exeption door geven
+			t.rollback();
+			throw ex;
+		}
 	}
 	
 	public static User getUser(String username) {
@@ -65,6 +83,14 @@ public class DatabaseUtil {
 					.uniqueResult();
 	}
 	
+	public static Team getTeam(String TeamName, int creatorId) {
+		Session s = ConnectionUtil.getSession();
+		return  (Team) s.createQuery("SELECT t FROM Team t WERE t.teamCreator.id = :id AND t.teamName = :name")
+					.setParameter("id", creatorId)
+					.setParameter("name", TeamName)
+					.uniqueResult();
+	}
+	
 	public static Team getTeam(int teamId) {
 		Session s = ConnectionUtil.getSession();
 		return  (Team) s.createQuery("select t from Team t where t.teamId = :id")
@@ -72,7 +98,15 @@ public class DatabaseUtil {
 					.uniqueResult();
 	}
 	
-	public static Answer getAnwer(int anwserId) {
+	@SuppressWarnings("unchecked")
+	public static List<Team> getTeams(int playerId) {
+		Session s = ConnectionUtil.getSession();
+		return s.createQuery("select p.teams from Player p where p.id = :id")
+				.setParameter("id", playerId)
+				.list();
+	}
+	
+	public static Answer getAnswer(int anwserId) {
 		Session s = ConnectionUtil.getSession();
 		return  (Answer) s.createQuery("select a from Answer a where a.answerId = :id")
 					.setParameter("id", anwserId)
@@ -80,12 +114,16 @@ public class DatabaseUtil {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static List<Answer> getUncorrectedAnswers(int quizId) {
+	public static List<Answer> getUncorrectedAnswers(int quizId, int max_amount) {
 		Session s = ConnectionUtil.getSession();
 		return  s.createQuery("select a from Answer a where a.jury = null and a.quiz.quizID = :id")
 					.setParameter("id", quizId)
-					.setMaxResults(20)
+					.setMaxResults(max_amount)
 					.list();
+	}
+	
+	public static List<Answer> getUncorrectedAnswers(int quizId) {
+		return getUncorrectedAnswers(quizId,10);
 	}
 	
 	public static void handleLoginRequest(LoginRequest request) {
@@ -120,17 +158,11 @@ public class DatabaseUtil {
 		} catch (Exception e) {
 			request.sendException("Onverwachte fout voorgedaan");
 		}	
-	
 	}
 
 	public static void handleGetTeamsRequest(GetTeamsRequest request) {
-		Session s = ConnectionUtil.getSession();
-
 		try {
-			@SuppressWarnings("unchecked")
-			List<Team> teams = s.createQuery("select p.teams from Player p where p.id = :requestId")
-					.setParameter("requestId", request.getUserId())
-					.list();
+			List<Team> teams = getTeams(request.getUserId());
 			
 			GetTeamsResponse r = (GetTeamsResponse) request.createResponse();
 			
@@ -198,18 +230,61 @@ public class DatabaseUtil {
 				if(!sendAnswers.containsKey(a.getAnswerId())) {
 					sendAnswers.put(a.getAnswerId(), a);
 					AnswerResponse answer = request.createResponse();
-					//Todo: answerResponse invullen
 					
+					answer.setQuestionID(a.getQuestion().getQuestionId());
+					answer.setAnswerId(a.getAnswerId());
+					answer.setCorrectAnswer(a.getQuestion().getCorrectAnswer());
+					answer.setQuestion(a.getQuestion().getQuestion());
+					answer.setGivenAnswer(a.getAnswer());
+					answer.setAnswerPerson(a.getTeam().getTeamName());
 					answer.send();
+					
 					return;
 				}
 			}
+			
+			TimeOutResponse r = new TimeOutResponse(request.getRequestId());
+			r.send();
 			
 		} catch(HibernateException ex) {
 			request.sendException("Fout bij het doorzoeken van de database");
 		} catch (Exception e) {
 			request.sendException("Onverwachte fout voorgedaan");
 		}
+	};
+	
+	public static void handleTeamLoginRequest(TeamLoginRequest request) {
+		try {
+			Team t = getTeam(request.getTeamId());
+			if(!t.checkPassword(request.getPassword())) {
+				request.sendException("Het wachwoord is incorrect");
+				return;
+			} 
+			
+			TeamLoginResponse r = request.createResponse();
+			for(Player p: t.getPlayers()) {
+				r.addPlayer(p.getId(), p.getUserName());
+			}
+			
+			
+		} catch(HibernateException ex) {
+			request.sendException("Fout bij het doorzoeken van de database");
+		} catch (Exception e) {
+			request.sendException("Onverwachte fout voorgedaan");
+		}
+	}
+	
+	public static void handleCorrectSubmit(CorrectSubmit submit) {
+		try {
+			Answer a = getAnswer(submit.getAnswerId());
+			Jury j = (Jury) getUser(submit.getJurryId());
+			a.correct(j,submit.getScore());
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		sendAnswers.remove(submit.getAnswerId());
 	};
 	
 	public static void correctMultipleChoise(Answer a) {

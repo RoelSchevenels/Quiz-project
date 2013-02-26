@@ -59,6 +59,10 @@ public abstract class User {
 		return Security.checkPassword(password, this.password, this.salt);
 	}
 	
+	public String getUserName() {
+		return userName;
+	}
+	
 	public String getFirstName() {
 		return firstName;
 	}

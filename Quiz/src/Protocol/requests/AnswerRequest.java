@@ -10,6 +10,7 @@ public class AnswerRequest extends Request {
 	@Override
 	public AnswerResponse createResponse() {
 		AnswerResponse r = new AnswerResponse(requestId);
+		r.setQuizId(quizId);
 		return r;
 	}
 

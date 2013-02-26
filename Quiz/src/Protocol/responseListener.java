@@ -2,6 +2,6 @@ package Protocol;
 
 import Protocol.responses.Response;
 
-public interface  responsListener {
+public interface  responseListener {
 	public void handleResponse(Response response);
 }

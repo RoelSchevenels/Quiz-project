@@ -11,11 +11,16 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import Util.Security;
 
 @Entity
+@Table(name="TEAM",
+	uniqueConstraints= @UniqueConstraint(columnNames={"TEAM_NAME","TEAMCREATOR_ID"}))
 public class Team {
 	@Id
 	@GeneratedValue
@@ -43,11 +48,15 @@ public class Team {
 	@OneToMany(mappedBy="team")
 	private List<Answer> answers = new ArrayList<Answer>();
 	
+	@ManyToOne
+	private Player teamCreator;
 	
-	public Team(String teamname,String password) {
+	public Team(String teamname,String password,Player teamCreator) {
 		this.setTeamName(teamname);
 		this.salt = Security.getRandomSalt();
 		this.password = Security.encrypt(password, salt);
+		this.teamCreator = teamCreator;
+		this.players.add(teamCreator);
 	}
 	
 	/**
@@ -93,5 +102,9 @@ public class Team {
 	
 	public boolean checkPassword(String password) {
 		return Security.checkPassword(password, this.password, this.salt);
+	}
+
+	public Player getTeamCreator() {
+		return teamCreator;
 	}
 }
