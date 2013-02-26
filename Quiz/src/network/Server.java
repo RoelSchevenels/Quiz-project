@@ -3,11 +3,13 @@ package network;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Hashtable;
 import java.util.Vector;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import Protocol.submits.IdRangeSubmit;
+import Protocol.submits.*;
+import Protocol.requests.*;
 
 public class Server {
 	ServerSocket serverSocket;
@@ -17,6 +19,7 @@ public class Server {
 	int port;
 	boolean online;
 	int workerindex;
+	Hashtable<Integer,String> roles;
 	
 	public void start()
 	{
@@ -57,6 +60,7 @@ public class Server {
 	}
 	
 	// Naar allen behalve degene die het zelf gestuurd heeft
+	@SuppressWarnings("unused")
 	private synchronized void sendAll(Object data, int except)
 	{
 		for(int i=0;i<workers.size();i++){
@@ -65,6 +69,15 @@ public class Server {
 		
 				System.out.printf("sent \"%s\" to %d\n", data, i);
 			}
+		}
+	}
+	
+	private synchronized void interpret(Object data, int id)
+	{
+		if(data instanceof Submit) {
+			// TODO: Doorgeven aan SubmitManager
+		}else if(data instanceof Request) {
+			// TODO: Doorgeven aan RequestManager
 		}
 	}
 	
@@ -96,13 +109,12 @@ public class Server {
 
 		public void handleData(Object data)
 		{
-			sendAll(data, id);
+			interpret(data, id);
 		}
 
 		public void handleDeath(int id)
 		{
 			removeThread(id);
 		}
-		
 	}
 }

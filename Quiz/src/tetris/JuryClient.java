@@ -15,12 +15,18 @@ import javax.swing.SpinnerNumberModel;
 
 import network.ConnectionWorker;
 import Protocol.submits.AuthSubmit;
+import Protocol.submits.IdRangeSubmit;
 import Protocol.submits.TetrisStartSubmit;
 
 public class JuryClient extends ConnectionWorker{
 	private JFrame frame;
 	private JPanel panel;
-	private JSpinner pieces;
+	private JSpinner pieces;	
+	private static JuryClient instance;
+	
+	private int baseId;
+	private int maxIdCount;
+	private int currentId;
 	
 	public JuryClient() throws UnknownHostException, IOException
 	{
@@ -29,15 +35,26 @@ public class JuryClient extends ConnectionWorker{
 		send(new AuthSubmit("jury"));
 	}
 	
+	public static JuryClient getInstance()
+	{
+		if(instance == null){
+			try {
+				instance = new JuryClient();
+			} catch (UnknownHostException e) {
+				System.out.println("Server niet gevonden");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return instance;
+	}
+	
+	
+	
 	public static void main(String arg[])
 	{
-		try {
-			new JuryClient().run();
-		} catch (UnknownHostException e) {
-			System.out.println("Could not find server.");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		getInstance().run();
 	}
 	
 	public void makeGUI()
@@ -64,7 +81,13 @@ public class JuryClient extends ConnectionWorker{
 	@Override
 	public void handleData(Object data)
 	{
-
+		if(data instanceof IdRangeSubmit){
+			IdRangeSubmit irs = (IdRangeSubmit)data;
+			
+			baseId = irs.getMin();
+			maxIdCount = irs.getMax() - baseId;
+			currentId = 0;
+		}
 	}
 
 
@@ -72,6 +95,11 @@ public class JuryClient extends ConnectionWorker{
 	public void handleDeath(int id)
 	{
 		System.out.println("Server closed the connection.");
+	}
+	
+	public int nextId()
+	{
+		return baseId + (currentId++ % maxIdCount);
 	}
 	
 	private class ActionHandler implements ActionListener{

@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -15,51 +14,42 @@ import javax.swing.ImageIcon;
 import Protocol.submits.IdRangeSubmit;
 
 public class Client extends ConnectionWorker{
+	private  static Client instance;
+	
 	private int minReqId;
 	private int maxReqId;
 	private int curReqId;
 	
 		
-	public Client() throws UnknownHostException, IOException
+	private Client() throws UnknownHostException, IOException
 	{
 		super(new Socket("127.0.0.1", 1337), 0);
 	}
 	
+	public static Client getInstance()
+	{
+		if(instance == null){
+			try {
+				instance = new Client();
+			} catch (UnknownHostException e) {
+				System.out.println("Kan server niet vinden");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return instance;
+	}
+	
 	public static void main(String arg[])
 	{
-		Scanner keyboard = new Scanner(System.in);
 		ExecutorService ex = Executors.newCachedThreadPool();
-		Client client = null;
-		try {
-			client = new Client();
-		} catch (UnknownHostException e) {
-			System.out.println("Could not find host");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		ex.execute(client);
-		while(keyboard.hasNextLine()){
-			client.handleInput(keyboard.nextLine());
-		}
-		System.out.println("Closing input");
-		keyboard.close();
+		ex.execute(getInstance());
+		ex.shutdown();
 	}
 
 	public void handleInput(String input)
 	{
-		if(input.matches("^(S|s)end (I|i)mage .*")){
-			String path = input.substring(11);
-			System.out.println("Opening " + path);
-			try {
-				BufferedImage image = ImageIO.read(new File(path));
-				ImageIcon img = new ImageIcon(image);
-				this.send(img);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}else{
-			this.send(input);
-		}
 	}
 
 	@Override
@@ -74,12 +64,6 @@ public class Client extends ConnectionWorker{
 			maxReqId = irs.getMax();
 			curReqId = minReqId;
 		}
-		
-		if(data.getClass().toString().equals("class javax.swing.ImageIcon")){
-			new ImageViewer((ImageIcon) data);
-		}else{
-			System.out.println(data);
-		}
 	}
 
 
@@ -89,7 +73,7 @@ public class Client extends ConnectionWorker{
 		System.out.println("Server closed the connection.");
 	}
 	
-	private int nextId()
+	public int nextId()
 	{
 		if(curReqId++ > maxReqId)
 			curReqId = minReqId;
