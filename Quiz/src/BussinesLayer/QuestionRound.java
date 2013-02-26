@@ -82,6 +82,10 @@ public class QuestionRound {
 		}
 	}
 	
+	public int getRoundId() {
+		return this.id;
+	}
+	
 	@Override
 	public String toString() {
 		return this.name;
