@@ -2,7 +2,10 @@ package Protocol.requests;
 
 import java.io.Serializable;
 
+import network.Client;
+
 import Protocol.ResponseListener;
+import Protocol.exceptions.IdRangeException;
 import Protocol.responses.ExceptionResponse;
 import Protocol.responses.Response;
 
@@ -17,8 +20,8 @@ public abstract class Request implements Serializable {
 	
 
 
-	public Request() {
-		//TODO:zorgen dat er een Request id gegenereed word
+	public Request() throws IdRangeException {
+		this.requestId = Client.getInstance().nextId();
 	}
 	
 	/**
@@ -43,8 +46,7 @@ public abstract class Request implements Serializable {
 	}
 
 	public void send() {
-		//TODO: zorg dat de request naar de server wordt verzonden
-	
+		Client.getInstance().send(this);
 	}
 	
 	/**

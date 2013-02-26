@@ -8,8 +8,15 @@ import java.util.Vector;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import Protocol.submits.*;
-import Protocol.requests.*;
+import Protocol.RequestListener;
+import Protocol.RequestManager;
+import Protocol.SubmitListener;
+import Protocol.SubmitManager;
+import Protocol.requests.LoginRequest;
+import Protocol.requests.Request;
+import Protocol.submits.IdRangeSubmit;
+import Protocol.submits.Submit;
+import Protocol.submits.TetrisSubmit;
 
 public class Server {
 	ServerSocket serverSocket;
@@ -20,6 +27,8 @@ public class Server {
 	boolean online;
 	int workerindex;
 	Hashtable<Integer,String> roles;
+	Hashtable<Integer,Integer> requests;
+	static Server instance;
 	
 	public void start()
 	{
@@ -72,31 +81,72 @@ public class Server {
 		}
 	}
 	
+	public synchronized void replyTo(Object data, int requestId)
+	{
+		int workerId = requests.get(requestId);
+		workers.get(workerId).send(data);
+	}
+	
 	private synchronized void interpret(Object data, int id)
 	{
 		if(data instanceof Submit) {
 			// TODO: Doorgeven aan SubmitManager
 		}else if(data instanceof Request) {
-			// TODO: Doorgeven aan RequestManager
+			Request r = (Request)data;
+			requests.put(r.getRequestId(),id);
+			RequestManager.fireRequest(r);
 		}
 	}
 	
-	public Server()
+	private Server()
 	{
 		port = 1337;
 		this.online = true;
 		clientSocket = null;
 		workers = new Vector<ConnectionWorker>();
+		roles = new Hashtable<Integer, String>();
+		requests = new Hashtable<Integer, Integer>();
+		mapRequests();
+		mapSubmits();
 	}
 	
-	public Server(int port)
+	private Server(int port)
 	{
 		this.port = port;
 	}
 	
+	public static Server getInstance()
+	{
+		if(instance == null){
+			instance = new Server();
+		}
+		return instance;
+	}
+	
 	public static void main(String arg[])
 	{
-		new Server().start();
+		getInstance().start();
+	}
+	
+	private void mapRequests()
+	{
+		RequestManager.addRequestListener(LoginRequest.class, new RequestListener() {
+			public void handleRequest(Request r)
+			{
+				// TODO Auto-generated method stub
+				
+			}
+		});
+	}
+	private void mapSubmits()
+	{
+		SubmitManager.addSubmitListener(TetrisSubmit.class, new SubmitListener() {
+			public void handleSubmit(Submit r)
+			{
+				// TODO Auto-generated method stub
+				
+			}
+		});
 	}
 
 	private class ServerConnectionWorker extends ConnectionWorker{

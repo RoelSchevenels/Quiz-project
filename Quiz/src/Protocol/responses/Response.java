@@ -2,6 +2,8 @@ package Protocol.responses;
 
 import java.io.Serializable;
 
+import network.Server;
+
 public abstract class Response implements Serializable { 
 	protected int RequestId; //de id waarop de response een antwoord is
 	
@@ -14,6 +16,6 @@ public abstract class Response implements Serializable {
 	}
 	
 	public void send() {
-		//TODO: zorgen dat de response terug wordt verzonden waar de request vandaan kwam
+		Server.getInstance().replyTo(this, RequestId);
 	}
 }

@@ -1,16 +1,12 @@
 package network;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-
+import Protocol.exceptions.IdRangeException;
 import Protocol.submits.IdRangeSubmit;
 
 public class Client extends ConnectionWorker{
@@ -73,10 +69,14 @@ public class Client extends ConnectionWorker{
 		System.out.println("Server closed the connection.");
 	}
 	
-	public int nextId()
+	public int nextId() throws IdRangeException
 	{
-		if(curReqId++ > maxReqId)
-			curReqId = minReqId;
-		return curReqId;
+		try{
+			if(curReqId++ > maxReqId)
+				curReqId = minReqId;
+			return curReqId;
+		}catch(NullPointerException e){
+			throw new IdRangeException("Cannot generate ID: No ID range received from server");
+		}
 	}
 }

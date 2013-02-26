@@ -20,11 +20,11 @@ public class SubmitManager {
 		listeners.put(SubmitClass.getName(), listener);
 	}
 	
-	public static void fireSubmit(Submit r) {
-		String name = r.getClass().getName();
+	public static void fireSubmit(Submit s) {
+		String name = s.getClass().getName();
 		SubmitListener listenener = listeners.get(name);
 		if(listenener != null) {
-			listenener.handleSubmit(r);
+			listenener.handleSubmit(s);
 		}
 	}
 	
