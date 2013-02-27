@@ -1,5 +1,6 @@
 package Protocol.requests;
 
+import Protocol.exceptions.IdRangeException;
 import Protocol.responses.LoginResponse;
 
 public class LoginRequest extends Request{
@@ -7,7 +8,8 @@ public class LoginRequest extends Request{
 	private String userName;
 	private String password;
 	
-	public LoginRequest(String userName,String password) {
+	public LoginRequest(String userName,String password) throws IdRangeException {
+		super();
 		this.userName = userName;
 		this.password = password;
 		

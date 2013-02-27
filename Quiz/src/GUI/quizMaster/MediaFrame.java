@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 
 import javaFXToSwing.PaneToPanel;
-import javaFXpanels.MediaPane.MediaControllerController;
 import javaFXpanels.MediaPane.MediaPaneController;
 import javaFXpanels.MediaPane.MediaPlayerPane;
 
@@ -21,7 +20,7 @@ public class MediaFrame extends JFrame {
 		this.setLayout(new BorderLayout());
 		
 		media = new PaneToPanel<MediaPlayerPane>(new MediaPlayerPane());
-
+		
 		this.setLayout(new BorderLayout());
 		this.add(media,BorderLayout.CENTER);
 		

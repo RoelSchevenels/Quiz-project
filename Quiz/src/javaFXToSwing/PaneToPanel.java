@@ -22,6 +22,7 @@ public class PaneToPanel<T extends Pane> extends JFXPanel {
 
 	public PaneToPanel(T contentPane) {
 		super();
+		System.out.println("controller zetten");
 		this.contentPane = contentPane;
 		init();
 	}

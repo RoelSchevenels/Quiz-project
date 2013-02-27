@@ -1,5 +1,6 @@
 package Protocol.requests;
 
+import Protocol.exceptions.IdRangeException;
 import Protocol.responses.LoginResponse;
 import Protocol.responses.Response;
 import Protocol.responses.LoginResponse.UserType;
@@ -23,9 +24,10 @@ public class CreateUserRequest extends Request {
 	 * @param firstName
 	 * @param lastName
 	 * @param email
+	 * @throws IdRangeException 
 	 */
 	public CreateUserRequest(String userName,String password ,String firstName,
-			String lastName, String email,UserType type) {
+			String lastName, String email,UserType type) throws IdRangeException {
 		super();
 		this.userName = userName;
 		this.password = password;

@@ -6,6 +6,7 @@
 package screenManger;
 
 
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -42,19 +43,14 @@ public class ScreenManeger {
 
 	private HashSet<ScreenWrapper> availableScreens;
 	private HashSet<FrameWrapper> visibleFrames;
-	private HashSet<FrameWrapper> fullScreenFrames;
 	private HashMap<String, FrameWrapper> frames;
 	
-	//variabelen van JavaFx thread
-	private AnchorPane pane;
-	private MediaControllerController controller;
 
 
 	private ScreenManeger() {
 		frames = new HashMap<String, FrameWrapper>();
 		availableScreens = new HashSet<ScreenWrapper>();
 		visibleFrames = new HashSet<FrameWrapper>();
-		fullScreenFrames = new HashSet<FrameWrapper>();
 		updateScreens();
 	}
 
@@ -66,24 +62,24 @@ public class ScreenManeger {
 		FrameWrapper w;
 		if(frames.containsKey(name)) {
 			w = frames.get(name);
-			w.setPrefersFullScreen(prefFullScreen);
-			return w.getFrame();
-		}
-		if(name.equals("media")) {
+		}else if (name.equals("media")) {
 			throw new IllegalArgumentException("you can't use \"media\" as name");
+		} else {
+			JFrame f = new JFrame();
+			w = new FrameWrapper(f,name);
+			frames.put(name, w);
+			bindFrame(f, w);
 		}
 		
-		JFrame f = new JFrame();
-		w = new FrameWrapper(f,name);
 		w.setPrefersFullScreen(prefFullScreen);
-		frames.put(name, w);
-		bindFrame(f, w);
 		
 		if(prefFullScreen) {
 			setFullScreenIfPossible(w);
+		} else if(w.isFullScreen()) {
+			removeFullscreen(w);
 		}
 
-		return f;
+		return w.getFrame();
 	}
 
 	public MediaFrame getMediaFrame() {
@@ -109,7 +105,7 @@ public class ScreenManeger {
 	 * @param r
 	 * @param movie
 	 */
-	public void CreateMediaFrame(final MediaPaneController controller,final MediaResource r, final boolean movie) {
+	public void createMediaFrame(final MediaPaneController controller,final MediaResource r, final boolean movie) {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() { 
@@ -122,8 +118,13 @@ public class ScreenManeger {
 				}
 				
 			}
-		});
-		
+		});		
+	}
+	
+	public void clearMediaFrame() {
+		if(frames.containsKey("media")) {
+			getMediaFrame().getPlayer().clearPlayer();
+		}
 	}
 
 	private void bindFrame(final JFrame f, final FrameWrapper w) {
@@ -177,20 +178,18 @@ public class ScreenManeger {
 
 	public void updateScreens() {
 		this.availableScreens = new HashSet<ScreenWrapper>(ScreenWrapper.getScreens());
-		System.out.println("screens");
 	}
 
-	public static ScreenManeger getInstance() {
-		if(instance == null) {
-			instance = new ScreenManeger();
+
+	public void removeFullscreen(FrameWrapper w) {
+		try {
+			w.getScreenList().get(0).getFrames().clear();
+			w.getScreenList().get(0).getScreen().setFullScreenWindow(null);
+		} catch(Exception e) {
+			//een exception die normaal zich niet zou mogen voordoen
 		}
-		return instance;
 	}
-
-	public static void main(String[] args) {
-
-	}
-
+	
 	private void setFullScreenIfPossible(final FrameWrapper w) {
 		final ScreenWrapper emptyScreen = getEmptyScreen();
 
@@ -213,11 +212,17 @@ public class ScreenManeger {
 				} else if (emptyScreen.getFrameCount() == 1 
 						&& emptyScreen.getFrames().get(0).equals(w)
 						&& emptyScreen.getGraphicsDevice().getFullScreenWindow() == null) {
-					//w.relocate(emptyScreen);
 					//w.setFullScreen(emptyScreen);
 				}	
 			}
 		});
+	}
+	
+	public static ScreenManeger getInstance() {
+		if(instance == null) {
+			instance = new ScreenManeger();
+		}
+		return instance;
 	}
 
 

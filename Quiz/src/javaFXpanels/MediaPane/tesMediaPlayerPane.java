@@ -11,8 +11,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class tesMediaPlayerPane extends Application {
-	final String TEST_MUSIC = "/Users/vrolijkx/Desktop/02-MoneyForNothing.mp3";
-	final String TEST_MOVIE = "/Users/vrolijkx/Desktop/Engrenages.S02E06.DVDrip.576p.H264.mp4";
+	final String TEST_MUSIC = "~/Desktop/02-MoneyForNothing.mp3".replaceFirst("~", System.getProperty("user.home"));
+	final String TEST_MOVIE = "~/Desktop/Engrenages.S02E06.DVDrip.576p.H264.mp4".replaceFirst("~", System.getProperty("user.home"));
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {

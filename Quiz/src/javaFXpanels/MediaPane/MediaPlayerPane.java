@@ -40,6 +40,7 @@ public class MediaPlayerPane extends AnchorPane {
 
 	public MediaPlayerPane() {
 		this.setStyle("-fx-background-color: rgb(0,0,0);");
+		childeren = new ArrayList<Node>();
 		autoPlay = false;
 		//changelistener voor resize van container
 		sizeListener = new ChangeListener<Number>() {
@@ -122,8 +123,7 @@ public class MediaPlayerPane extends AnchorPane {
 	}
 
 	private void initSound() {
-		System.out.println(media.getHeight());
-		System.out.println(media.getWidth());
+		//TODO:de sound animatie toevoegen
 
 	};
 
@@ -213,15 +213,17 @@ public class MediaPlayerPane extends AnchorPane {
 
 	//aanroepen om de video van het scherm te clearen
 	//en om content terug weer te geven
-	public void Clear() {
+	public void clearPlayer() { 
 		removeController();
-		//het scherm even verwijderen
-		this.getChildren().remove(mediaView);
-		//de kinderen terug toevoegen om weer te geven
-		this.getChildren().addAll(childeren);
-		this.heightProperty().removeListener(sizeListener);
-		this.widthProperty().removeListener(sizeListener);
-
+		//het cherm even verwijderen
+		if(this.getChildren().contains(mediaView)) {
+			this.getChildren().remove(mediaView);
+			//de kinderen terug toevoegen om weer te geven
+			this.getChildren().addAll(childeren);
+			this.heightProperty().removeListener(sizeListener);
+			this.widthProperty().removeListener(sizeListener);
+		}
+		
 		//afspelen stoppen indien bezig
 		if(this.player!= null) {
 			player.stop();

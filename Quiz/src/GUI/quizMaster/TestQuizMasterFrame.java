@@ -76,6 +76,7 @@ public class TestQuizMasterFrame extends Application {
         //launch(args);
         JFrame f = ScreenManeger.getInstance().getFrame("quiz",false);
         f.setVisible(true);
+        f.requestFocus();
         f.setSize(500, 500);
         
         //MediaFrame f2 = ScreenManeger.getInstance().getMediaFrame();

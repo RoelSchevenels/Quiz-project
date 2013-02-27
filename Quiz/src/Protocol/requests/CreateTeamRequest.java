@@ -2,6 +2,7 @@ package Protocol.requests;
 
 import java.util.ArrayList;
 
+import Protocol.exceptions.IdRangeException;
 import Protocol.responses.TeamLoginResponse;
 
 public class CreateTeamRequest extends Request {
@@ -11,6 +12,10 @@ public class CreateTeamRequest extends Request {
 	private int creatorId;
 	private ArrayList<Integer> playerIds = new ArrayList<Integer>();
 
+	public CreateTeamRequest() throws IdRangeException {
+		super();
+	}
+	
 	@Override
 	public TeamLoginResponse createResponse() {
 		return new TeamLoginResponse(requestId);

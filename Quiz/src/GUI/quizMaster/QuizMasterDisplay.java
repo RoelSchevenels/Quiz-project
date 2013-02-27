@@ -64,7 +64,7 @@ import BussinesLayer.resources.Resource;
 
 
 public class QuizMasterDisplay extends AnchorPane{
-	public static double MAX_SLIDEBAR_OPACITY = 0.8;
+	private static double MAX_SLIDEBAR_OPACITY = 0.8;
 	private SimpleObjectProperty<Question> currentQuestion;
 	private SimpleObjectProperty<QuestionRound> currentRound;
 	private SimpleObjectProperty<Resource> currentResource; 
@@ -73,7 +73,7 @@ public class QuizMasterDisplay extends AnchorPane{
 	private List<Question> questions;
 	private Quiz quiz;
 
-	//visual components
+	//componenten
 	private Pagination questionNavigator;
 	private AnchorPane slideInPane;
 	private StackPane slideInBar;
@@ -386,7 +386,7 @@ public class QuizMasterDisplay extends AnchorPane{
 			} catch (IOException | SQLException  e) {
 				messageMaker.showError("kon afbeelding niet laden");
 			} 
-		}
+		} 
 		
 		
 		Text answer = new Text(q.getCorrectAnswer());
@@ -409,16 +409,18 @@ public class QuizMasterDisplay extends AnchorPane{
 				
 				if(q instanceof VideoQuestion) {
 					VideoQuestion v = (VideoQuestion) q;
-					ScreenManeger.getInstance().CreateMediaFrame(c, v.getMediaResource(), true);
+					ScreenManeger.getInstance().createMediaFrame(c, v.getMediaResource(), true);
 				} else {
 					MusicQuestion m = (MusicQuestion) q;
-					ScreenManeger.getInstance().CreateMediaFrame(c, m.getMediaResource(), false);
+					ScreenManeger.getInstance().createMediaFrame(c, m.getMediaResource(), false);
 				}
 				
 				
 			} catch(Exception e) {
 				messageMaker.showError(e.getMessage());
 			}
+		} else {
+			ScreenManeger.getInstance().clearMediaFrame();
 		}
 	}
 
@@ -427,7 +429,7 @@ public class QuizMasterDisplay extends AnchorPane{
 		Text t = new Text("Einde van de quiz");
 		t.getStyleClass().add("finish-text");
 		t.wrappingWidthProperty().bind(content.widthProperty().add(-20));
-
+		ScreenManeger.getInstance().clearMediaFrame();
 		content.getChildren().add(t);
 	}
 
@@ -438,10 +440,9 @@ public class QuizMasterDisplay extends AnchorPane{
 		Text t = new Text(name);
 		t.getStyleClass().add("round-text");
 		t.wrappingWidthProperty().bind(content.widthProperty().add(-20));
-
+		ScreenManeger.getInstance().clearMediaFrame();
 		content.getChildren().add(t);
 	}
-
 	
 	protected void togleSlideIn() {
 		slideInAnimations.stop();

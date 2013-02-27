@@ -21,6 +21,10 @@ public class FrameWrapper {
 	private String prefScreenId;
 	private ObservableList<ScreenWrapper> screens;
 	
+	public void setScreens(ObservableList<ScreenWrapper> screens) {
+		this.screens = screens;
+	}
+
 	public FrameWrapper(JFrame f,String name, ScreenWrapper prefScreen) {
 		this(f,name);
 		setPrefScreen(prefScreen);
@@ -139,5 +143,17 @@ public class FrameWrapper {
 
 	public void setPrefersFullScreen(boolean prefersFullScreen) {
 		this.prefersFullScreen = prefersFullScreen;	
+	}
+	
+	public boolean isFullScreen() {
+		if(screens.size() == 1 && screens.get(1).getGraphicsDevice().getFullScreenWindow().equals(frame)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public ObservableList<ScreenWrapper> getScreenList() {
+		return screens;
 	}
 }
