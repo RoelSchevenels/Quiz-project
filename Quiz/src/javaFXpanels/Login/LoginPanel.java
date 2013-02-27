@@ -7,6 +7,7 @@ package javaFXpanels.Login;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javaFXpanels.MessageProvider.MessageProvider;
 
 import Protocol.requests.CreateUserRequest;
 import Protocol.requests.LoginRequest;
@@ -81,7 +82,8 @@ public class LoginPanel implements Initializable {
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		// TODO Auto-generated method stub
+		
+		messager = new MessageProvider(loginAnchor);
 			
 	}
 	@FXML
