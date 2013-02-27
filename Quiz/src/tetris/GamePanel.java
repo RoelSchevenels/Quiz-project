@@ -11,6 +11,7 @@ public class GamePanel extends JPanel{
 	private int width, height;
 	private int ts;
 	private Color[] col;
+	private Color gridcol;
 	
 	public GamePanel(int tilesize, int height, int width)
 	{
@@ -21,6 +22,7 @@ public class GamePanel extends JPanel{
 		col = new Color[2];
 		col[0] = new Color(0x69D2E7);
 		col[1] = new Color(0xF38630);
+		gridcol = new Color(0x66FFFFFF, true);
 		setBackground(new Color(0xE0E4CC));
 	}
 	
@@ -39,6 +41,8 @@ public class GamePanel extends JPanel{
 					g.setColor(col[grid[i][j] -1]);
 					g.fillRect(i * ts, j * ts, ts, ts);
 				}
+				g.setColor(gridcol);
+				g.drawRect(i * ts, j * ts, ts, ts);
 			}
 		}
 	}

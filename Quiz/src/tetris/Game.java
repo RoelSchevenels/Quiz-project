@@ -99,6 +99,7 @@ public class Game{
 			if(!p.rotate().predict(grid, kicks[i], 0)){
 				p = p.rotate();		
 				panel.update(p.apply(grid));
+				break;
 			}
 		}
 		
