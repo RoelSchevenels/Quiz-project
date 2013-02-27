@@ -14,40 +14,38 @@ import Protocol.responses.Response;
 import Protocol.submits.IdRangeSubmit;
 import Protocol.submits.Submit;
 
-public class Client extends ConnectionWorker{
-	private  static Client instance;
-	private  static HashMap<Integer, Request> sendRequests = new HashMap<Integer,Request>();
-	
+public class Client extends ConnectionWorker {
+	private static Client instance;
+	private static HashMap<Integer, Request> sendRequests = new HashMap<Integer, Request>();
+
 	private int minReqId;
 	private int maxReqId;
 	private int curReqId;
-	
-		
+
 	private Client() throws UnknownHostException, IOException
 	{
 		super(new Socket("127.0.0.1", 1337), 0);
 	}
-	
-	public static Client getInstance()
+
+	public static Client getInstance() throws UnknownHostException, IOException
 	{
-		//TODO: ge moet die exceptions doorgooien
-		if(instance == null){
-			try {
-				instance = new Client();
-			} catch (UnknownHostException e) {
-				System.out.println("Kan server niet vinden");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		if (instance == null) {
+			instance = new Client();
 		}
 		return instance;
 	}
-	
+
 	public static void main(String arg[])
 	{
 		ExecutorService ex = Executors.newCachedThreadPool();
-		ex.execute(getInstance());
+		try {
+			ex.execute(getInstance());
+		} catch (UnknownHostException e) {
+			System.out.println("Kan server niet vinden.");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		ex.shutdown();
 	}
 
@@ -59,48 +57,52 @@ public class Client extends ConnectionWorker{
 	public void handleData(Object data)
 	{
 		System.out.println("Class " + data.getClass().toString());
-		
-		if(data instanceof IdRangeSubmit){
-			IdRangeSubmit irs = (IdRangeSubmit)data;
-			
+
+		if (data instanceof IdRangeSubmit) {
+			IdRangeSubmit irs = (IdRangeSubmit) data;
+
 			minReqId = irs.getMin();
 			maxReqId = irs.getMax();
 			curReqId = minReqId;
-		} else if(data instanceof Response) {
+		} else if (data instanceof Response) {
 			Response r = (Response) data;
-			if(sendRequests.containsKey(r.getRequestId())) {
+			if (sendRequests.containsKey(r.getRequestId())) {
 				sendRequests.get(r.getRequestId()).fireResponse(r);
 				sendRequests.remove(r.getRequestId());
 			}
-		} else if(data instanceof Submit) {
+		} else if (data instanceof Submit) {
 			SubmitManager.fireSubmit((Submit) data);
 		}
 	}
 
 	/**
 	 * Kleine toevoeging om requests te versturen
-	 * @param r de request die gestuurd moet worden
+	 * 
+	 * @param r
+	 *            de request die gestuurd moet worden
 	 * @author vrolijkx
 	 */
-	public void sendRequest(Request r) {
+	public void sendRequest(Request r)
+	{
 		sendRequests.put(r.getRequestId(), r);
 		send(r);
 	}
-	
+
 	@Override
- 	public void handleDeath(int id)
+	public void handleDeath(int id)
 	{
 		System.out.println("Server closed the connection.");
 	}
-	
+
 	public int nextId() throws IdRangeException
 	{
-		try{
-			if(curReqId++ > maxReqId)
+		try {
+			if (curReqId++ > maxReqId)
 				curReqId = minReqId;
 			return curReqId;
-		}catch(NullPointerException e){
-			throw new IdRangeException("Cannot generate ID: No ID range received from server");
+		} catch (NullPointerException e) {
+			throw new IdRangeException(
+					"Cannot generate ID: No ID range received from server");
 		}
 	}
 }
