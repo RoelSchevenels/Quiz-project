@@ -8,8 +8,6 @@ package javaFXpanels.Login;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import javax.annotation.processing.Messager;
-
 import javaFXpanels.MessageProvider.MessageProvider;
 
 import Protocol.exceptions.IdRangeException;
@@ -87,7 +85,10 @@ public class LoginPanel implements Initializable {
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+<<<<<<< HEAD
 		
+=======
+>>>>>>> TeamLogin
 		messageProvider = new MessageProvider(loginAnchor);
 			
 	}
@@ -110,7 +111,9 @@ public class LoginPanel implements Initializable {
 		centerAnchor.setDisable(true);
 		registerPane.setVisible(true);
 		registerPane.setDisable(false);
+	
 	}
+	
 	@FXML
 	private void buttonRegGoClicked(){
 		
@@ -144,6 +147,7 @@ public class LoginPanel implements Initializable {
 			}
 		}
 	}
+	
 	@FXML
 	private void buttonRegAnnuleerClicked(){
 		centerAnchor.setVisible(true);

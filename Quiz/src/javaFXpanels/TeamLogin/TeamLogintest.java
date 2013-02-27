@@ -2,10 +2,11 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package javaFXToSwing;
+package javaFXpanels.TeamLogin;
 
 import java.io.IOException;
-import javaFXpanels.Backup.BackupController;
+
+import javaFXToSwing.FXMLToPanel;
 import javafx.scene.layout.AnchorPane;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
@@ -15,7 +16,7 @@ import javax.swing.SwingUtilities;
  *
  * @author vrolijkx
  */
-public class BackupPaneltest {
+public class TeamLogintest {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
@@ -25,9 +26,9 @@ public class BackupPaneltest {
                 JFrame frame = new JFrame("JavaFX 2 in Swing");
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 
-                FXMLToPanel<AnchorPane, BackupController> test = null;
+                FXMLToPanel<AnchorPane, TeamLoginController> test = null;
 				try {
-					test = new FXMLToPanel<AnchorPane,BackupController>(BackupController.class.getResource("FXMLbackup.fxml"));
+					test = new FXMLToPanel<AnchorPane,TeamLoginController>(TeamLoginController.class.getResource("teamLogin.fxml"));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -39,6 +40,7 @@ public class BackupPaneltest {
 
             }
         });
+        
     }
 
 }

@@ -73,6 +73,8 @@ public class TestQuizMasterFrame extends Application {
     }
 
     public static void main(String[] args) {
+    	ConnectionUtil.StartDataBase();
+    	
         //launch(args);
         JFrame f = ScreenManeger.getInstance().getFrame("quiz",false);
         f.setVisible(true);
@@ -81,12 +83,10 @@ public class TestQuizMasterFrame extends Application {
         
         //MediaFrame f2 = ScreenManeger.getInstance().getMediaFrame();
         
-        new JFXPanel();
-        System.out.println(Toolkit.getToolkit().isFxUserThread());
-        
+        new JFXPanel(); 
         QuizMasterDisplay q = new QuizMasterDisplay(createTestQuiz());
         PaneToPanel<QuizMasterDisplay> qDip = new PaneToPanel<QuizMasterDisplay>(q);
-
+        
         f.setLayout(new BorderLayout());
         f.add(qDip, "Center");
 

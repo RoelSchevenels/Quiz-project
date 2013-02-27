@@ -26,6 +26,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
 
+//TODO: een methode om een pane als message weer te geven
 public class MessageProvider {
 	private AnchorPane parent;
 	private AnchorPane messagePane;

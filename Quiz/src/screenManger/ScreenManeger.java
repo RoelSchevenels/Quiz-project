@@ -44,7 +44,7 @@ public class ScreenManeger {
 	private HashSet<ScreenWrapper> availableScreens;
 	private HashSet<FrameWrapper> visibleFrames;
 	private HashMap<String, FrameWrapper> frames;
-	
+
 
 
 	private ScreenManeger() {
@@ -70,9 +70,9 @@ public class ScreenManeger {
 			frames.put(name, w);
 			bindFrame(f, w);
 		}
-		
+
 		w.setPrefersFullScreen(prefFullScreen);
-		
+
 		if(prefFullScreen) {
 			setFullScreenIfPossible(w);
 		} else if(w.isFullScreen()) {
@@ -94,11 +94,12 @@ public class ScreenManeger {
 			frames.put("media", w);
 			f.setVisible(true);
 			setFullScreenIfPossible(w);
+			bindFrame(f, w);
 		}
-		
+
 		return f;
 	}
-	
+
 	/**
 	 * deze maakt een mediaframe aan op de event dispatch thread
 	 * @param controller
@@ -107,23 +108,26 @@ public class ScreenManeger {
 	 */
 	public void createMediaFrame(final MediaPaneController controller,final MediaResource r, final boolean movie) {
 		SwingUtilities.invokeLater(new Runnable() {
+
 			@Override
-			public void run() { 
+			public void run() {
 				MediaFrame f = getMediaFrame();
 				f.setController(controller);
+				
 				if(movie) {
 					f.setMovie(r);
 				} else {
 					f.setMusic(r);
-				}
-				
+				}	
 			}
+
 		});		
 	}
-	
+
 	public void clearMediaFrame() {
 		if(frames.containsKey("media")) {
 			getMediaFrame().getPlayer().clearPlayer();
+
 		}
 	}
 
@@ -144,7 +148,7 @@ public class ScreenManeger {
 
 			@Override
 			public void windowClosing(WindowEvent e) {
-				frames.remove(f.getName());
+				frames.remove(w.getName());
 				f.dispose();
 
 			}
@@ -189,7 +193,7 @@ public class ScreenManeger {
 			//een exception die normaal zich niet zou mogen voordoen
 		}
 	}
-	
+
 	private void setFullScreenIfPossible(final FrameWrapper w) {
 		final ScreenWrapper emptyScreen = getEmptyScreen();
 
@@ -197,27 +201,30 @@ public class ScreenManeger {
 		if(emptyScreen != null && emptyScreen.getGraphicsDevice().isFullScreenSupported()) {
 			w.relocate(emptyScreen);
 			w.setFullScreen(emptyScreen);
-		};
-		
-		emptyScreen.getFrames().addListener(new InvalidationListener() {
-			
-			@Override
-			public void invalidated(Observable arg0) {
-				if(emptyScreen.getFrameCount() > 1) {
-					try {
-						emptyScreen.getGraphicsDevice().setFullScreenWindow(null);
-					} catch(Exception e) {
-						//gooit door een of andere reden een exception die niet echt nodig is
-					}
-				} else if (emptyScreen.getFrameCount() == 1 
-						&& emptyScreen.getFrames().get(0).equals(w)
-						&& emptyScreen.getGraphicsDevice().getFullScreenWindow() == null) {
-					//w.setFullScreen(emptyScreen);
-				}	
-			}
-		});
+			emptyScreen.getFrames().addListener(new InvalidationListener() {
+
+				@Override
+				public void invalidated(Observable arg0) {
+					if(emptyScreen.getFrameCount() > 1) {
+						try {
+							emptyScreen.getGraphicsDevice().setFullScreenWindow(null);
+						} catch(Exception e) {
+							//gooit door een of andere reden een exception die niet echt nodig is
+						}
+					} else if (emptyScreen.getFrameCount() == 1 
+							&& emptyScreen.getFrames().get(0).equals(w)
+							&& emptyScreen.getGraphicsDevice().getFullScreenWindow() == null) {
+						//w.setFullScreen(emptyScreen);
+					}	
+				}
+			});
+		} else {
+			w.getFrame().pack();
+		}
+
+
 	}
-	
+
 	public static ScreenManeger getInstance() {
 		if(instance == null) {
 			instance = new ScreenManeger();

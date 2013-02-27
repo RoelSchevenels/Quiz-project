@@ -56,11 +56,9 @@ public class AnswerResponse extends Response {
 	}
 
 
-
 	public String getQuestion() {
 		return question;
 	}
-
 
 
 	public void setQuestion(String question) {
@@ -68,11 +66,9 @@ public class AnswerResponse extends Response {
 	}
 
 
-
 	public String getCorrectAnswer() {
 		return correctAnswer;
 	}
-
 
 
 	public void setCorrectAnswer(String correctAnswer) {
@@ -80,11 +76,9 @@ public class AnswerResponse extends Response {
 	}
 
 
-
 	public String getGivenAnswer() {
 		return givenAnswer;
 	}
-
 
 
 	public void setGivenAnswer(String givenAnswer) {
@@ -92,11 +86,9 @@ public class AnswerResponse extends Response {
 	}
 
 
-
 	public String getAnswerPerson() {
 		return AnswerPerson;
 	}
-
 
 
 	public void setAnswerPerson(String answerPerson) {
@@ -104,11 +96,9 @@ public class AnswerResponse extends Response {
 	}
 
 
-
 	public QuestionType getType() {
 		return type;
 	}
-
 
 
 	public void setType(QuestionType type) {

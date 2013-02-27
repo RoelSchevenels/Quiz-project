@@ -144,7 +144,7 @@ public class MediaPlayerPane extends AnchorPane {
 
 	public void setMovie(MediaResource m) {
 		setMedia(m.getMedia());
-
+		
 		player.setOnReady(new Runnable() {
 
 			@Override
@@ -160,6 +160,7 @@ public class MediaPlayerPane extends AnchorPane {
 	private void setMedia(Media m) {
 		media = m;
 		player = new MediaPlayer(m);
+		setController(controller);
 
 		player.setOnEndOfMedia(new Runnable() {
 

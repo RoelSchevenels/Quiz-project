@@ -10,9 +10,9 @@
 
 <AnchorPane id="AnchorPane" fx:id="loginAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml" fx:controller="javaFXpanels.Login.LoginPanel">
   <children>
-    <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-      <center>
-        <AnchorPane id="Content" fx:id="centerAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="345.0" prefWidth="450.0" visible="true">
+    <StackPane prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <children>
+        <AnchorPane id="Content" fx:id="centerAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="345.0" prefWidth="450.0" visible="true" StackPane.alignment="CENTER">
           <children>
             <ImageView id="login_portal.png" fitHeight="205.0" fitWidth="276.0" AnchorPane.bottomAnchor="124.0" AnchorPane.leftAnchor="87.0" AnchorPane.rightAnchor="85.0" AnchorPane.topAnchor="14.0">
               <effect>
@@ -31,32 +31,32 @@
             <Button fx:id="buttonRegistreer" mnemonicParsing="false" onAction="#buttonRegisterClicked" text="Registreer" AnchorPane.bottomAnchor="13.0" AnchorPane.leftAnchor="265.0" AnchorPane.rightAnchor="97.0" AnchorPane.topAnchor="309.0" />
           </children>
         </AnchorPane>
-      </center>
-    </BorderPane>
-    <Pane fx:id="registerPane" disable="true" layoutX="14.0" layoutY="13.0" prefHeight="372.0000999999975" prefWidth="572.0" visible="false">
-      <children>
-        <Label fx:id="labelRegNaam" layoutX="218.0" layoutY="50.0" text="Naam:" />
-        <TextField fx:id="fieldRegNaam" layoutX="265.0" layoutY="47.0" prefWidth="200.0" />
-        <Label fx:id="labelRegVoornaam" layoutX="190.0" layoutY="79.0" text="Voornaam:" />
-        <TextField fx:id="fieldRegVoornaam" layoutX="265.0" layoutY="76.0" prefWidth="200.0" />
-        <Label fx:id="labelRegGebruikersnaam" layoutX="151.0" layoutY="109.0" text="Gebruikersnaam:" />
-        <TextField fx:id="fieldRegGebruikersnaam" layoutX="265.0" layoutY="106.0" prefWidth="200.0" />
-        <Label fx:id="labelRegEmail" layoutX="174.0" layoutY="142.0" text="e-mail adres:" />
-        <TextField fx:id="fieldRegEmail" layoutX="265.0" layoutY="139.0" prefWidth="200.0" />
-        <Label fx:id="labelRegWachtwoord" layoutX="179.0" layoutY="175.0" text="Wachtwoord:" />
-        <PasswordField fx:id="fieldRegWachtwoord" layoutX="265.0" layoutY="172.0" prefWidth="200.0" />
-        <Label fx:id="labelRegWachtwoordOpnieuw" layoutX="120.0" layoutY="206.0" text="Wachtwoord opnieuw:" />
-        <PasswordField fx:id="fieldRegWachtwoordOpnieuw" layoutX="265.0" layoutY="203.0" prefWidth="200.0" />
-        <Label fx:id="labelRegType" layoutX="169.0" layoutY="245.0" text="Registreer als:" />
-        <RadioButton fx:id="radioKwisser" layoutX="267.0" layoutY="244.0" mnemonicParsing="false" selected="true" text="Kwisser">
-          <toggleGroup>
-            <ToggleGroup fx:id="type" />
-          </toggleGroup>
-        </RadioButton>
-        <RadioButton fx:id="radioJury" layoutX="267.0" layoutY="269.0" mnemonicParsing="false" text="Jury-lid" toggleGroup="$type" />
-        <Button fx:id="buttonRegConfirm" layoutX="200.0" layoutY="313.0" mnemonicParsing="false" onAction="#buttonRegGoClicked" text="Regisreer!" />
-        <Button fx:id="buttonRegAnnuleer" layoutX="306.0" layoutY="314.0" mnemonicParsing="false" onAction="#buttonRegAnnuleerClicked" text="Annuleer" />
+        <Pane fx:id="registerPane" disable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="372.0" prefWidth="572.0" visible="false" StackPane.alignment="CENTER">
+          <children>
+            <Label fx:id="labelRegNaam" layoutX="218.0" layoutY="50.0" text="Naam:" />
+            <TextField fx:id="fieldRegNaam" layoutX="265.0" layoutY="47.0" prefWidth="200.0" />
+            <Label fx:id="labelRegVoornaam" layoutX="190.0" layoutY="79.0" text="Voornaam:" />
+            <TextField fx:id="fieldRegVoornaam" layoutX="265.0" layoutY="76.0" prefWidth="200.0" />
+            <Label fx:id="labelRegGebruikersnaam" layoutX="151.0" layoutY="109.0" text="Gebruikersnaam:" />
+            <TextField fx:id="fieldRegGebruikersnaam" layoutX="265.0" layoutY="106.0" prefWidth="200.0" />
+            <Label fx:id="labelRegEmail" layoutX="174.0" layoutY="142.0" text="e-mail adres:" />
+            <TextField fx:id="fieldRegEmail" layoutX="265.0" layoutY="139.0" prefWidth="200.0" />
+            <Label fx:id="labelRegWachtwoord" layoutX="179.0" layoutY="175.0" text="Wachtwoord:" />
+            <PasswordField fx:id="fieldRegWachtwoord" layoutX="265.0" layoutY="172.0" prefWidth="200.0" />
+            <Label fx:id="labelRegWachtwoordOpnieuw" layoutX="120.0" layoutY="206.0" text="Wachtwoord opnieuw:" />
+            <PasswordField fx:id="fieldRegWachtwoordOpnieuw" layoutX="265.0" layoutY="203.0" prefWidth="200.0" />
+            <Label fx:id="labelRegType" layoutX="169.0" layoutY="245.0" text="Registreer als:" />
+            <RadioButton fx:id="radioKwisser" layoutX="267.0" layoutY="244.0" mnemonicParsing="false" selected="true" text="Kwisser">
+              <toggleGroup>
+                <ToggleGroup fx:id="type" />
+              </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="radioJury" layoutX="267.0" layoutY="269.0" mnemonicParsing="false" text="Jury-lid" toggleGroup="$type" />
+            <Button fx:id="buttonRegConfirm" layoutX="200.0" layoutY="313.0" mnemonicParsing="false" onAction="#buttonRegGoClicked" text="Regisreer!" />
+            <Button fx:id="buttonRegAnnuleer" layoutX="306.0" layoutY="314.0" mnemonicParsing="false" onAction="#buttonRegAnnuleerClicked" text="Annuleer" />
+          </children>
+        </Pane>
       </children>
-    </Pane>
+    </StackPane>
   </children>
 </AnchorPane>

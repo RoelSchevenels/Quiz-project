@@ -21,7 +21,7 @@ public class TeamLoginResponse extends Response {
 	 * @return een map met van iedere player 
 	 * 	de id gekopelt aan zijn username;
 	 */
-	public HashMap<Integer, String> getPlayer() {
+	public HashMap<Integer, String> getPlayers() {
 		return players;
 	}
 

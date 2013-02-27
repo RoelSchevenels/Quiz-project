@@ -357,7 +357,6 @@ public class QuizMasterDisplay extends AnchorPane{
 		content.getChildren().add(question);
 		
 		
-		//TODO: mss een spacing element toevoegen
 		if(q instanceof MultipleChoise) {
 			MultipleChoise m = (MultipleChoise) q;
 			//mogelijkheden toevoegen

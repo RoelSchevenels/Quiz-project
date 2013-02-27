@@ -1,0 +1,22 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+.mainFxmlClass {
+
+}
+
+.progressPane {
+	-fx-background-color: rgba(200,200,200,0.7);
+}
+
+.scroll-pane {
+	-fx-background-color: transparent;
+	-fx-border-style: solid;
+	-fx-border-color: rgba(150,150,150);
+}
+
+.user-list-container {
+	-fx-border-style: none;
+}
+

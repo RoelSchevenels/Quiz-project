@@ -7,7 +7,11 @@ import javaFXToSwing.PaneToPanel;
 import javaFXpanels.MediaPane.MediaPaneController;
 import javaFXpanels.MediaPane.MediaPlayerPane;
 
+import javafx.application.Platform;
+
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import BussinesLayer.resources.MediaResource;
 
@@ -18,11 +22,13 @@ public class MediaFrame extends JFrame {
 	public MediaFrame() {
 		super("media");
 		this.setLayout(new BorderLayout());
+		JPanel p = new JPanel();
+		p.setLayout(new BorderLayout());
+		this.add(p,BorderLayout.CENTER);
 		
 		media = new PaneToPanel<MediaPlayerPane>(new MediaPlayerPane());
 		
-		this.setLayout(new BorderLayout());
-		this.add(media,BorderLayout.CENTER);
+		p.add(media,BorderLayout.CENTER);
 		
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setPreferredSize(new Dimension(900,400));
@@ -32,17 +38,19 @@ public class MediaFrame extends JFrame {
 		return media.getContentPane();
 	}
 	
-	public void setController(MediaPaneController c) {
+	public void setController(final MediaPaneController c) {
 		media.getContentPane().setController(c);
+		
 	}
 	
-	
-	public void setMovie(MediaResource r) {
+	public void setMovie(final MediaResource r) {
 		media.getContentPane().setMovie(r);
+
 	}
 	
-	public void setMusic(MediaResource r) {
+	public void setMusic(final MediaResource r) {
 		media.getContentPane().SetAudio(r);
+
 	}
 
 }

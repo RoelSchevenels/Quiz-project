@@ -5,12 +5,13 @@ import Protocol.responses.TeamLoginResponse;
 
 public class TeamLoginRequest extends Request {
 	private static final long serialVersionUID = -6748642844107959371L;
-	private int TeamId;
-	private String password;
+	private final int teamId;
+	private final String password;
 	
-	public TeamLoginRequest() throws IdRangeException {
+	public TeamLoginRequest(int teamId, String password) throws IdRangeException {
 		super();
-		// TODO Auto-generated constructor stub
+		this.teamId =teamId;
+		this.password = password;
 	}
 	
 	@Override
@@ -19,19 +20,11 @@ public class TeamLoginRequest extends Request {
 	}
 
 	public int getTeamId() {
-		return TeamId;
-	}
-
-	public void setTeamId(int teamId) {
-		TeamId = teamId;
+		return teamId;
 	}
 
 	public String getPassword() {
 		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
 	}
 
 }

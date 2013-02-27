@@ -73,4 +73,9 @@ public class LoginResponse extends Response{
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
+	@Override
+	public String toString() {
+		return userName;
+	}
 }
