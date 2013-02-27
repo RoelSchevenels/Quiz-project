@@ -94,7 +94,7 @@ public class LoginPanel implements Initializable {
 	@FXML
 	private void buttonGoClicked(){
 		if (fieldGebruiker.getText().isEmpty() || fieldWachtwoord.getText().isEmpty()) {
-			messageProvider.showWarning("Geen gebruikersnaam / wachtwoord ingevuld.");
+			messageProvider.showWarning("Geen gebruikersnaam en/of wachtwoord ingevuld.");
 		} else {
 			try {
 				new LoginRequest(fieldGebruiker.getText(),
