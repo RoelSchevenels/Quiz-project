@@ -1,7 +1,10 @@
 package Protocol.responses;
 
+import Protocol.submits.QuestionSubmit.QuestionType;
+
 public class AnswerResponse extends Response {
 	private static final long serialVersionUID = -616834543470440095L;
+	private QuestionType type;
 	private int questionID;
 	private int quizId;
 	private int answerId;
@@ -98,6 +101,18 @@ public class AnswerResponse extends Response {
 
 	public void setAnswerPerson(String answerPerson) {
 		AnswerPerson = answerPerson;
+	}
+
+
+
+	public QuestionType getType() {
+		return type;
+	}
+
+
+
+	public void setType(QuestionType type) {
+		this.type = type;
 	}
 
 	
