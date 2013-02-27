@@ -15,15 +15,13 @@ import Protocol.SubmitListener;
 import Protocol.SubmitManager;
 import Protocol.requests.LoginRequest;
 import Protocol.requests.Request;
-import Protocol.responses.LoginResponse.UserType;
 import Protocol.submits.IdRangeSubmit;
 import Protocol.submits.Submit;
 import Protocol.submits.TetrisSubmit;
 import Util.DatabaseUtil;
 
-//TODO: send to players,jurys,playingTeams
 public class Server {
-	//Foei, foei,foei roel al u privates vergeten
+	//We zijn allemaal maar mensen he
 	private static Server instance;
 	private ServerSocket serverSocket;
 	private Socket clientSocket;
@@ -34,7 +32,7 @@ public class Server {
 	private int workerindex;
 	private ArrayList<Integer> playingTeams;
 	private ArrayList<Integer> players;
-	private ArrayList<Integer> jurys;
+	private ArrayList<Integer> jury;
 	private Hashtable<Integer,Integer> requests;
 	
 	private Server()
@@ -50,7 +48,7 @@ public class Server {
 		this.workers = new Vector<ConnectionWorker>();
 		this.requests = new Hashtable<Integer, Integer>();
 		this.players = new ArrayList<Integer>();
-		this.jurys = new ArrayList<Integer>();
+		this.jury = new ArrayList<Integer>();
 		this.playingTeams = new ArrayList<Integer>();
 		mapRequests();
 		mapSubmits();
@@ -123,11 +121,34 @@ public class Server {
 		}
 	}
 	
+	public synchronized void sendToPlayers(Object data)
+	{
+		for(int id : players) {
+			workers.get(id).send(data);
+			System.out.printf("sent \"%s\" to %d\n", data, id);			
+		}
+	}
+	
+	public synchronized void sendToJury(Object data)
+	{
+		for(int id : jury) {
+			workers.get(id).send(data);
+			System.out.printf("sent \"%s\" to %d\n", data, id);			
+		}
+	}
+	
+	public synchronized void sendToTeams(Object data)
+	{
+		for(int id : playingTeams) {
+			workers.get(id).send(data);
+			System.out.printf("sent \"%s\" to %d\n", data, id);			
+		}
+	}
+	
 	public synchronized void replyTo(Object data, int requestId)
 	{
 		int workerId = requests.get(requestId);
 		workers.get(workerId).send(data);
-		//TODO: de request uit de hash verwrijderen
 		requests.remove(requestId);
 	}
 	
@@ -147,8 +168,8 @@ public class Server {
 		getInstance().start();
 	}
 	
-	public void markRequestAsJurry(int requestId) {
-		jurys.add(requests.get(requestId));
+	public void markRequestAsJury(int requestId) {
+		jury.add(requests.get(requestId));
 	}
 	
 	public void markRequestAsPlayer(int requestId) {

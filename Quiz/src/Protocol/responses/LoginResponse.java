@@ -19,7 +19,7 @@ public class LoginResponse extends Response{
 	@Override
 	public void send() {
 		if(userType.equals(UserType.JURRY)) {
-			Server.getInstance().markRequestAsJurry(requestId);
+			Server.getInstance().markRequestAsJury(requestId);
 		}else if(userType.equals(UserType.PLAYER)) {
 			Server.getInstance().markRequestAsPlayer(requestId);
 		}
