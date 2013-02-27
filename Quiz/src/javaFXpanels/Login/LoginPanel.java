@@ -88,15 +88,20 @@ public class LoginPanel implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		
-		MessageProvider messageProvider = new MessageProvider(loginAnchor);
+		messageProvider = new MessageProvider(loginAnchor);
 			
 	}
 	@FXML
 	private void buttonGoClicked(){
-		try {
-			new LoginRequest(fieldGebruiker.getText(), fieldWachtwoord.getText()).send();
-		} catch (IdRangeException e) {
+		if (fieldGebruiker.getText().isEmpty() || fieldWachtwoord.getText().isEmpty()) {
+			messageProvider.showWarning("Geen gebruikersnaam / wachtwoord ingevuld.");
+		} else {
+			try {
+				new LoginRequest(fieldGebruiker.getText(),
+						fieldWachtwoord.getText()).send();
+			} catch (IdRangeException e) {
 				messageProvider.showError("Fout bij het aanmelden.");
+			}
 		}
 	}
 	@FXML	
