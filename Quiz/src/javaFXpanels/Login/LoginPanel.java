@@ -7,8 +7,12 @@ package javaFXpanels.Login;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import javax.annotation.processing.Messager;
+
 import javaFXpanels.MessageProvider.MessageProvider;
 
+import Protocol.exceptions.IdRangeException;
 import Protocol.requests.CreateUserRequest;
 import Protocol.requests.LoginRequest;
 import Protocol.responses.LoginResponse.UserType;
@@ -79,16 +83,21 @@ public class LoginPanel implements Initializable {
 	@FXML
 	private RadioButton radioJury;
 	
+	private MessageProvider messageProvider;
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		
-		messager = new MessageProvider(loginAnchor);
+		MessageProvider messageProvider = new MessageProvider(loginAnchor);
 			
 	}
 	@FXML
 	private void buttonGoClicked(){
-		new LoginRequest(fieldGebruiker.getText(), fieldWachtwoord.getText()).send();
+		try {
+			new LoginRequest(fieldGebruiker.getText(), fieldWachtwoord.getText()).send();
+		} catch (IdRangeException e) {
+				messageProvider.showError("Fout bij het aanmelden.");
+		}
 	}
 	@FXML	
 	private void buttonRegisterClicked(){
@@ -100,12 +109,35 @@ public class LoginPanel implements Initializable {
 	@FXML
 	private void buttonRegGoClicked(){
 		
-		new CreateUserRequest(fieldRegGebruikersnaam.getText(),
-								fieldRegWachtwoord.getText(),
-								fieldRegVoornaam.getText(),
-								fieldRegNaam.getText(),
-								fieldRegEmail.getText(),
-								UserType type).send();
+		
+		if (fieldRegGebruikersnaam.getText().isEmpty() || fieldRegWachtwoord.getText().isEmpty()
+				|| fieldRegVoornaam.getText().isEmpty() || fieldRegNaam.getText().isEmpty() ||
+				fieldRegEmail.getText().isEmpty() || fieldRegWachtwoordOpnieuw.getText().isEmpty()) {
+			
+			messageProvider.showWarning("Gelieve alle velden in te vullen.");
+			
+		} else if (!(fieldRegWachtwoord.getText().equals(fieldRegWachtwoordOpnieuw.getText()))) {
+			
+			messageProvider.showWarning("Wachtwoorden komen niet overeen.");
+			
+		} else {
+	
+			UserType t = null;
+			if (radioJury.isSelected()) {
+				t = UserType.JURRY;
+			} else if (radioKwisser.isSelected()) {
+				t = UserType.PLAYER;
+			}
+			try {
+				new CreateUserRequest(fieldRegGebruikersnaam.getText(),
+						fieldRegWachtwoord.getText(),
+						fieldRegVoornaam.getText(), fieldRegNaam.getText(),
+						fieldRegEmail.getText(), t).send();
+			} catch (IdRangeException e) {
+				messageProvider
+						.showError("Fout bij het aanmaken van nieuwe gebruiker.");
+			}
+		}
 	}
 	@FXML
 	private void buttonRegAnnuleerClicked(){
