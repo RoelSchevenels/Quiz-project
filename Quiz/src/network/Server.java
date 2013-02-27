@@ -69,7 +69,6 @@ public class Server {
 		return instance;
 	}
 	
-	
 	public void start()
 	{
 		try {
@@ -163,10 +162,6 @@ public class Server {
 		}
 	}
 	
-	public static void main(String arg[])
-	{
-		getInstance().start();
-	}
 	
 	public void markRequestAsJury(int requestId) {
 		jury.add(requests.get(requestId));
@@ -218,5 +213,10 @@ public class Server {
 		{
 			removeThread(id);
 		}
+	}
+
+	public static void main(String arg[])
+	{
+		getInstance().start();
 	}
 }
