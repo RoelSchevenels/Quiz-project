@@ -2,7 +2,7 @@
  * een task voor het zoeken naar backups
  * 
  */
-package javaFXtasks.backup;
+package javaFXtasks;
 
 import Util.backup.BackupInfo;
 import java.io.File;

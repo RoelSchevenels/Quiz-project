@@ -18,8 +18,8 @@ import java.util.concurrent.Executors;
 
 
 import javaFXpanels.MessageProvider.MessageProvider;
-import javaFXtasks.backup.BackupTask;
-import javaFXtasks.backup.SearchBackupTask;
+import javaFXtasks.BackupTask;
+import javaFXtasks.SearchBackupTask;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
