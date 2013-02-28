@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package javaFXpanels.Jurry;
+package javaFXpanels.Jury;
 
 import java.net.URL;
 import java.util.ResourceBundle;

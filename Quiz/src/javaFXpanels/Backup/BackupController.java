@@ -18,8 +18,8 @@ import java.util.concurrent.Executors;
 
 
 import javaFXpanels.MessageProvider.MessageProvider;
-import javaFXtasks.backup.backupTask;
-import javaFXtasks.backup.searchBackupTask;
+import javaFXtasks.backup.BackupTask;
+import javaFXtasks.backup.SearchBackupTask;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -283,7 +283,7 @@ public class BackupController implements Initializable {
         progressIndicator.setVisible(true);
         centerprogress();
         //create the backup task
-        backupTask task = new backupTask(this.selectedBackupinfo.getPath());
+        BackupTask task = new BackupTask(this.selectedBackupinfo.getPath());
         progressIndicator.progressProperty().bind(task.progressProperty());
         restoreButton.setDisable(true);
         
@@ -333,7 +333,7 @@ public class BackupController implements Initializable {
         
         
         //de searchFolderTask aanmaken
-        final searchBackupTask task = new searchBackupTask(f);
+        final SearchBackupTask task = new SearchBackupTask(f);
         
         task.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
             @Override
@@ -424,7 +424,7 @@ public class BackupController implements Initializable {
        progressIndicator.setVisible(true);
        centerprogress();
        
-       backupTask task = new backupTask(dir,name);
+       BackupTask task = new BackupTask(dir,name);
        //mss een method voor maken om herhaling te voorkomen
        progressIndicator.progressProperty().bind(task.progressProperty());
        

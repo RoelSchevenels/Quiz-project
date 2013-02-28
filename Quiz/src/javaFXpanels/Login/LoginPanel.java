@@ -5,7 +5,9 @@
  */
 package javaFXpanels.Login;
 
+import java.io.IOException;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.ResourceBundle;
 
 import javaFXpanels.MessageProvider.MessageProvider;
@@ -85,10 +87,6 @@ public class LoginPanel implements Initializable {
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-<<<<<<< HEAD
-		
-=======
->>>>>>> TeamLogin
 		messageProvider = new MessageProvider(loginAnchor);
 			
 	}
@@ -102,6 +100,12 @@ public class LoginPanel implements Initializable {
 						fieldWachtwoord.getText()).send();
 			} catch (IdRangeException e) {
 				messageProvider.showError("Fout bij het aanmelden.");
+			} catch (UnknownHostException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 	}
@@ -132,7 +136,7 @@ public class LoginPanel implements Initializable {
 	
 			UserType t = null;
 			if (radioJury.isSelected()) {
-				t = UserType.JURRY;
+				t = UserType.JURY;
 			} else if (radioKwisser.isSelected()) {
 				t = UserType.PLAYER;
 			}
@@ -144,6 +148,12 @@ public class LoginPanel implements Initializable {
 			} catch (IdRangeException e) {
 				messageProvider
 						.showError("Fout bij het aanmaken van nieuwe gebruiker.");
+			} catch (UnknownHostException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 	}

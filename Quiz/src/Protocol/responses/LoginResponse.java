@@ -4,7 +4,7 @@ import network.Server;
 
 public class LoginResponse extends Response{
 	private static final long serialVersionUID = -67840159000689435L;
-	public static enum UserType {JURRY,PLAYER}
+	public static enum UserType {JURY,PLAYER}
 	private Integer userId;
 	private UserType userType;
 	private String userName;
@@ -18,7 +18,7 @@ public class LoginResponse extends Response{
 	
 	@Override
 	public void send() {
-		if(userType.equals(UserType.JURRY)) {
+		if(userType.equals(UserType.JURY)) {
 			Server.getInstance().markRequestAsJury(requestId);
 		}else if(userType.equals(UserType.PLAYER)) {
 			Server.getInstance().markRequestAsPlayer(requestId);

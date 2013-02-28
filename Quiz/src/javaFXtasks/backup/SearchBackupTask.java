@@ -13,11 +13,11 @@ import javafx.concurrent.Task;
  *
  * @author vrolijkx
  */
-public class searchBackupTask extends Task<ArrayList<BackupInfo>> {
+public class SearchBackupTask extends Task<ArrayList<BackupInfo>> {
     private final File file;
     private ArrayList<BackupInfo> b;
     
-    public searchBackupTask(File f) {
+    public SearchBackupTask(File f) {
         this.file = f;
     }
     

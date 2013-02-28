@@ -25,6 +25,7 @@ public class AutoDiscoverServer {
 		}
 		return instance;
 	}
+<<<<<<< HEAD
 
 	private AutoDiscoverServer()
 	{
@@ -34,6 +35,13 @@ public class AutoDiscoverServer {
 	{
 		System.out.println("start");
 		if (sending == false) {
+=======
+	
+	private AutoDiscoverServer() {};
+	
+	public void start(String message) throws IOException {
+		if(sending == false) {
+>>>>>>> 51f795e14b46c2214a03dd5315b44996fcfbaa10
 			sending = true;
 			ExecutorService ex = Executors.newSingleThreadExecutor();
 			ex.execute(new sendloop());
