@@ -402,7 +402,7 @@ public class TeamLoginController implements Initializable {
 	
 			UserType t = null;
 			if (radioJury.isSelected()) {
-				t = UserType.JURRY;
+				t = UserType.JURY;
 			} else if (radioKwisser.isSelected()) {
 				t = UserType.PLAYER;
 			}

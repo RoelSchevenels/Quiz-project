@@ -2,7 +2,7 @@
  * een task voor het uitvoeren van een backup
  * @author vrolijkx
  */
-package javaFXtasks.backup;
+package javaFXtasks;
 
 import Util.backup.Backup;
 import Util.backup.BackupProgressAdapter;
