@@ -27,7 +27,7 @@
         <Button layoutX="257.0" layoutY="170.0" mnemonicParsing="false" text="Verder" />
       </children>
     </AnchorPane>
-    <AnchorPane id="AnchorPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+    <AnchorPane id="AnchorPane" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <children>
         <SplitPane dividerPositions="0.4107142857142857" focusTraversable="true" prefHeight="218.310546875" prefWidth="333.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
           <items>
@@ -37,10 +37,53 @@
                 <Button mnemonicParsing="false" text="Ronde toevoegen..." AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="7.0" />
               </children>
             </AnchorPane>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" />
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+              <children>
+                <Button mnemonicParsing="false" text="Vraag toevoegen" AnchorPane.bottomAnchor="13.0" AnchorPane.leftAnchor="66.0" AnchorPane.rightAnchor="66.0" />
+              </children>
+            </AnchorPane>
           </items>
         </SplitPane>
       </children>
     </AnchorPane>
+    <AnchorPane layoutX="225.0" layoutY="200.0" prefHeight="200.0" prefWidth="200.0" />
+    <TabPane prefHeight="317.0" prefWidth="342.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <tabs>
+        <Tab text="Open Vraag">
+          <content>
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+              <children>
+                <Label layoutX="57.0" layoutY="111.0" text="Vraag:" />
+                <Label layoutX="32.0" layoutY="144.0" text="Antwoord:" />
+                <TextField layoutX="109.0" layoutY="141.0" prefWidth="287.0" />
+                <Button layoutX="109.0" layoutY="192.0" mnemonicParsing="false" text="Bevestig" />
+                <Button layoutX="317.0" layoutY="193.0" mnemonicParsing="false" text="Annuleer" />
+                <TextField layoutX="109.0" layoutY="108.0" prefWidth="287.0" />
+              </children>
+            </AnchorPane>
+          </content>
+        </Tab>
+        <Tab text="Multiple Choice">
+          <content>
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+          </content>
+        </Tab>
+        <Tab text="Media Vraag">
+          <content>
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+              <children>
+                <Label layoutX="75.0" layoutY="101.0" text="Vraag:" />
+                <Label layoutX="50.0" layoutY="134.0" text="Antwoord:" />
+                <TextField layoutX="127.0" layoutY="98.0" prefWidth="256.0" />
+                <TextField layoutX="127.0" layoutY="131.0" prefWidth="256.0" />
+                <Button layoutX="192.0" layoutY="172.0" mnemonicParsing="false" text="Bestand toevoegen.." />
+                <Button layoutX="127.0" layoutY="221.0" mnemonicParsing="false" text="Bevestig" />
+                <Button layoutX="304.0" layoutY="221.0" mnemonicParsing="false" text="Annuleer" />
+              </children>
+            </AnchorPane>
+          </content>
+        </Tab>
+      </tabs>
+    </TabPane>
   </children>
 </AnchorPane>
