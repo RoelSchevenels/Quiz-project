@@ -1,12 +1,18 @@
 package Protocol.submits;
 
+import java.io.IOException;
 import java.io.Serializable;
+import java.net.UnknownHostException;
 
+import network.Client;
+/**
+ * @author Roel
+ */
 public abstract class Submit implements Serializable {
-	//
-	//Er wordt iets doorgegeven maar er wordt
-	//geen response terug verwacht.
-	//
-	//behalve een SubmitSucces of een SubmitFail
-	//
+	private static final long serialVersionUID = -7753040479764135232L;
+
+	public void send() throws UnknownHostException, IOException
+	{
+		Client.getInstance().send(this);
+	}
 }
