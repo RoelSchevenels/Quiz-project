@@ -1,5 +1,8 @@
 package Protocol.requests;
 
+import java.io.IOException;
+import java.net.UnknownHostException;
+
 import Protocol.exceptions.IdRangeException;
 import Protocol.responses.LoginResponse;
 
@@ -8,7 +11,7 @@ public class LoginRequest extends Request{
 	private String userName;
 	private String password;
 	
-	public LoginRequest(String userName,String password) throws IdRangeException {
+	public LoginRequest(String userName,String password) throws IdRangeException, UnknownHostException, IOException {
 		super();
 		this.userName = userName;
 		this.password = password;

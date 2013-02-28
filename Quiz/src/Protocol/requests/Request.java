@@ -1,6 +1,8 @@
 package Protocol.requests;
 
+import java.io.IOException;
 import java.io.Serializable;
+import java.net.UnknownHostException;
 
 import network.Client;
 
@@ -20,7 +22,7 @@ public abstract class Request implements Serializable {
 	
 
 
-	public Request() throws IdRangeException {
+	public Request() throws IdRangeException, UnknownHostException, IOException {
 		this.requestId = Client.getInstance().nextId();
 	}
 	
@@ -45,7 +47,7 @@ public abstract class Request implements Serializable {
 		}
 	}
 
-	public void send() {
+	public void send() throws UnknownHostException, IOException {
 		Client.getInstance().sendRequest(this);
 	}
 	

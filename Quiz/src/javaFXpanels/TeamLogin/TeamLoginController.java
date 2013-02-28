@@ -4,7 +4,9 @@
  */
 package javaFXpanels.TeamLogin;
 
+import java.io.IOException;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 import java.util.concurrent.Callable;
@@ -13,6 +15,7 @@ import javaFXpanels.MessageProvider.MessageProvider;
 
 import Protocol.ResponseListener;
 import Protocol.exceptions.IdRangeException;
+import Protocol.requests.CreateTeamRequest;
 import Protocol.requests.CreateUserRequest;
 import Protocol.requests.GetTeamsRequest;
 import Protocol.requests.LoginRequest;
@@ -26,7 +29,6 @@ import Protocol.responses.LoginResponse.UserType;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -57,7 +59,7 @@ public class TeamLoginController implements Initializable {
 	@FXML
 	private AnchorPane loginAnchor;
 	@FXML
-	private AnchorPane teamLogin;
+	private AnchorPane teamLoginPane;
 	@FXML
 	private ScrollPane overFlowPane;
 	@FXML
@@ -79,9 +81,9 @@ public class TeamLoginController implements Initializable {
 	@FXML
 	private TextField teamNameField;
 	@FXML
-	private PasswordField paswordField;
+	private PasswordField createPasswordField;
 	@FXML
-	private PasswordField paswordField2;
+	private PasswordField createPaswordField2;
 	@FXML
 	private ScrollPane playerListPane;
 	@FXML
@@ -116,7 +118,7 @@ public class TeamLoginController implements Initializable {
 	private MessageProvider messageMaker;
 	
 	//niet Fxml
-	private SimpleIntegerProperty playerId;
+	private SimpleObjectProperty<LoginResponse> playerResponse;
 	private SimpleObjectProperty<TeamLoginResponse> teamResponse;
 	private HashMap<TitledPane, Integer> paneForTeam;
 	private int currentTeam;
@@ -127,7 +129,7 @@ public class TeamLoginController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 		messageMaker = new MessageProvider(root);
-    	playerId = new SimpleIntegerProperty();
+    	playerResponse = new SimpleObjectProperty<LoginResponse>();
     	teamResponse = new SimpleObjectProperty<TeamLoginResponse>();
     	paneForTeam = new HashMap<TitledPane, Integer>();
     	
@@ -140,21 +142,11 @@ public class TeamLoginController implements Initializable {
 		AnchorPane.setRightAnchor(loginAnchor, 0.0);
 		AnchorPane.setLeftAnchor(loginAnchor, 0.0);
 		
-		//TODO: remove test;
-		test();
-		
 		
     } 
-    private void test() {
-    	GetTeamsResponse r = new GetTeamsResponse(20);
-    	r.addTeamItem("feesthonde", 34);
-    	r.addTeamItem("beestig goed", 78);
-    	
-    	setReceivedTeams(r);
-    	loadingPane.setVisible(false);
-    }
     
-    public void initBindings() {
+    
+    private void initBindings() {
     	playersList.prefWidthProperty().bind(playerListPane.widthProperty());
     	
     	teamsAccordion.minWidthProperty().bind(overFlowPane.widthProperty().add(-5));
@@ -191,35 +183,7 @@ public class TeamLoginController implements Initializable {
     			loadingPane.visibleProperty().not()
     			.and(hasContent.not()));
     }
-    
-    public void setplayerId(int playerId) {
-    	this.playerId.set(playerId);
-    	try {
-			GetTeamsRequest request = new GetTeamsRequest(playerId);
-			
-			request.onResponse(new ResponseListener() {	
-				@Override
-				public void handleResponse(Response response) {
-					loadingPane.setVisible(false);
-					if(response instanceof ExceptionResponse) {
-						messageMaker.showError(((ExceptionResponse) response).getExceptionMessage());
-						return;
-					} else if(response instanceof GetTeamsResponse) {
-						setReceivedTeams((GetTeamsResponse) response);
-					}
-					
-					
-					addTeamButton.setDisable(false);
-				}
-			});
-			
-		} catch (IdRangeException e) {
-			loadingPane.setVisible(false);
-			messageMaker.showError("Kon niet naar de server verzenden");
-		}
-    	
-    }
-    
+  
     private void switchActivePane(Pane oldPane,
 			Pane newPane) {
 		oldPane.setVisible(false);
@@ -252,18 +216,97 @@ public class TeamLoginController implements Initializable {
     private void showLoading(String reason) {
     	loadingLabel.setText(reason);
     	loadingPane.setVisible(true);
+    	loadingPane.requestFocus();
     }
 
 	@FXML
     private void createTeamPressed() {
-    	//TODO: CreatTeamRequestAanmaken
+		try {
+			CreateTeamRequest request = creatTeamLoginRequest();
+			if(request == null) {
+				return;
+			}
+			
+			request.onResponse(new ResponseListener() {
+				@Override
+				public void handleResponse(Response response) {
+					if(response instanceof ExceptionResponse) {
+						messageMaker.showError(((ExceptionResponse) response).getExceptionMessage());
+					} else if(response instanceof TeamLoginResponse) {
+						switchActivePane(makeTeamPane, teamLoginPane);
+						setplayerLoginResponse(playerResponse.get());
+						playersList.getItems().setAll(playerResponse.get());
+						loadingPane.setVisible(false);
+					}
+					
+				}
+			});
+			
+			request.send();
+			showLoading("Team aanmelden...");
+			
+		} catch (IdRangeException | IOException e) {
+			messageMaker.showError("problemen met de database");
+		}
+    }
+
+	@FXML
+	private void createTeamAndLoginPressed() {
+		try {
+			CreateTeamRequest request = creatTeamLoginRequest();
+			if(request == null) {
+				return;
+			}
+			
+			request.onResponse(new ResponseListener() {
+				@Override
+				public void handleResponse(Response response) {
+					if(response instanceof ExceptionResponse) {
+						messageMaker.showError(((ExceptionResponse) response).getExceptionMessage());
+					} else if(response instanceof TeamLoginResponse) {
+						teamResponse.set((TeamLoginResponse) response);
+						loadingPane.setVisible(false);
+					}
+					
+				}
+			});
+			
+			request.send();
+			showLoading("Team aanmelden...");
+			
+		} catch (IdRangeException | IOException e) {
+			messageMaker.showError("problemen met de database");
+		}
+	}
+	
+    private CreateTeamRequest creatTeamLoginRequest() throws UnknownHostException, IdRangeException, IOException {
+    	if(teamNameField.getText().isEmpty() 
+    			|| !createPasswordField.getText().isEmpty()
+    			|| !createPaswordField2.getText().isEmpty()) {
+    		messageMaker.showWarning("Gelieve alle velden in te vullen");
+    		return null;
+    	} else if(!createPasswordField.getText().equals(createPaswordField2.getText())) {
+    		messageMaker.showWarning("De wachtwoorden komen niet overeen");
+    		return null;
+    	}
+    	
+    	CreateTeamRequest request = new CreateTeamRequest();
+    	request.setTeamName(teamNameField.getText());
+    	request.setPassword(createPasswordField.getText());
+    	for(LoginResponse r: playersList.getItems()) {
+    		request.addPlayer(r.getUserId());
+    	}
+    	
+    	return request;
     }
     
     @FXML
     private void addTeamPressed() {
-    	switchActivePane(teamLogin, makeTeamPane);
+    	switchActivePane(teamLoginPane, makeTeamPane);
+    	playersList.getItems().clear();
+    	//TODO: de huide user toevoegen aan de players pane
     }
-    
+  
     @FXML
     private void loginPressed() {
     	if(passwordField.getText().isEmpty()) {
@@ -292,7 +335,7 @@ public class TeamLoginController implements Initializable {
 			messageMaker.showError("fout bij versturen");
 		}
     }
-
+   
     @FXML
     private void addUserPressed() {
     	switchActivePane(makeTeamPane,addUserPane);
@@ -301,17 +344,46 @@ public class TeamLoginController implements Initializable {
     @FXML
     private void userLoginPressed() {
     	try {
-			new LoginRequest(fieldGebruiker.getText(), fieldWachtwoord.getText());
-			//TODO: versturen naar de server van de login
+			LoginRequest request = new LoginRequest(fieldGebruiker.getText(), fieldWachtwoord.getText());
+			request.onResponse(new ResponseListener() {
+				
+				@Override
+				public void handleResponse(Response response) {
+					if(response instanceof ExceptionResponse) {
+						messageMaker.showError(((ExceptionResponse) response).getExceptionMessage());
+					} else if(response instanceof LoginResponse) {
+						playersList.getItems().add((LoginResponse) response);
+						switchActivePane(addUserPane, makeTeamPane);
+					}
+					loadingPane.setVisible(false);				
+				}
+			});
 			
+			
+			request.send();
+			showLoading("User aanmelden...");
 		} catch (IdRangeException e) {
-				messageMaker.showError("Fout bij het aanmelden.");
+			messageMaker.showError("Fout bij het aanmelden.");
+		} catch (UnknownHostException e) {
+			messageMaker.showError("Fout bij het aanmelden.");
+		} catch (IOException e) {
+			messageMaker.showError("Fout bij het aanmelden.");
 		}
+    }
+
+    @FXML
+    private void cancelUserLogin() {
+    	switchActivePane(addUserPane, makeTeamPane);
     }
     
     @FXML
     private void registerUserPressed() {
-    	
+    	switchActivePane(userLoginPane, userRegisterPane);
+    }
+    
+    @FXML
+    private void registerCancelPressed() {
+    	switchActivePane(userRegisterPane, userLoginPane);
     }
     
     @FXML
@@ -340,21 +412,27 @@ public class TeamLoginController implements Initializable {
 						fieldRegVoornaam.getText(), fieldRegNaam.getText(),
 						fieldRegEmail.getText(), t);
 				
-				//TODO: versturen en voor de response luisteren
+				r.onResponse(new ResponseListener() {
+					@Override
+					public void handleResponse(Response response) {
+						if(response instanceof ExceptionResponse) {
+							messageMaker.showError(((ExceptionResponse) response).getExceptionMessage());
+						} else if(response instanceof LoginResponse) {
+							playersList.getItems().add((LoginResponse) response);
+							switchActivePane(addUserPane, makeTeamPane);
+						}
+						loadingPane.setVisible(false);		
+					}
+				});
+				
 			} catch (IdRangeException e) {
+				messageMaker.showError("Fout bij communicatie\nmet de server");
+			} catch (UnknownHostException e) {
+				messageMaker.showError("Fout bij communicatie\nmet de server");
+			} catch (IOException e) {
 				messageMaker.showError("Fout bij communicatie\nmet de server");
 			}
 		}
-    }
-    
-    @FXML
-    private void regiserCanceledPressed() {
-    	switchActivePane(userRegisterPane, userLoginPane);
-    }
-    
-    @FXML
-    private void createAndLoginPressed() {
-    	//TODO: CreateTeamResponseAanmaken
     }
     
 	public SimpleObjectProperty<TeamLoginResponse> teamResponseProperty() {
@@ -364,4 +442,37 @@ public class TeamLoginController implements Initializable {
 	public TeamLoginResponse getTeamResponse() {
 		return teamResponse.get();
 	}
+	
+	public void setplayerLoginResponse(LoginResponse response) {
+    	if(!response.getUserType().equals(UserType.PLAYER)) {
+    		throw new IllegalArgumentException("the response must be one of a player");
+    	}
+    	
+ 
+    	this.playersList.getItems().add(response);
+    	this.playerResponse.set(response);
+    	try {
+			GetTeamsRequest request = new GetTeamsRequest(response.getUserId());
+			
+			request.onResponse(new ResponseListener() {	
+				@Override
+				public void handleResponse(Response response) {
+					loadingPane.setVisible(false);
+					if(response instanceof ExceptionResponse) {
+						messageMaker.showError(((ExceptionResponse) response).getExceptionMessage());
+						return;
+					} else if(response instanceof GetTeamsResponse) {
+						setReceivedTeams((GetTeamsResponse) response);
+					}
+					
+					addTeamButton.setDisable(false);
+				}
+			});
+    	} catch (IdRangeException e) {
+			messageMaker.showError("Kon pakket niet doorsturen");
+		} catch (Exception ex) {
+			messageMaker.showError("fout bij versturen");
+		}
+	}
+			
 }

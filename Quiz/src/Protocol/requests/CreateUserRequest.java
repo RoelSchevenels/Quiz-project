@@ -1,5 +1,8 @@
 package Protocol.requests;
 
+import java.io.IOException;
+import java.net.UnknownHostException;
+
 import Protocol.exceptions.IdRangeException;
 import Protocol.responses.LoginResponse;
 import Protocol.responses.Response;
@@ -25,9 +28,11 @@ public class CreateUserRequest extends Request {
 	 * @param lastName
 	 * @param email
 	 * @throws IdRangeException 
+	 * @throws IOException 
+	 * @throws UnknownHostException 
 	 */
 	public CreateUserRequest(String userName,String password ,String firstName,
-			String lastName, String email,UserType type) throws IdRangeException {
+			String lastName, String email,UserType type) throws IdRangeException, UnknownHostException, IOException {
 		super();
 		this.userName = userName;
 		this.password = password;

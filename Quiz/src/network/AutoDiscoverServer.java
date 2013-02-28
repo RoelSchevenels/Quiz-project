@@ -25,7 +25,7 @@ public class AutoDiscoverServer {
 	private AutoDiscoverServer() {};
 	
 	public void start(String message) throws IOException {
-		if(sending = false) {
+		if(sending == false) {
 			sending = true;
 			ExecutorService ex = Executors.newSingleThreadExecutor();
 			ex.execute(new sendloop());

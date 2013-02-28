@@ -1,5 +1,8 @@
 package Protocol.requests;
 
+import java.io.IOException;
+import java.net.UnknownHostException;
+
 import Protocol.exceptions.IdRangeException;
 import Protocol.responses.TeamLoginResponse;
 
@@ -8,7 +11,7 @@ public class TeamLoginRequest extends Request {
 	private final int teamId;
 	private final String password;
 	
-	public TeamLoginRequest(int teamId, String password) throws IdRangeException {
+	public TeamLoginRequest(int teamId, String password) throws IdRangeException, UnknownHostException, IOException {
 		super();
 		this.teamId =teamId;
 		this.password = password;

@@ -1,5 +1,8 @@
 package Protocol.requests;
 
+import java.io.IOException;
+import java.net.UnknownHostException;
+
 import Protocol.exceptions.IdRangeException;
 import Protocol.responses.AnswerResponse;
 
@@ -7,7 +10,7 @@ public class AnswerRequest extends Request {
 	private static final long serialVersionUID = -2969553828958817338L;
 	private int quizId;
 	
-	public AnswerRequest() throws IdRangeException {
+	public AnswerRequest() throws IdRangeException, UnknownHostException, IOException {
 		super();
 	}
 
