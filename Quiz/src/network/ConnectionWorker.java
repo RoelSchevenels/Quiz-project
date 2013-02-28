@@ -18,7 +18,7 @@ public abstract class ConnectionWorker implements Runnable {
 		this.socket = sock;
 		this.communicating = true;
 		this.refreshrate = 100;
-		this.toSend = "";
+		this.toSend = null;
 		this.id = id;
 	}
 

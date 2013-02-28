@@ -34,6 +34,9 @@ public class Client extends ConnectionWorker {
 	private Client(InetAddress ip) throws UnknownHostException, IOException
 	{
 		super(new Socket(ip, 1337), 0);
+		ExecutorService ex = Executors.newCachedThreadPool();
+		ex.execute(this);
+		ex.shutdown();
 	}
 
 	public static Client getInstance() throws UnknownHostException, IOException
@@ -65,18 +68,9 @@ public class Client extends ConnectionWorker {
 		serverIp = ip;
 	}
 
-	public static void main(String arg[])
+	public static void main(String arg[]) throws UnknownHostException, IOException
 	{
-		ExecutorService ex = Executors.newCachedThreadPool();
-		try {
-			ex.execute(getInstance());
-		} catch (UnknownHostException e) {
-			System.out.println("Kan server niet vinden.");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		ex.shutdown();
+		Client.getInstance();
 	}
 
 	public void handleInput(String input)
