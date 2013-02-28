@@ -10,17 +10,22 @@ import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import Protocol.ResponseListener;
 import Protocol.SubmitManager;
 import Protocol.exceptions.IdRangeException;
 import Protocol.requests.Request;
+import Protocol.requests.TestRequest;
 import Protocol.responses.Response;
+import Protocol.responses.TestResponse;
 import Protocol.submits.IdRangeSubmit;
 import Protocol.submits.Submit;
-
+/**
+ * @author Roel
+ */
 public class Client extends ConnectionWorker {
 	private static Client instance;
 	private static String serverIp;
-	private static HashMap<Integer, Request> sendRequests = new HashMap<Integer, Request>();
+	private static HashMap<Integer, Request> sentRequests = new HashMap<Integer, Request>();
 
 	private int minReqId;
 	private int maxReqId;
@@ -89,11 +94,26 @@ public class Client extends ConnectionWorker {
 			minReqId = irs.getMin();
 			maxReqId = irs.getMax();
 			curReqId = minReqId;
+			
+			// TODO: Na de test dit opkuisen
+			try {
+				TestRequest t = new TestRequest("Dit is een test");
+				t.onResponse(new ResponseListener() {
+					public void handleResponse(Response response)
+					{
+						System.out.println("Response: " + ((TestResponse)response).getMessage());
+					}
+				});
+				sendRequest(t);
+			} catch (IOException | IdRangeException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} else if (data instanceof Response) {
 			Response r = (Response) data;
-			if (sendRequests.containsKey(r.getRequestId())) {
-				sendRequests.get(r.getRequestId()).fireResponse(r);
-				sendRequests.remove(r.getRequestId());
+			if (sentRequests.containsKey(r.getRequestId())) {
+				sentRequests.get(r.getRequestId()).fireResponse(r);
+				sentRequests.remove(r.getRequestId());
 			}
 		} else if (data instanceof Submit) {
 			SubmitManager.fireSubmit((Submit) data);
@@ -109,7 +129,7 @@ public class Client extends ConnectionWorker {
 	 */
 	public void sendRequest(Request r)
 	{
-		sendRequests.put(r.getRequestId(), r);
+		sentRequests.put(r.getRequestId(), r);
 		send(r);
 	}
 

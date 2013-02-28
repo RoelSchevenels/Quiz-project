@@ -15,11 +15,15 @@ import Protocol.SubmitListener;
 import Protocol.SubmitManager;
 import Protocol.requests.LoginRequest;
 import Protocol.requests.Request;
+import Protocol.requests.TestRequest;
+import Protocol.responses.TestResponse;
 import Protocol.submits.IdRangeSubmit;
 import Protocol.submits.Submit;
 import Protocol.submits.TetrisSubmit;
 import Util.DatabaseUtil;
-
+/**
+ * @author Roel
+ */
 public class Server {
 	// We zijn allemaal maar mensen he
 	private static Server instance;
@@ -188,6 +192,16 @@ public class Server {
 						DatabaseUtil.handleLoginRequest((LoginRequest) r);
 					}
 				});
+		RequestManager.addRequestListener(TestRequest.class, new RequestListener() {
+			public void handleRequest(Request r)
+			{
+				TestRequest trq = (TestRequest)r;
+				System.out.println(trq.getMessage());
+				TestResponse trp = trq.createResponse();
+				trp.setMessage(trq.getMessage().toUpperCase());
+				trp.send();
+			}
+		});
 	}
 
 	private void mapSubmits()

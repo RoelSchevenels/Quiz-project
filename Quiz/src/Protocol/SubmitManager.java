@@ -9,15 +9,19 @@ import java.util.HashMap;
 import Protocol.submits.Submit;
 
 public class SubmitManager {
+	/**
+	 * @author Vrolijkx
+	 * @author Roel
+	 */
 	private static HashMap<String,SubmitListener> listeners = new HashMap<String, SubmitListener>();
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public static void addSubmitListener(Class SubmitClass,SubmitListener listener) {
-		if(!SubmitClass.isAssignableFrom(Submit.class) || SubmitClass.equals(Submit.class)) {
+	public static void addSubmitListener(Class submitClass,SubmitListener listener) {
+		if(!Submit.class.isAssignableFrom(submitClass) || submitClass.equals(Submit.class)) {
 			throw new IllegalArgumentException("the given class must be an extend on Submit");
 		}
 		
-		listeners.put(SubmitClass.getName(), listener);
+		listeners.put(submitClass.getName(), listener);
 	}
 	
 	public static void fireSubmit(Submit s) {

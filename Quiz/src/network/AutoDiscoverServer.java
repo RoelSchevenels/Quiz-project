@@ -10,7 +10,10 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import javax.swing.JFrame;
-
+/**
+ * @author Vrolijkx
+ * @author Roel
+ */
 public class AutoDiscoverServer {
 	private static AutoDiscoverServer instance;
 	private boolean sending = false;

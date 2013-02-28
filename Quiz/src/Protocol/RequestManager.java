@@ -6,11 +6,15 @@ import Protocol.requests.Request;
 
 
 public class RequestManager {
+	/**
+	 * @author Vrolijkx
+	 * @author Roel
+	 */
 	private static HashMap<String,RequestListener> listeners = new HashMap<String, RequestListener>();
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static void addRequestListener(Class requestClass,RequestListener listener) {
-		if(!requestClass.isAssignableFrom(Request.class) || requestClass.equals(Request.class)) {
+		if(!Request.class.isAssignableFrom(requestClass) || requestClass.equals(Request.class)) {
 			throw new IllegalArgumentException("the given class must be an extend on Request");
 		}
 		
