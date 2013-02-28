@@ -16,7 +16,7 @@ import javafx.concurrent.Task;
  *
  * @author vrolijkx
  */
-public class backupTask extends Task implements ProgressListener {
+public class BackupTask extends Task implements ProgressListener {
     private final File file;
     private final String name;
     private final boolean restore;
@@ -26,7 +26,7 @@ public class backupTask extends Task implements ProgressListener {
      * @param f the location where to backup to
      * @param name the name of the backup
      */
-    public backupTask(File f, String name) {
+    public BackupTask(File f, String name) {
         this.file = f;
         this.name = name;
         this.restore = false;
@@ -35,7 +35,7 @@ public class backupTask extends Task implements ProgressListener {
      /**
      * @param f the location where to restore from
      */
-    public backupTask(File f) {
+    public BackupTask(File f) {
         this.file = f;
         this.name = null;
         this.restore = true;
