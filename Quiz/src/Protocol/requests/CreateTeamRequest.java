@@ -1,5 +1,7 @@
 package Protocol.requests;
 
+import java.io.IOException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 import Protocol.exceptions.IdRangeException;
@@ -12,7 +14,7 @@ public class CreateTeamRequest extends Request {
 	private int creatorId;
 	private ArrayList<Integer> playerIds = new ArrayList<Integer>();
 
-	public CreateTeamRequest() throws IdRangeException {
+	public CreateTeamRequest() throws IdRangeException, UnknownHostException, IOException {
 		super();
 	}
 	
