@@ -1,6 +1,9 @@
 package network;
 
 import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.HashMap;
@@ -16,23 +19,45 @@ import Protocol.submits.Submit;
 
 public class Client extends ConnectionWorker {
 	private static Client instance;
+	private static String serverIp;
 	private static HashMap<Integer, Request> sendRequests = new HashMap<Integer, Request>();
 
 	private int minReqId;
 	private int maxReqId;
 	private int curReqId;
 
-	private Client() throws UnknownHostException, IOException
+	private Client(InetAddress ip) throws UnknownHostException, IOException
 	{
-		super(new Socket("127.0.0.1", 1337), 0);
+		super(new Socket(ip, 1337), 0);
 	}
 
 	public static Client getInstance() throws UnknownHostException, IOException
 	{
 		if (instance == null) {
-			instance = new Client();
+			if(serverIp == null)
+				instance = new Client(discover());
+			else
+				instance = new Client(InetAddress.getByName(serverIp));
 		}
 		return instance;
+	}
+
+	private static InetAddress discover() throws IOException
+	{
+		byte[] receiveData = new byte[50];
+		DatagramSocket clientSocket = new DatagramSocket(1333);
+		DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+
+		System.out.println("Waiting...");
+		clientSocket.receive(receivePacket);
+		clientSocket.close();
+		System.out.println("Server IP: " + receivePacket.getAddress());
+		return receivePacket.getAddress();
+	}
+	
+	public static void setServerIp(String ip)
+	{
+		serverIp = ip;
 	}
 
 	public static void main(String arg[])
