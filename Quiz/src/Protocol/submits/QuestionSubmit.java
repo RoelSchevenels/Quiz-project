@@ -1,6 +1,6 @@
 package Protocol.submits;
 
-public class QuestionSubmit {
+public class QuestionSubmit extends Submit {
 	public static enum QuestionType {OPEN,MOVIE,MUSIC,MULTIPLECHOISE,PICTURE};
 	private int quizId;
 	private int questionRoundId;

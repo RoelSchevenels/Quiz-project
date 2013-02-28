@@ -1,39 +1,88 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="questionAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="500.0" xmlns:fx="http://javafx.com/fxml" fx:controller="javaFXpanels.Questions.QuestionDisplayController">
+<AnchorPane id="questionAnchor" fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="500.0" xmlns:fx="http://javafx.com/fxml" fx:controller="javaFXpanels.Questions.QuestionDisplayController">
   <!-- TODO Add Nodes -->
   <children>
-    <AnchorPane fx:id="openQuestionAnchor" disable="true" layoutX="14.0" prefHeight="372.0" prefWidth="472.0" visible="false" AnchorPane.topAnchor="14.0">
+    <VBox id="VBox" fx:id="openQuestionVbox" alignment="CENTER" layoutX="66.0" layoutY="164.0" maxHeight="-Infinity" minHeight="-Infinity" minWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" spacing="5.0" visible="false">
       <children>
-        <Text fx:id="openQuestionText" layoutX="56.0" scaleX="1.0" scaleY="1.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Open Vragen" AnchorPane.topAnchor="105.0" />
-        <Label id="oplossing" fx:id="openQuestionOplossingLabel" layoutX="49.0" layoutY="211.0" text="Oplossing:" />
-        <TextField fx:id="openAnswer" layoutX="120.0" layoutY="208.0" prefWidth="200.0" />
-        <Button id="openAnswerConfirm" fx:id="openConfirm" layoutX="348.0" layoutY="209.0" mnemonicParsing="false" text="Bevestigen" />
+        <Text fx:id="openQuestionText" scaleX="1.0" scaleY="1.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="question" text="Open Vragen">
+          <VBox.margin>
+            <Insets bottom="20.0" top="10.0" fx:id="x1" />
+          </VBox.margin>
+        </Text>
+        <HBox id="HBox" alignment="CENTER" spacing="5.0">
+          <children>
+            <Label id="oplossing" fx:id="openQuestionOplossingLabel" text="Oplossing:" />
+            <TextField fx:id="openAnswer" prefWidth="200.0" />
+            <Button id="openAnswerConfirm" fx:id="openConfirm" mnemonicParsing="false" text="Bevestigen" />
+          </children>
+        </HBox>
       </children>
-    </AnchorPane>
-    <AnchorPane fx:id="multipleChoiceAnchor" disable="true" layoutX="14.0" layoutY="14.0" prefHeight="372.0" prefWidth="472.0" visible="false">
+    </VBox>
+    <VBox id="VBox" fx:id="multipleChoiseVbox" alignment="CENTER" layoutX="134.0" layoutY="45.0" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="-1.0" prefWidth="-1.0" spacing="5.0" visible="false">
       <children>
-        <Text fx:id="multipleChoiceText" layoutX="23.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Multiple Choice" />
-        <Label fx:id="multipleChoiceOplossingLabel" layoutX="24.0" layoutY="88.0" text="Selecteer je antwoord:" />
-        <VBox fx:id="multipleChoiceVBox" layoutX="24.0" layoutY="104.0" prefHeight="200.0" prefWidth="213.0" />
-        <Button fx:id="multipleChoiceConfirm" layoutX="318.0" layoutY="276.0" mnemonicParsing="false" text="Bevestigen" />
+        <Text fx:id="multipleChoiceText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="question" text="Multiple Choice" textOrigin="CENTER" VBox.margin="$x1" />
+        <AnchorPane id="AnchorPane" VBox.vgrow="ALWAYS">
+          <children>
+            <Label fx:id="multipleChoiceOplossingLabel" layoutX="0.0" layoutY="0.0" text="Selecteer je antwoord:" />
+            <VBox id="multipleChoiceVBox" fx:id="possebilityVBox" prefHeight="-1.0" prefWidth="-1.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="20.0" />
+            <Button fx:id="multipleChoiceConfirm" mnemonicParsing="false" text="Bevestigen" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+          </children>
+        </AnchorPane>
       </children>
-    </AnchorPane>
-    <AnchorPane fx:id="imageQuestionAnchor" disable="true" layoutX="14.0" layoutY="14.0" prefHeight="372.0" prefWidth="472.0" visible="false">
+    </VBox>
+    <VBox id="VBox" fx:id="imageQuestionVbox" alignment="CENTER" layoutX="74.0" layoutY="71.0" minWidth="-1.0" spacing="5.0" visible="false">
       <children>
-        <Text fx:id="imageQuestionText" layoutX="45.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Foto-vraag" />
-        <ImageView fx:id="imageQuestionView" fitHeight="210.0" fitWidth="280.0" layoutX="96.0" layoutY="76.0" pickOnBounds="true" preserveRatio="true" />
-        <Label fx:id="imageQuestionOplossingLabel" layoutX="62.0" layoutY="303.0" text="Oplossing:" />
-        <TextField fx:id="imageAnswer" layoutX="136.0" layoutY="300.0" prefWidth="200.0" />
-        <Button fx:id="imageConfirm" layoutX="350.0" layoutY="300.0" mnemonicParsing="false" text="Bevestig" />
+        <Text fx:id="imageQuestionText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="question" text="Foto-vraag" />
+        <ImageView fx:id="imageQuestionView" fitHeight="210.0" fitWidth="280.0" pickOnBounds="true" preserveRatio="true" />
+        <HBox id="HBox" alignment="CENTER" spacing="5.0">
+          <children>
+            <Label fx:id="imageQuestionOplossingLabel" text="Oplossing:" />
+            <TextField fx:id="imageAnswer" prefWidth="200.0" />
+            <Button fx:id="imageConfirm" mnemonicParsing="false" text="Bevestig" />
+          </children>
+        </HBox>
       </children>
-    </AnchorPane>
+    </VBox>
+    <Button mnemonicParsing="false" text="Stuur Antwoorden" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0" />
+    <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <tabs>
+        <Tab text="Quissen">
+          <content>
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+              <children>
+                <ScrollPane id="ScrollPane" hbarPolicy="NEVER" prefHeight="310.0" prefViewportHeight="316.0" prefViewportWidth="458.0" prefWidth="455.0" visible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <content>
+                    <AnchorPane id="AnchorPane" prefHeight="363.0" prefWidth="500.0">
+                      <children>
+                        <Text scaleX="1.0" scaleY="1.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="titel-text" text="Text" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0" />
+                        <Accordion expandedPane="$null" prefHeight="316.0" prefWidth="458.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0" />
+                      </children>
+                    </AnchorPane>
+                  </content>
+                </ScrollPane>
+              </children>
+            </AnchorPane>
+          </content>
+        </Tab>
+        <Tab text="Scores">
+          <content>
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+          </content>
+        </Tab>
+      </tabs>
+    </TabPane>
   </children>
+  <stylesheets>
+    <URL value="@questionDisplay.css" />
+  </stylesheets>
 </AnchorPane>

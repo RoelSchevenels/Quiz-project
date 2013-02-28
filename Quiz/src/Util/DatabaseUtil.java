@@ -5,13 +5,11 @@
  */
 package Util;
 
-import java.io.InvalidClassException;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.persistence.EntityExistsException;
 
-import main.test.Main;
 import network.Server;
 
 import org.hibernate.HibernateException;
@@ -169,7 +167,7 @@ public class DatabaseUtil {
 			r.setUserId(user.getId());
 
 			if(user instanceof Jury) {
-				r.setUserType(UserType.JURRY);
+				r.setUserType(UserType.JURY);
 			} else if(user instanceof Player) {
 				r.setUserType(UserType.PLAYER);
 			} else if(user instanceof QuizMaster) {
@@ -191,7 +189,7 @@ public class DatabaseUtil {
 		try {
 			if(request.getUserType().equals(UserType.PLAYER)) {
 				user = new Player(request.getUserName(), request.getPassword());
-			} else if(request.getUserType().equals(UserType.JURRY)) {
+			} else if(request.getUserType().equals(UserType.JURY)) {
 				user = new Jury(request.getUserName(), request.getPassword());	
 			} else {
 				//hier gebeurt iets wat we niet verwachten
@@ -212,7 +210,7 @@ public class DatabaseUtil {
 			r.setUserId(user.getId());
 
 			if(user instanceof Jury) {
-				r.setUserType(UserType.JURRY);
+				r.setUserType(UserType.JURY);
 			} else if(user instanceof Player) {
 				r.setUserType(UserType.PLAYER);
 			} else if(user instanceof QuizMaster) {
@@ -351,7 +349,7 @@ public class DatabaseUtil {
 		try {
 			
 			//Todo: de afbeeldingen bufferen zodat de datbase niet word belast
-			PictureQuestion pic = (PictureQuestion) getQuestion(request.questionId);
+			PictureQuestion pic = (PictureQuestion) getQuestion(request.getQuestionId());
 			PictureResponse r = request.createResponse();
 			r.setPictureResource(pic.getPicture());
 			r.send();
@@ -371,13 +369,12 @@ public class DatabaseUtil {
 											round.getRoundId(),
 											round.getQuestions().size(),
 											round.getName());
-		//TODO: send submit
+		
+		Server.getInstance().sendToPlayers(submit);
 		
 		for(Question q: round.getQuestions()) {
 			submitQuestion(quiz, round,q);
 		}
-		
-		
 	}
 	
 	public static void submitQuestion(Quiz quiz, QuestionRound round,Question q) {
@@ -406,7 +403,7 @@ public class DatabaseUtil {
 					q.getQuestionId(),
 					q.getQuestion(),possibilities);
 		
-		//TODO: submit versturen
+		Server.getInstance().sendToPlayers(submit);
 		
 	}
 	

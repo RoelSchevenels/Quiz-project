@@ -8,15 +8,21 @@ import Protocol.responses.PictureResponse;
 
 public class PictureRequest extends Request{
 	private static final long serialVersionUID = 1L;
-	public int questionId;
+	private int questionId;
 	
-	public PictureRequest() throws IdRangeException, UnknownHostException, IOException {
+	public PictureRequest(int questionID) throws IdRangeException, UnknownHostException, IOException {
 		super();
+		this.questionId = questionID;
 	}
 	
 	@Override
 	public PictureResponse createResponse() {
-		return new PictureResponse(requestId);
+		PictureResponse response = new PictureResponse(requestId,questionId);
+		return  response;
+	}
+	
+	public int getQuestionId() {
+		return questionId;
 	}
 	
 	
