@@ -10,9 +10,10 @@ import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.ResourceBundle;
 
+
 import javaFXpanels.MessageProvider.MessageProvider;
 
-import Protocol.ResponseListener;
+import Protocol.FxResponseListener;
 import Protocol.exceptions.IdRangeException;
 import Protocol.requests.CreateUserRequest;
 import Protocol.requests.LoginRequest;
@@ -107,10 +108,10 @@ public class LoginPanel implements Initializable {
 			try {
 				LoginRequest request = new LoginRequest(fieldGebruiker.getText(),
 						fieldWachtwoord.getText());
-				request.onResponse(new ResponseListener() {
-					
+				
+				request.onResponse(new FxResponseListener() {
 					@Override
-					public void handleResponse(Response response) {
+					public void handleFxResponse(Response response) {
 						if(response instanceof ExceptionResponse) {
 							messageProvider.showError(((ExceptionResponse) response).getExceptionMessage());
 						} else if(response instanceof LoginResponse) {
@@ -165,10 +166,11 @@ public class LoginPanel implements Initializable {
 						fieldRegVoornaam.getText(), fieldRegNaam.getText(),
 						fieldRegEmail.getText(), t);
 				
-				request.onResponse(new ResponseListener() {
+				request.onResponse(new FxResponseListener() {
 					
 					@Override
-					public void handleResponse(Response response) {
+					public void handleFxResponse(Response response) {
+						
 						if(response instanceof ExceptionResponse) {
 							messageProvider.showError(((ExceptionResponse) response).getExceptionMessage());
 						} else if(response instanceof LoginResponse) {
@@ -202,7 +204,7 @@ public class LoginPanel implements Initializable {
 		return loginResponse.get();
 	}
 
-	public ReadOnlyObjectProperty<LoginResponse> loginResponsProperty() {
+	public ReadOnlyObjectProperty<LoginResponse> loginResponseProperty() {
 		return loginResponse;
 	}
 		

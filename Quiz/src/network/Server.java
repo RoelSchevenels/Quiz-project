@@ -1,5 +1,7 @@
 package network;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -9,10 +11,13 @@ import java.util.Vector;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import javax.swing.JFrame;
+
 import Protocol.RequestListener;
 import Protocol.RequestManager;
 import Protocol.SubmitListener;
 import Protocol.SubmitManager;
+import Protocol.requests.CreateUserRequest;
 import Protocol.requests.LoginRequest;
 import Protocol.requests.Request;
 import Protocol.requests.TestRequest;
@@ -20,6 +25,7 @@ import Protocol.responses.TestResponse;
 import Protocol.submits.IdRangeSubmit;
 import Protocol.submits.Submit;
 import Protocol.submits.TetrisSubmit;
+import Util.ConnectionUtil;
 import Util.DatabaseUtil;
 /**
  * @author Roel
@@ -152,6 +158,7 @@ public class Server {
 
 	public synchronized void replyTo(Object data, int requestId)
 	{
+		System.out.println("terug sturen");
 		int workerId = requests.get(requestId);
 		workers.get(workerId).send(data);
 		requests.remove(requestId);
@@ -159,10 +166,12 @@ public class Server {
 
 	private synchronized void interpret(Object data, int id)
 	{
+		System.out.println("data komt binnen");
 		if (data instanceof Submit) {
 			SubmitManager.fireSubmit((Submit) data);
 		} else if (data instanceof Request) {
 			Request r = (Request) data;
+			System.out.println("het is een request");
 			requests.put(r.getRequestId(), id);
 			RequestManager.fireRequest(r);
 		}
@@ -189,9 +198,11 @@ public class Server {
 				new RequestListener() {
 					public void handleRequest(Request r)
 					{
+						System.out.println("handle request");
 						DatabaseUtil.handleLoginRequest((LoginRequest) r);
 					}
 				});
+		
 		RequestManager.addRequestListener(TestRequest.class, new RequestListener() {
 			public void handleRequest(Request r)
 			{
@@ -200,6 +211,14 @@ public class Server {
 				TestResponse trp = trq.createResponse();
 				trp.setMessage(trq.getMessage().toUpperCase());
 				trp.send();
+			}
+		});
+		
+		RequestManager.addRequestListener(CreateUserRequest.class, new RequestListener() {
+			public void handleRequest(Request r)
+			{
+				CreateUserRequest trq = (CreateUserRequest)r;
+				DatabaseUtil.handleCreateUserRequest(trq);
 			}
 		});
 	}
@@ -235,8 +254,36 @@ public class Server {
 		}
 	}
 
+	//tess die database opstart en autodiscovery
 	public static void main(String arg[])
 	{
-		getInstance().start();
+		ConnectionUtil.StartDataBase();
+		
+		Executors.newSingleThreadExecutor().execute(new Runnable() {
+			
+			@Override
+			public void run() {
+				getInstance().start();
+			}
+		});
+		
+		try {
+			AutoDiscoverServer.getInstance().start();
+			JFrame f = new JFrame();
+			f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			f.setVisible(true);
+			f.addWindowListener(new WindowAdapter() {
+				@Override
+				public void windowClosing(WindowEvent e) {
+					ConnectionUtil.CloseSessionFactory();
+					super.windowClosing(e);
+				}
+			});
+			f.setSize(500, 500);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 }

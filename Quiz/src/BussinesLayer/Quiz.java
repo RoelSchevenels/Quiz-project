@@ -67,6 +67,7 @@ public class Quiz {
 	
 	
 	public Quiz(String quizName, QuizMaster creator) {
+		this.creationDate = new Date();
 		this.quizName = quizName;
 		this.creator = creator;
 		minTeams = 2;

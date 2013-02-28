@@ -75,7 +75,7 @@
         <Button alignment="CENTER_LEFT" mnemonicParsing="false" onAction="#addUserPressed" prefHeight="-1.0" text="Add User" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" />
       </children>
     </AnchorPane>
-    <AnchorPane id="AnchorPane" fx:id="teamLoginPane" visible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+    <AnchorPane id="AnchorPane" fx:id="teamLoginPane" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <children>
         <ScrollPane id="ScrollPane" fx:id="overFlowPane" hbarPolicy="NEVER" prefHeight="258.0" prefViewportHeight="230.0" prefViewportWidth="270.0" prefWidth="269.999977929685" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="16.0" AnchorPane.topAnchor="20.0">
           <content>
@@ -90,13 +90,13 @@
         <Button fx:id="addTeamButton" disable="true" mnemonicParsing="false" onAction="#addTeamPressed" text="Add new Team" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="15.0" />
       </children>
     </AnchorPane>
-    <AnchorPane id="AnchorPane" fx:id="addUserPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+    <AnchorPane id="AnchorPane" fx:id="addUserPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" visible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <children>
         <StackPane prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
           <children>
             <AnchorPane id="Content" fx:id="userLoginPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="345.0" prefWidth="450.0" visible="true" StackPane.alignment="CENTER">
               <children>
-                <ImageView id="login_portal.png" fitHeight="205.0" fitWidth="276.0" AnchorPane.bottomAnchor="124.0" AnchorPane.leftAnchor="87.0" AnchorPane.rightAnchor="85.0" AnchorPane.topAnchor="14.0">
+                <ImageView id="login_portal.png" fitHeight="205.0" fitWidth="276.0" AnchorPane.bottomAnchor="126.0" AnchorPane.leftAnchor="87.0" AnchorPane.rightAnchor="85.0" AnchorPane.topAnchor="12.0">
                   <effect>
                     <Reflection topOffset="-15.0" />
                   </effect>
@@ -104,14 +104,14 @@
                     <Image url="@../Login/login_portal.png" preserveRatio="true" smooth="true" />
                   </image>
                 </ImageView>
-                <Label id="labelGebruiker" layoutX="102.0" layoutY="225.0" text="Gebruiker:" />
-                <TextField fx:id="fieldGebruiker" prefWidth="200.0" AnchorPane.bottomAnchor="98.0" AnchorPane.leftAnchor="184.0" AnchorPane.rightAnchor="64.0" AnchorPane.topAnchor="223.0" />
-                <Label id="labelWachtwoord" text="Wachtwoord:" AnchorPane.bottomAnchor="68.0" AnchorPane.leftAnchor="87.0" AnchorPane.rightAnchor="279.0" AnchorPane.topAnchor="259.0" />
-                <PasswordField fx:id="fieldWachtwoord" prefWidth="133.0" text="" AnchorPane.bottomAnchor="66.0" AnchorPane.leftAnchor="184.0" AnchorPane.rightAnchor="131.0" AnchorPane.topAnchor="255.0" />
-                <Label id="labelGeenGebruiker" text="Nog geen gebruiker?" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="128.0" AnchorPane.rightAnchor="189.0" AnchorPane.topAnchor="313.0" />
-                <Button id="buttonGo" mnemonicParsing="false" onAction="#userLoginPressed" prefHeight="22.000099999997474" prefWidth="55.0" text="GO!" AnchorPane.bottomAnchor="66.0" AnchorPane.leftAnchor="329.0" AnchorPane.rightAnchor="64.0" AnchorPane.topAnchor="254.0" />
-                <Button id="buttonRegistreer" mnemonicParsing="false" onAction="#registerUserPressed" text="Registreer" AnchorPane.bottomAnchor="13.0" AnchorPane.leftAnchor="265.0" AnchorPane.rightAnchor="97.0" AnchorPane.topAnchor="309.0" />
-                <Button layoutX="14.0" layoutY="311.0" mnemonicParsing="false" onAction="#cancelUserLogin" text="Annuleer" />
+                <Label id="labelGebruiker" layoutX="102.0" layoutY="223.0" text="Gebruiker:" />
+                <TextField fx:id="fieldGebruiker" prefWidth="200.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="184.0" AnchorPane.rightAnchor="64.0" AnchorPane.topAnchor="221.0" />
+                <Label id="labelWachtwoord" text="Wachtwoord:" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="87.0" AnchorPane.rightAnchor="279.0" AnchorPane.topAnchor="257.0" />
+                <PasswordField fx:id="fieldWachtwoord" prefHeight="24.0" prefWidth="133.0" text="" AnchorPane.bottomAnchor="68.0" AnchorPane.leftAnchor="184.0" AnchorPane.rightAnchor="133.0" AnchorPane.topAnchor="253.0" />
+                <Label id="labelGeenGebruiker" text="Nog geen gebruiker?" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="67.0" AnchorPane.rightAnchor="250.0" AnchorPane.topAnchor="313.0" />
+                <Button id="buttonGo" mnemonicParsing="false" onAction="#userLoginPressed" prefHeight="24.0" prefWidth="57.0" text="GO!" AnchorPane.bottomAnchor="69.0" AnchorPane.leftAnchor="329.0" AnchorPane.rightAnchor="64.0" AnchorPane.topAnchor="252.0" />
+                <Button id="buttonRegistreer" mnemonicParsing="false" onAction="#registerUserPressed" text="Registreer" AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="206.5" AnchorPane.rightAnchor="155.5" AnchorPane.topAnchor="310.0" />
+                <Button layoutX="307.0" layoutY="310.0" mnemonicParsing="false" onAction="#cancelUserLogin" prefHeight="23.0" text="Annuleer" />
               </children>
             </AnchorPane>
             <Pane id="registerPane" fx:id="userRegisterPane" disable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="372.0" prefWidth="572.0" visible="false" StackPane.alignment="CENTER">
