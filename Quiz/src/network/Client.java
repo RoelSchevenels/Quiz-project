@@ -45,7 +45,7 @@ public class Client extends ConnectionWorker {
 	private static InetAddress discover() throws IOException
 	{
 		byte[] receiveData = new byte[50];
-		DatagramSocket clientSocket = new DatagramSocket(1333);
+		DatagramSocket clientSocket = new DatagramSocket(1234);
 		DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
 
 		System.out.println("Waiting...");

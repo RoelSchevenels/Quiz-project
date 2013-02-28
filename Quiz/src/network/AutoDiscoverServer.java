@@ -11,12 +11,9 @@ import java.util.concurrent.Executors;
 
 import javax.swing.JFrame;
 
-import org.h2.constant.SysProperties;
-
 public class AutoDiscoverServer {
 	private static AutoDiscoverServer instance;
 	private boolean sending = false;
-	private String message;
 
 	public static AutoDiscoverServer getInstance()
 	{
@@ -25,23 +22,11 @@ public class AutoDiscoverServer {
 		}
 		return instance;
 	}
-<<<<<<< HEAD
-
-	private AutoDiscoverServer()
-	{
-	};
-
-	public void start() throws IOException
-	{
-		System.out.println("start");
-		if (sending == false) {
-=======
 	
 	private AutoDiscoverServer() {};
 	
-	public void start(String message) throws IOException {
+	public void start() throws IOException {
 		if(sending == false) {
->>>>>>> 51f795e14b46c2214a03dd5315b44996fcfbaa10
 			sending = true;
 			ExecutorService ex = Executors.newSingleThreadExecutor();
 			ex.execute(new sendloop());
@@ -66,7 +51,6 @@ public class AutoDiscoverServer {
 				ss.setBroadcast(true);
 
 				byte[] bytes = new byte[100];
-				// de message toevoegen
 
 				DatagramPacket p = new DatagramPacket(bytes, bytes.length);
 
@@ -75,7 +59,7 @@ public class AutoDiscoverServer {
 				p.setAddress(InetAddress.getByAddress(new byte[] {
 						(byte) 127, (byte) 0, (byte) 0, (byte) 1
 				}));
-				p.setPort(1333);
+				p.setPort(1234);
 				p.setData(bytes);
 
 				while (sending) {
