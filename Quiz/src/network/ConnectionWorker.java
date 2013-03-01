@@ -37,7 +37,6 @@ public abstract class ConnectionWorker implements Runnable {
 					out.writeObject(toSend);
 					out.flush();
 					toSend = null;
-					System.out.println("verzondenn");
 				}
 				if (socket.getInputStream().available() > 0) {
 					Object msg = in.readObject();

@@ -4,14 +4,11 @@ import java.awt.Dimension;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 
 public class Game{
 	private GamePanel panel;
 	private JPanel parentPanel;
-	private JFrame frame;
 	private int[][] grid;
 	private int player;
 	private int pieces;
@@ -43,6 +40,7 @@ public class Game{
 		panel = new GamePanel(tilesize,ytiles,xtiles);
 		panel.setPreferredSize(new Dimension(xtiles*tilesize,ytiles*tilesize));
 		parentPanel.add(panel);
+		System.out.printf("w:%d h:%d\n",panel.getWidth(),panel.getHeight());
 	}
 
 	private class Core implements Runnable{
@@ -72,8 +70,6 @@ public class Game{
 			}else{
 				p.move(0,1);
 				panel.update(p.apply(grid));
-				parentPanel.repaint();
-				
 			}
 		}
 	}
