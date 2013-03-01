@@ -36,7 +36,6 @@ public class ConnectionUtil {
 		System.out.println("start");
 		configureSessionFactory();
 		Session s = getNewSession();
-		Transaction t = s.beginTransaction();
 
 		//kijken of de database gepopuleert is
 		try {
@@ -113,11 +112,7 @@ public class ConnectionUtil {
 	}
 
 	public static Session getNewSession() {
-		if (sessionFactory == null) {
-			configureSessionFactory();
-		}
-
-		return sessionFactory.openSession();
+		return getSession();
 	}
 
 	public static StatelessSession getStatelessSession() {

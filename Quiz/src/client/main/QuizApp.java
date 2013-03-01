@@ -3,60 +3,83 @@ package client.main;
 import java.io.IOException;
 import java.net.URL;
 import java.net.UnknownHostException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 import network.Client;
 
 import Protocol.responses.LoginResponse;
 import Protocol.responses.LoginResponse.UserType;
 import Protocol.responses.TeamLoginResponse;
 import javaFXpanels.Login.LoginPanel;
+import javaFXpanels.MessageProvider.LoadingPane;
+import javaFXpanels.MessageProvider.MessageProvider;
 import javaFXpanels.Questions.QuestionDisplayController;
 import javaFXpanels.TeamLogin.TeamLoginController;
 
+import javafFXpanels.ConnectToQuiz.ConnectToQuizController;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class QuizApp extends Application {
 	private static URL loginLocation;
 	private static URL teamLoginLocation;
+	private static URL connectToQuizLocation;
 	private static URL quizLocation;
-	private Stage mainStage;
 	private AnchorPane root;
 	private LoginResponse login;
-	private FXMLLoader loader = new FXMLLoader();
-	
+	private LoadingPane loadingPane;
+	private MessageProvider messageMaker;
+
+
 	static {
 		loginLocation = LoginPanel.class.getResource("Login.fxml");
 		teamLoginLocation = TeamLoginController.class.getResource("teamLogin.fxml");
 		quizLocation = QuestionDisplayController.class.getResource("QuestionDisplay.fxml");
+		connectToQuizLocation = ConnectToQuizController.class.getResource("connectToQuiz.fxml");
 	}
-	
+
 	@Override
 	public void start(Stage primaryStage) {
+		loadingPane = new LoadingPane();
 		root = new AnchorPane();
-		mainStage = primaryStage;
-		mainStage.setMinHeight(600.0);
-		mainStage.setMinWidth(700.0);
-		mainStage.setScene(new Scene(root));
-		mainStage.show();
-				
+		
+
+		primaryStage.setMinHeight(600.0);
+		primaryStage.setMinWidth(700.0);
+		primaryStage.setScene(new Scene(root));
+		primaryStage.show();
+
+		//TODO: fatsoenlijk afsluiten
+		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+
+			@Override
+			public void handle(WindowEvent event) {
+				//TODO: om het koosjer te doen zouden hier de cleint thread enzo gestop moeten worden
+
+				System.exit(0);
+
+			}
+		});
+		
+		messageMaker = new MessageProvider(root);
+		
 		startDetectServer();
 		startLoginPane();
+
+
 	}
-	
+
 	private void startDetectServer() {
-		ExecutorService ex = Executors.newCachedThreadPool();
+		loadingPane.showLoading("Connecteren met de server", root);
 		try {
-			ex.execute(Client.getInstance());
+			Client.getInstance();
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -64,9 +87,9 @@ public class QuizApp extends Application {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		loadingPane.hide();
 	}
-	
+
 	/**
 	 * loads every kind of pane from fxml
 	 * @param location
@@ -74,23 +97,23 @@ public class QuizApp extends Application {
 	 * @throws IOException
 	 */
 	private Initializable setFxml(URL location) throws IOException {
+		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(location);
 		Pane content = (Pane) loader.load();
-		
+
 		AnchorPane.setBottomAnchor(content, 0.0);
 		AnchorPane.setTopAnchor(content, 0.0);
 		AnchorPane.setRightAnchor(content, 0.0);
 		AnchorPane.setLeftAnchor(content, 0.0);
-		
+
 		root.getChildren().setAll(content);
-		
-		return loader.getController();
-		
+
+		return loader.getController();	
 	}
-	
+
 	private void startLoginPane() {
 		try {
-			LoginPanel controller = (LoginPanel) setFxml(loginLocation);
+			final LoginPanel controller = (LoginPanel) setFxml(loginLocation);
 
 			controller.loginResponseProperty().addListener(new ChangeListener<LoginResponse>() {
 				@Override
@@ -105,27 +128,27 @@ public class QuizApp extends Application {
 							startTeamLoginPane(newValue);
 						}
 					}
+					controller.loginResponseProperty().removeListener(this);
 				}
 			});
 			// en er is ingelogd
-			
+
 		} catch (IOException e) {
 			//fatale fout niet te recepureren
 			e.printStackTrace();
 			System.exit(99999);
 		}
 	}
-	
+
 	private void startJurry(LoginResponse newValue) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	private void startTeamLoginPane(LoginResponse r) {
-		
 		try {
-			TeamLoginController controller = (TeamLoginController) setFxml(teamLoginLocation);
-		
+			final TeamLoginController controller = (TeamLoginController) setFxml(teamLoginLocation);
+
 			controller.setplayerLoginResponse(r);
 			controller.teamResponseProperty().addListener(new ChangeListener<TeamLoginResponse>() {
 				@Override
@@ -133,23 +156,48 @@ public class QuizApp extends Application {
 						ObservableValue<? extends TeamLoginResponse> observable,
 						TeamLoginResponse oldValue, TeamLoginResponse newValue) {
 					if(newValue != null) {
-						connectToQuiz();
+						connectToQuiz(controller.getTeamResponse());
 					}
 				}
 			});
-			
+
 		} catch (IOException e) {
-			//fatale fout niet te recepureren
-			e.printStackTrace();
-			System.exit(99999);
+			messageMaker.showError("Fatale fout");
 		}
 	}
-	
-	
-	public void connectToQuiz() {
-		
+
+
+	public void connectToQuiz(TeamLoginResponse r) {
+		try {
+			ConnectToQuizController c = (ConnectToQuizController) setFxml(connectToQuizLocation);
+			c.setTeamLogin(r);
+			c.readyProperty().addListener(new ChangeListener<Boolean>() {
+				@Override
+				public void changed(ObservableValue<? extends Boolean> observable,
+						Boolean oldValue, Boolean newValue) {
+					if(newValue= true) {
+						startQuiz();
+					}
+				}
+			});
+
+
+		} catch (IOException e) {
+			messageMaker.showError("Fatale fout");
+		}
 	}
-	
+
+	private void startQuiz() {
+		try {
+			setFxml(connectToQuizLocation);
+
+
+		} catch (IOException e) {
+			messageMaker.showError("Fatale fout");
+		}
+
+	}
+
 	public static void main(String[] args) {
 		launch(args);
 	}

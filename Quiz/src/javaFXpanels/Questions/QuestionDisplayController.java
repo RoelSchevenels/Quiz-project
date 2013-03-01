@@ -35,8 +35,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import network.Client;
 import BussinesLayer.resources.PictureResource;
-import Protocol.ResponseListener;
-import Protocol.SubmitListener;
+import Protocol.FxResponseListener;
+import Protocol.FxSubmitListener;
 import Protocol.SubmitManager;
 import Protocol.exceptions.IdRangeException;
 import Protocol.requests.PictureRequest;
@@ -178,9 +178,9 @@ public class QuestionDisplayController implements Initializable {
 	}
 
 	private void startListening() {
-		SubmitManager.addSubmitListener(RoundSubmit.class, new SubmitListener() {
+		SubmitManager.addSubmitListener(RoundSubmit.class, new FxSubmitListener() {
 			@Override
-			public void handleSubmit(Submit r) {
+			public void handleFxSubmit(Submit r) {
 				ObservableList<QuestionSubmit> questions = FXCollections.observableArrayList();
 				RoundSubmit submit = (RoundSubmit) r;
 				roundForId.put(submit.getRoundId(), submit);
@@ -192,10 +192,10 @@ public class QuestionDisplayController implements Initializable {
 			}
 		});
 
-		SubmitManager.addSubmitListener(QuestionSubmit.class, new SubmitListener() {
+		SubmitManager.addSubmitListener(QuestionSubmit.class, new FxSubmitListener() {
 
 			@Override
-			public void handleSubmit(Submit r) {
+			public void handleFxSubmit(Submit r) {
 				QuestionSubmit submit = (QuestionSubmit) r;
 				if(roundForId.containsKey(submit.getQuestionRoundId())) {
 					RoundSubmit s = roundForId.get(submit.getQuestionRoundId());
@@ -301,9 +301,9 @@ public class QuestionDisplayController implements Initializable {
 		//TODO: imageLoader in een apparte task maken
 		try {
 			PictureRequest request = new PictureRequest(questionId);
-			request.onResponse(new ResponseListener() {			
+			request.onResponse(new FxResponseListener() {			
 				@Override
-				public void handleResponse(Response response) {
+				public void handleFxResponse(Response response) {
 					if(response instanceof ExceptionResponse) {
 						messageMaker.showWarning(((ExceptionResponse) response).getExceptionMessage());
 					} else if (response instanceof PictureResponse) {

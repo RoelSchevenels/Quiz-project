@@ -7,11 +7,8 @@ import javaFXToSwing.PaneToPanel;
 import javaFXpanels.MediaPane.MediaPaneController;
 import javaFXpanels.MediaPane.MediaPlayerPane;
 
-import javafx.application.Platform;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 
 import BussinesLayer.resources.MediaResource;
 /**

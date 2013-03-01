@@ -15,13 +15,13 @@ public abstract class FxSubmitListener implements SubmitListener {
 		Platform.runLater(new Runnable() {	
 			@Override
 			public void run() {
-				handleFxsubmit(submit);
+				handleFxSubmit(submit);
 				
 			}
 		});
 		
 	}
 	
-	public abstract void handleFxsubmit(Submit submit);
+	public abstract void handleFxSubmit(Submit submit);
 	
 }
