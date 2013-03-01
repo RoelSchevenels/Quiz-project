@@ -54,7 +54,7 @@ public abstract class User {
 	}
 	
 	public boolean checkPassword(String password) {
-		return Security.checkPassword(password, this.password, this.salt);
+		return Security.checkPassword(password, this.salt, this.password);
 	}
 	
 	public String getUserName() {

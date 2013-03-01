@@ -17,11 +17,17 @@ import Protocol.RequestListener;
 import Protocol.RequestManager;
 import Protocol.SubmitListener;
 import Protocol.SubmitManager;
+import Protocol.requests.ConnectToQuizRequest;
+import Protocol.requests.CreateTeamRequest;
 import Protocol.requests.CreateUserRequest;
+import Protocol.requests.GetQuizRequest;
+import Protocol.requests.GetTeamsRequest;
 import Protocol.requests.LoginRequest;
 import Protocol.requests.Request;
+import Protocol.requests.TeamLoginRequest;
 import Protocol.requests.TestRequest;
 import Protocol.responses.TestResponse;
+import Protocol.responses.TimeOutResponse;
 import Protocol.submits.IdRangeSubmit;
 import Protocol.submits.Submit;
 import Protocol.submits.TetrisSubmit;
@@ -194,8 +200,7 @@ public class Server {
 
 	private void mapRequests()
 	{
-		RequestManager.addRequestListener(LoginRequest.class,
-				new RequestListener() {
+		RequestManager.addRequestListener(LoginRequest.class, new RequestListener() {
 					public void handleRequest(Request r)
 					{
 						System.out.println("handle request");
@@ -219,6 +224,51 @@ public class Server {
 			{
 				CreateUserRequest trq = (CreateUserRequest)r;
 				DatabaseUtil.handleCreateUserRequest(trq);
+			}
+		});
+		
+		RequestManager.addRequestListener(CreateTeamRequest.class, new RequestListener() {
+			
+			@Override
+			public void handleRequest(Request r) {
+				DatabaseUtil.handleCreateTeamRequest((CreateTeamRequest) r);
+				
+			}
+		});
+		
+		RequestManager.addRequestListener(GetTeamsRequest.class, new RequestListener() {
+			
+			@Override
+			public void handleRequest(Request r) {
+				DatabaseUtil.handleGetTeamsRequest((GetTeamsRequest) r);
+				
+			}
+		});
+		
+		RequestManager.addRequestListener(TeamLoginRequest.class, new RequestListener() {
+			
+			@Override
+			public void handleRequest(Request r) {
+				DatabaseUtil.handleTeamLoginRequest((TeamLoginRequest) r);
+				
+			}
+		});
+		
+		RequestManager.addRequestListener(ConnectToQuizRequest.class, new RequestListener() {
+			
+			@Override
+			public void handleRequest(Request r) {
+				DatabaseUtil.handleConnectToQuiz((ConnectToQuizRequest) r);
+				
+			}
+		});
+	
+		RequestManager.addRequestListener(GetQuizRequest.class, new RequestListener() {
+			
+			@Override
+			public void handleRequest(Request r) {
+				new TimeOutResponse(r.getRequestId()).send();
+				
 			}
 		});
 	}

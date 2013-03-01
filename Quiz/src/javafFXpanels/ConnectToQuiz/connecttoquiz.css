@@ -1,0 +1,15 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+.mainFxmlClass {
+
+}
+
+.quiz-naam {
+	-fx-font: "Serif", 40px
+}
+
+.loading-pane {
+	-fx-background-color: rgba(150,150,150,0.5);
+}

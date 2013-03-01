@@ -12,21 +12,8 @@ import java.util.ResourceBundle;
 import java.util.concurrent.Callable;
 
 import javaFXpanels.MessageProvider.MessageProvider;
-
-import Protocol.ResponseListener;
-import Protocol.exceptions.IdRangeException;
-import Protocol.requests.CreateTeamRequest;
-import Protocol.requests.CreateUserRequest;
-import Protocol.requests.GetTeamsRequest;
-import Protocol.requests.LoginRequest;
-import Protocol.requests.TeamLoginRequest;
-import Protocol.responses.ExceptionResponse;
-import Protocol.responses.GetTeamsResponse;
-import Protocol.responses.LoginResponse;
-import Protocol.responses.Response;
-import Protocol.responses.TeamLoginResponse;
-import Protocol.responses.LoginResponse.UserType;
-
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.SimpleObjectProperty;
@@ -46,6 +33,20 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import Protocol.FxResponseListener;
+import Protocol.ResponseListener;
+import Protocol.exceptions.IdRangeException;
+import Protocol.requests.CreateTeamRequest;
+import Protocol.requests.CreateUserRequest;
+import Protocol.requests.GetTeamsRequest;
+import Protocol.requests.LoginRequest;
+import Protocol.requests.TeamLoginRequest;
+import Protocol.responses.ExceptionResponse;
+import Protocol.responses.GetTeamsResponse;
+import Protocol.responses.LoginResponse;
+import Protocol.responses.LoginResponse.UserType;
+import Protocol.responses.Response;
+import Protocol.responses.TeamLoginResponse;
 
 
 /**
@@ -144,8 +145,7 @@ public class TeamLoginController implements Initializable {
 		
 		
     } 
-    
-    
+       
     private void initBindings() {
     	playersList.prefWidthProperty().bind(playerListPane.widthProperty());
     	
@@ -164,8 +164,7 @@ public class TeamLoginController implements Initializable {
 			}
     		
 		});
-    	
-    	
+    	  	
     	//deze binding kijkt of de teamsAccordian onderdelen bevat
     	BooleanBinding hasContent = Bindings.createBooleanBinding(new Callable<Boolean>() {
 			
@@ -182,10 +181,12 @@ public class TeamLoginController implements Initializable {
     	noTeamsFoundPane.visibleProperty().bind(
     			loadingPane.visibleProperty().not()
     			.and(hasContent.not()));
+    	
+    	//todo kijken waarom de lijst niet weergeeft
+  
     }
   
-    private void switchActivePane(Pane oldPane,
-			Pane newPane) {
+    private void switchActivePane(Pane oldPane, Pane newPane) {
 		oldPane.setVisible(false);
 		oldPane.setDisable(true);
 		newPane.setVisible(true);
@@ -227,15 +228,14 @@ public class TeamLoginController implements Initializable {
 				return;
 			}
 			
-			request.onResponse(new ResponseListener() {
+			request.onResponse(new FxResponseListener() {
 				@Override
-				public void handleResponse(Response response) {
+				public void handleFxResponse(Response response) {
 					if(response instanceof ExceptionResponse) {
 						messageMaker.showError(((ExceptionResponse) response).getExceptionMessage());
 					} else if(response instanceof TeamLoginResponse) {
 						switchActivePane(makeTeamPane, teamLoginPane);
 						setplayerLoginResponse(playerResponse.get());
-						playersList.getItems().setAll(playerResponse.get());
 						loadingPane.setVisible(false);
 					}
 					
@@ -246,7 +246,7 @@ public class TeamLoginController implements Initializable {
 			showLoading("Team aanmelden...");
 			
 		} catch (IdRangeException | IOException e) {
-			messageMaker.showError("problemen met de database");
+			messageMaker.showError("problemen met de connectie");
 		}
     }
 
@@ -258,9 +258,9 @@ public class TeamLoginController implements Initializable {
 				return;
 			}
 			
-			request.onResponse(new ResponseListener() {
+			request.onResponse(new FxResponseListener() {
 				@Override
-				public void handleResponse(Response response) {
+				public void handleFxResponse(Response response) {
 					if(response instanceof ExceptionResponse) {
 						messageMaker.showError(((ExceptionResponse) response).getExceptionMessage());
 					} else if(response instanceof TeamLoginResponse) {
@@ -281,8 +281,8 @@ public class TeamLoginController implements Initializable {
 	
     private CreateTeamRequest creatTeamLoginRequest() throws UnknownHostException, IdRangeException, IOException {
     	if(teamNameField.getText().isEmpty() 
-    			|| !createPasswordField.getText().isEmpty()
-    			|| !createPaswordField2.getText().isEmpty()) {
+    			|| createPasswordField.getText().isEmpty()
+    			|| createPaswordField2.getText().isEmpty()) {
     		messageMaker.showWarning("Gelieve alle velden in te vullen");
     		return null;
     	} else if(!createPasswordField.getText().equals(createPaswordField2.getText())) {
@@ -291,10 +291,12 @@ public class TeamLoginController implements Initializable {
     	}
     	
     	CreateTeamRequest request = new CreateTeamRequest();
+    	request.setCreatorId(playerResponse.get().getUserId());
     	request.setTeamName(teamNameField.getText());
     	request.setPassword(createPasswordField.getText());
     	for(LoginResponse r: playersList.getItems()) {
     		request.addPlayer(r.getUserId());
+    		System.out.println("speler toegevoegd");
     	}
     	
     	return request;
@@ -316,9 +318,9 @@ public class TeamLoginController implements Initializable {
     	
     	try {
 			TeamLoginRequest request = new TeamLoginRequest(currentTeam,passwordField.getText());
-			request.onResponse(new ResponseListener() {
+			request.onResponse(new FxResponseListener() {
 				@Override
-				public void handleResponse(Response response) {
+				public void handleFxResponse(Response response) {
 					if(response instanceof ExceptionResponse) {
 						messageMaker.showError(((ExceptionResponse) response).getExceptionMessage());
 					} else if(response instanceof TeamLoginResponse) {
@@ -345,14 +347,14 @@ public class TeamLoginController implements Initializable {
     private void userLoginPressed() {
     	try {
 			LoginRequest request = new LoginRequest(fieldGebruiker.getText(), fieldWachtwoord.getText());
-			request.onResponse(new ResponseListener() {
+			request.onResponse(new FxResponseListener() {
 				
 				@Override
-				public void handleResponse(Response response) {
+				public void handleFxResponse(Response response) {
 					if(response instanceof ExceptionResponse) {
 						messageMaker.showError(((ExceptionResponse) response).getExceptionMessage());
 					} else if(response instanceof LoginResponse) {
-						playersList.getItems().add((LoginResponse) response);
+						addPlayerToList((LoginResponse) response);
 						switchActivePane(addUserPane, makeTeamPane);
 					}
 					loadingPane.setVisible(false);				
@@ -369,6 +371,12 @@ public class TeamLoginController implements Initializable {
 		} catch (IOException e) {
 			messageMaker.showError("Fout bij het aanmelden.");
 		}
+    }
+    
+    private void addPlayerToList(LoginResponse r) {
+    	if(!playersList.getItems().contains(r)) {
+    		playersList.getItems().add(r);
+    	}
     }
 
     @FXML
@@ -418,7 +426,7 @@ public class TeamLoginController implements Initializable {
 						if(response instanceof ExceptionResponse) {
 							messageMaker.showError(((ExceptionResponse) response).getExceptionMessage());
 						} else if(response instanceof LoginResponse) {
-							playersList.getItems().add((LoginResponse) response);
+							addPlayerToList((LoginResponse) response);
 							switchActivePane(addUserPane, makeTeamPane);
 						}
 						loadingPane.setVisible(false);		
@@ -449,14 +457,17 @@ public class TeamLoginController implements Initializable {
     	}
     	
  
-    	this.playersList.getItems().add(response);
+    	
     	this.playerResponse.set(response);
+    	this.playersList.getItems().clear();
+    	this.playersList.getItems().add(response);
     	try {
+    		System.out.println("request verturen");
 			GetTeamsRequest request = new GetTeamsRequest(response.getUserId());
 			
-			request.onResponse(new ResponseListener() {	
+			request.onResponse(new FxResponseListener() {	
 				@Override
-				public void handleResponse(Response response) {
+				public void handleFxResponse(Response response) {
 					loadingPane.setVisible(false);
 					if(response instanceof ExceptionResponse) {
 						messageMaker.showError(((ExceptionResponse) response).getExceptionMessage());
@@ -465,14 +476,18 @@ public class TeamLoginController implements Initializable {
 						setReceivedTeams((GetTeamsResponse) response);
 					}
 					
+					loadingPane.setVisible(false);
+					
 					addTeamButton.setDisable(false);
 				}
 			});
+			request.send();
     	} catch (IdRangeException e) {
 			messageMaker.showError("Kon pakket niet doorsturen");
 		} catch (Exception ex) {
 			messageMaker.showError("fout bij versturen");
 		}
+    	
 	}
 			
 }

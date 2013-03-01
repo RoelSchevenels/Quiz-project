@@ -30,6 +30,7 @@ import BussinesLayer.questions.Question;
 import BussinesLayer.questions.StandardQuestion;
 import BussinesLayer.questions.VideoQuestion;
 import Protocol.requests.AnswerRequest;
+import Protocol.requests.ConnectToQuizRequest;
 import Protocol.requests.CreateTeamRequest;
 import Protocol.requests.CreateUserRequest;
 import Protocol.requests.GetTeamsRequest;
@@ -51,8 +52,7 @@ import Protocol.submits.RoundSubmit;
 public class DatabaseUtil {
 	//map met Al verzonden antwoorden
 	private static ConcurrentHashMap<Integer, Answer> sendAnswers = new ConcurrentHashMap<Integer, Answer>();
-	
-	
+
 	/**
 	 * sla een object op in de database
 	 * @param b object to be saved in the datbase
@@ -63,7 +63,7 @@ public class DatabaseUtil {
 		s.saveOrUpdate(b);
 		t.commit();
 	}
-	
+
 	/**
 	 * slaat alle meegegeven objecten op.
 	 * een rollback wordt uitgevoerd bij een misluking.
@@ -82,37 +82,45 @@ public class DatabaseUtil {
 			t.rollback();
 			throw ex;
 		}
+		s.close();
 	}
-	
+
 	public static User getUser(String username) {
 		Session s = ConnectionUtil.getSession();
-		return  (User) s.createQuery("select u from User u where u.userName = :name")
-					.setParameter("name", username)
-					.uniqueResult();
+		User u = (User) s.createQuery("select u from User u where u.userName = :name")
+				.setParameter("name", username)
+				.uniqueResult();
+		s.close();
+		return u;
+
 	}
-	
+
 	public static User getUser(int userId) {
 		Session s = ConnectionUtil.getSession();
-		return  (User) s.createQuery("select u from User u where u.id = :id")
-					.setParameter("id", userId)
-					.uniqueResult();
+		User u = (User) s.createQuery("select u from User u where u.id = :id")
+				.setParameter("id", userId)
+				.uniqueResult();
+		s.close();
+		return u;
 	}
-	
+
 	public static Team getTeam(String TeamName, int creatorId) {
 		Session s = ConnectionUtil.getSession();
-		return  (Team) s.createQuery("SELECT t FROM Team t WERE t.teamCreator.id = :id AND t.teamName = :name")
-					.setParameter("id", creatorId)
-					.setParameter("name", TeamName)
-					.uniqueResult();
+		Team t = (Team) s.createQuery("SELECT t FROM Team t WERE t.teamCreator.id = :id AND t.teamName = :name")
+				.setParameter("id", creatorId)
+				.setParameter("name", TeamName)
+				.uniqueResult();
+		s.close();
+		return t;
 	}
-	
+
 	public static Team getTeam(int teamId) {
 		Session s = ConnectionUtil.getSession();
 		return  (Team) s.createQuery("select t from Team t where t.teamId = :id")
-					.setParameter("id", teamId)
-					.uniqueResult();
+				.setParameter("id", teamId)
+				.uniqueResult();
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public static List<Team> getTeams(int playerId) {
 		Session s = ConnectionUtil.getSession();
@@ -120,38 +128,46 @@ public class DatabaseUtil {
 				.setParameter("id", playerId)
 				.list();
 	}
-	
+
 	public static Question getQuestion(int questionId) {
 		Session s = ConnectionUtil.getSession();
 		return  (Question) s.createQuery("select q from Question q where q.questionId = :id")
-					.setParameter("id", questionId)
-					.uniqueResult();
+				.setParameter("id", questionId)
+				.uniqueResult();
 	}
-	
+
 	public static Answer getAnswer(int anwserId) {
 		Session s = ConnectionUtil.getSession();
 		return  (Answer) s.createQuery("select a from Answer a where a.answerId = :id")
-					.setParameter("id", anwserId)
-					.uniqueResult();
+				.setParameter("id", anwserId)
+				.uniqueResult();
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public static List<Answer> getUncorrectedAnswers(int quizId, int max_amount) {
 		Session s = ConnectionUtil.getSession();
 		return  s.createQuery("select a from Answer a where a.jury = null and a.quiz.quizID = :id")
-					.setParameter("id", quizId)
-					.setMaxResults(max_amount)
-					.list();
+				.setParameter("id", quizId)
+				.setMaxResults(max_amount)
+				.list();
 	}
-	
+
+	public static Quiz getQuiz(int id) {
+		Session s = ConnectionUtil.getSession();
+		Quiz q = (Quiz) s.createQuery("select q from Quiz q where q.quizID =:id")
+				.setParameter("id", id)
+				.uniqueResult();
+		return q;
+	}
+
 	public static List<Answer> getUncorrectedAnswers(int quizId) {
 		return getUncorrectedAnswers(quizId,10);
 	}
-	
+
 	public static void handleLoginRequest(LoginRequest request) {
 		try {
 			User user = getUser(request.getUserName());
-			
+
 			if(user == null) {
 				request.sendException("De user bestaat niet");
 				return;
@@ -161,6 +177,7 @@ public class DatabaseUtil {
 			}
 
 			LoginResponse r = request.createResponse();
+			r.setUserName(user.getUserName());
 			r.setEmail(user.getEmail());
 			r.setFirstname(user.getFirstName());
 			r.setLastName(user.getLastName());
@@ -175,8 +192,8 @@ public class DatabaseUtil {
 				return;
 			}
 			r.send();
-			
-			
+
+
 		} catch(HibernateException ex) {
 			request.sendException("Fout bij het doorzoeken van de database");
 		} catch (Exception e) {
@@ -195,13 +212,13 @@ public class DatabaseUtil {
 				//hier gebeurt iets wat we niet verwachten
 				throw new Exception();
 			}
-			
+
 			user.setFirstName(request.getFirstName());
 			user.setLastName(request.getLastName());
 			user.setEmail(request.getEmail());
-			
+
 			saveObject(user);
-			
+
 
 			LoginResponse r = (LoginResponse) request.createResponse();
 			r.setEmail(user.getEmail());
@@ -218,7 +235,7 @@ public class DatabaseUtil {
 				return;
 			}
 			r.send();
-			
+
 		} catch(EntityExistsException ex) {
 			request.sendException("Deze username is al gebruikt");
 		} catch(HibernateException ex) {
@@ -227,14 +244,14 @@ public class DatabaseUtil {
 			request.sendException("Onverwachte fout voorgedaan");
 		}
 	}
-	
+
 	public static void handleAnswerRequest(AnswerRequest request) {
 		try {
 			for(Answer a: getUncorrectedAnswers(request.getQuizId())) {
 				if(!sendAnswers.containsKey(a.getAnswerId())) {
 					sendAnswers.put(a.getAnswerId(), a);
 					AnswerResponse answer = request.createResponse();
-					
+
 					answer.setQuestionID(a.getQuestion().getQuestionId());
 					answer.setAnswerId(a.getAnswerId());
 					answer.setCorrectAnswer(a.getQuestion().getCorrectAnswer());
@@ -242,21 +259,21 @@ public class DatabaseUtil {
 					answer.setGivenAnswer(a.getAnswer());
 					answer.setAnswerPerson(a.getTeam().getTeamName());
 					answer.send();
-					
+
 					return;
 				}
 			}
-			
+
 			TimeOutResponse r = new TimeOutResponse(request.getRequestId());
 			r.send();
-			
+
 		} catch(HibernateException ex) {
 			request.sendException("Fout bij het doorzoeken van de database");
 		} catch (Exception e) {
 			request.sendException("Onverwachte fout voorgedaan");
 		}
 	};
-	
+
 	public static void handleTeamLoginRequest(TeamLoginRequest request) {
 		try {
 			Team t = getTeam(request.getTeamId());
@@ -264,43 +281,43 @@ public class DatabaseUtil {
 				request.sendException("Het wachwoord is incorrect");
 				return;
 			} 
-			
+
 			TeamLoginResponse r = request.createResponse();
 			r.setCreatorId(t.getTeamCreator().getId());
 			for(Player p: t.getPlayers()) {
 				r.addPlayer(p.getId(), p.getUserName());
 			}
-			
+
 			r.send();
-			
+
 		} catch(HibernateException ex) {
 			request.sendException("Fout bij het doorzoeken van de database");
 		} catch (Exception e) {
 			request.sendException("Onverwachte fout voorgedaan");
 		}
 	}
-	
+
 	public static void handleCreateTeamRequest(CreateTeamRequest request) {
 		try {
 			Player creator = (Player) getUser(request.getCreatorId());
-			
+
 			Team t = new Team(request.getTeamName(), request.getPassword(), creator);
-			
+
 			TeamLoginResponse r = request.createResponse();
 			r.setCreatorId(creator.getId());
-			
+
 			for(int id : request.getPlayerIds()) {
 				Player p = (Player) getUser(id);
 				t.addPlayer(p);
 				r.addPlayer(p.getId(), p.getUserName());
 			}
-			
+
 			saveObject(t);
-			
+
 			r.setTeamId(t.getTeamId());
 			r.send();
-			
-			
+
+
 		} catch(EntityExistsException ex) {
 			request.sendException("Je hebt al een team met deze naam aangemaakt");
 		} catch(HibernateException ex) {
@@ -308,22 +325,23 @@ public class DatabaseUtil {
 		} catch (ClassCastException ex) {
 			request.sendException("Er is iemand bij die geen speler is");
 		} catch (Exception ex) {
+			ex.printStackTrace();
 			request.sendException("Onverwachte fout voorgedaan");
 		}
 	}
-	
+
 	public static void handleGetTeamsRequest(GetTeamsRequest request) {
 		try {
 			List<Team> teams = getTeams(request.getUserId());
-			
+
 			GetTeamsResponse r = (GetTeamsResponse) request.createResponse();
-			
+
 			for(Team t: teams) {
 				r.addTeamItem(t.getTeamName(), t.getTeamId());
 			}
-			
+
 			r.send();
-			
+
 		} catch(HibernateException ex) {
 			request.sendException("Fout bij het doorzoeken van de database");
 		} catch (Exception e) {
@@ -331,7 +349,7 @@ public class DatabaseUtil {
 		}
 
 	}
-	
+
 	public static void handleCorrectSubmit(CorrectSubmit submit) {
 		try {
 			Answer a = getAnswer(submit.getAnswerId());
@@ -341,20 +359,20 @@ public class DatabaseUtil {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		sendAnswers.remove(submit.getAnswerId());
 	};
-	
+
 	public static void handlePictureRequest(PictureRequest request) {
 		try {
-			
+
 			//Todo: de afbeeldingen bufferen zodat de datbase niet word belast
 			PictureQuestion pic = (PictureQuestion) getQuestion(request.getQuestionId());
 			PictureResponse r = request.createResponse();
 			r.setPictureResource(pic.getPicture());
 			r.send();
-			
-			
+
+
 		} catch(HibernateException ex) {
 			request.sendException("Fout bij het doorzoeken van de database");
 		} catch (ClassCastException ex) {
@@ -363,20 +381,47 @@ public class DatabaseUtil {
 			request.sendException("Onverwachte fout voorgedaan");
 		}
 	}
-	
+
+	public static void handleConnectToQuiz(ConnectToQuizRequest request) {
+		try {
+			Quiz q = getQuiz(request.getQuizId());
+			Team t = getTeam(request.getTeamId());
+			if(q.getTeams().size() > q.getMaxTeams() || q.getTeams().contains(t) ) {
+				//dit team staat al in de lijst
+				if(!q.getTeams().contains(t)) {
+					q.addTeam(t);
+				}
+				//server zeggen dat dit hier een team zit
+				Server.getInstance().markRequestAsPlayingTeam(request.getRequestId());
+				request.createResponse().send();	
+
+			} else {
+				request.sendException("De quiz zit al aan zijn team limiet");
+			}
+
+
+		} catch(HibernateException ex) {
+			request.sendException("Fout bij het doorzoeken van de database");
+		} catch (ClassCastException ex) {
+			request.sendException("Dit is helemaal geen foto vraag");
+		} catch (Exception ex) {
+			request.sendException("Onverwachte fout voorgedaan");
+		}
+	}
+
 	public static void submitRound(Quiz quiz, QuestionRound round) {
 		RoundSubmit submit = new RoundSubmit(quiz.getQuizID(),
-											round.getRoundId(),
-											round.getQuestions().size(),
-											round.getName());
-		
+				round.getRoundId(),
+				round.getQuestions().size(),
+				round.getName());
+
 		Server.getInstance().sendToPlayers(submit);
-		
+
 		for(Question q: round.getQuestions()) {
 			submitQuestion(quiz, round,q);
 		}
 	}
-	
+
 	public static void submitQuestion(Quiz quiz, QuestionRound round,Question q) {
 		QuestionType type;
 		String[] possibilities = null;
@@ -395,32 +440,32 @@ public class DatabaseUtil {
 			//als dit zou gebeuren is er iets geks aan de hand
 			return;
 		}
-		
-		
+
+
 		QuestionSubmit submit = new QuestionSubmit(type,
-					quiz.getQuizID(),
-					round.getRoundId(),
-					q.getQuestionId(),
-					q.getQuestion(),possibilities);
-		
+				quiz.getQuizID(),
+				round.getRoundId(),
+				q.getQuestionId(),
+				q.getQuestion(),possibilities);
+
 		Server.getInstance().sendToPlayers(submit);
-		
+
 	}
-	
- 	public static void correctMultipleChoise(Answer a) {
+
+	public static void correctMultipleChoise(Answer a) {
 		if(!(a.getQuestion() instanceof MultipleChoise)) {
 			throw new IllegalArgumentException("kan alleen multiple choise exceptions verbeteren");
 		}
-		
+
 		Jury computer = (Jury) getUser("Computer");
 		MultipleChoise q = (MultipleChoise) a.getQuestion();
-		
+
 		if(a.getAnswer().equals(q.getCorrectAnswer())) {
 			a.correct(computer, a.getMaxScore());
 		} else {
 			a.correct(computer, 0);
 		}
-		
+
 		saveObject(a);
 	}
 

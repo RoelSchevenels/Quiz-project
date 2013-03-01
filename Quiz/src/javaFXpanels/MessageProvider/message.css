@@ -2,6 +2,11 @@
 .messagePane {
 	-fx-background-color: rgb(240,240,240);
 	-fx-border-style: solid;
+	-fx-border-color: rgb(180,180,180);      
+}
+
+.content-pane {
+	-fx-background-color: rgb(240,240,240);
+	-fx-border-style: solid;
 	-fx-border-color: rgb(180,180,180);
-        
 }
