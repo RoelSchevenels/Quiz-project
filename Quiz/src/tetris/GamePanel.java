@@ -4,7 +4,9 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 import javax.swing.JPanel;
-
+/**
+ * @author Roel
+ */
 public class GamePanel extends JPanel{
 	private static final long serialVersionUID = -759001245054709278L;
 	private int[][] grid;

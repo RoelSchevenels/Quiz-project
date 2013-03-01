@@ -14,21 +14,24 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import BussinesLayer.resources.MediaResource;
-
+/**
+ * @author Roel
+ */
 public class MediaFrame extends JFrame {
 	private static final long serialVersionUID = 7658138729825914696L;
 	private PaneToPanel<MediaPlayerPane> media;
+	private JPanel displayPanel;
 	
 	public MediaFrame() {
 		super("media");
 		this.setLayout(new BorderLayout());
-		JPanel p = new JPanel();
-		p.setLayout(new BorderLayout());
-		this.add(p,BorderLayout.CENTER);
+		displayPanel = new JPanel();
+		displayPanel.setLayout(new BorderLayout());
+		this.add(displayPanel,BorderLayout.CENTER);
 		
 		media = new PaneToPanel<MediaPlayerPane>(new MediaPlayerPane());
 		
-		p.add(media,BorderLayout.CENTER);
+		displayPanel.add(media,BorderLayout.CENTER);
 		
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setPreferredSize(new Dimension(900,400));
@@ -50,7 +53,13 @@ public class MediaFrame extends JFrame {
 	
 	public void setMusic(final MediaResource r) {
 		media.getContentPane().SetAudio(r);
-
+	}
+	
+	public JPanel getDisplayPanel(boolean clear)
+	{
+		if(clear)
+			displayPanel.removeAll();
+		return displayPanel;
 	}
 
 }

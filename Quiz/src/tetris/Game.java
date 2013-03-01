@@ -5,7 +5,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import javax.swing.JPanel;
-
+/**
+ * @author Roel
+ */
 public class Game{
 	private GamePanel panel;
 	private JPanel parentPanel;

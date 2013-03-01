@@ -17,7 +17,9 @@ import network.ConnectionWorker;
 import Protocol.submits.AuthSubmit;
 import Protocol.submits.IdRangeSubmit;
 import Protocol.submits.TetrisStartSubmit;
-
+/**
+ * @author Roel
+ */
 public class JuryClient extends ConnectionWorker{
 	private JFrame frame;
 	private JPanel panel;

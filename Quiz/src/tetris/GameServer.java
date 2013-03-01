@@ -18,7 +18,9 @@ import Protocol.submits.AuthSubmit;
 import Protocol.submits.IdRangeSubmit;
 import Protocol.submits.TetrisStartSubmit;
 import Protocol.submits.TetrisSubmit;
-
+/**
+ * @author Roel
+ */
 public class GameServer {
 	Game game;
 	ServerSocket serverSocket;
