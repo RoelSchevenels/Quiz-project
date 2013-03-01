@@ -1,7 +1,7 @@
 package tetris;
 
-import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -131,8 +131,8 @@ public class GameServer {
 	private void startGame()
 	{
 		JFrame frame = new JFrame();
-		JPanel panel = new JPanel();
-		panel.setPreferredSize(new Dimension(400, 400));
+		JPanel panel = new JPanel(new FlowLayout());
+		panel.setPreferredSize(new Dimension(800, 800));
 		frame.add(panel);
 		frame.pack();
 		frame.setVisible(true);
