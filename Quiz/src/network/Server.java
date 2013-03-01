@@ -25,8 +25,6 @@ import Protocol.requests.GetTeamsRequest;
 import Protocol.requests.LoginRequest;
 import Protocol.requests.Request;
 import Protocol.requests.TeamLoginRequest;
-import Protocol.requests.TestRequest;
-import Protocol.responses.TestResponse;
 import Protocol.responses.TimeOutResponse;
 import Protocol.submits.IdRangeSubmit;
 import Protocol.submits.Submit;
@@ -37,7 +35,6 @@ import Util.DatabaseUtil;
  * @author Roel
  */
 public class Server {
-	// We zijn allemaal maar mensen he
 	private static Server instance;
 	private ServerSocket serverSocket;
 	private Socket clientSocket;
@@ -207,18 +204,7 @@ public class Server {
 						DatabaseUtil.handleLoginRequest((LoginRequest) r);
 					}
 				});
-		
-		RequestManager.addRequestListener(TestRequest.class, new RequestListener() {
-			public void handleRequest(Request r)
-			{
-				TestRequest trq = (TestRequest)r;
-				System.out.println(trq.getMessage());
-				TestResponse trp = trq.createResponse();
-				trp.setMessage(trq.getMessage().toUpperCase());
-				trp.send();
-			}
-		});
-		
+			
 		RequestManager.addRequestListener(CreateUserRequest.class, new RequestListener() {
 			public void handleRequest(Request r)
 			{

@@ -10,13 +10,10 @@ import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import Protocol.ResponseListener;
 import Protocol.SubmitManager;
 import Protocol.exceptions.IdRangeException;
 import Protocol.requests.Request;
-import Protocol.requests.TestRequest;
 import Protocol.responses.Response;
-import Protocol.responses.TestResponse;
 import Protocol.submits.IdRangeSubmit;
 import Protocol.submits.Submit;
 /**
@@ -89,20 +86,6 @@ public class Client extends ConnectionWorker {
 			maxReqId = irs.getMax();
 			curReqId = minReqId;
 			
-			// TODO: Na de test dit opkuisen
-			try {
-				TestRequest t = new TestRequest("Dit is een test");
-				t.onResponse(new ResponseListener() {
-					public void handleResponse(Response response)
-					{
-						System.out.println("Response: " + ((TestResponse)response).getMessage());
-					}
-				});
-				sendRequest(t);
-			} catch (IOException | IdRangeException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 		} else if (data instanceof Response) {
 			Response r = (Response) data;
 			if (sentRequests.containsKey(r.getRequestId())) {

@@ -28,7 +28,7 @@ public class BackupPaneltest {
                 
                 FXMLToPanel<AnchorPane, BackupController> test = null;
 				try {
-					test = new FXMLToPanel<AnchorPane,BackupController>(BackupController.class.getResource("FXMLbackup.fxml"));
+					test = new FXMLToPanel<AnchorPane,BackupController>(BackupController.class.getResource("FXMLBackup.fxml"));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
