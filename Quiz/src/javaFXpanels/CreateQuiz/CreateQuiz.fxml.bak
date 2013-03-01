@@ -5,6 +5,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.*?>
 
 <AnchorPane prefHeight="400.310546875" prefWidth="450.0" xmlns:fx="http://javafx.com/fxml" fx:controller="javaFXpanels.CreateQuiz.CreateQuizController">
   <!-- TODO Add Nodes -->
@@ -65,7 +66,23 @@
         </Tab>
         <Tab text="Multiple Choice">
           <content>
-            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+              <children>
+                <Label layoutX="66.0" layoutY="88.0" text="Vraag:" />
+                <TextField layoutX="121.0" layoutY="85.0" prefWidth="260.0" />
+                <Label layoutX="107.0" layoutY="151.0" text="Keuze #1:" />
+                <TextField layoutX="181.0" layoutY="145.0" prefWidth="200.0" />
+                <Label layoutX="107.0" layoutY="175.0" text="Keuze #2:" />
+                <TextField layoutX="181.0" layoutY="172.0" prefWidth="200.0" />
+                <Label layoutX="107.0" layoutY="207.0" text="Keuze #3:" />
+                <TextField layoutX="181.0" layoutY="204.0" prefWidth="200.0" />
+                <Label layoutX="50.0" layoutY="121.0" text="Correct antwoord*:" />
+                <TextField layoutX="181.0" layoutY="115.0" prefWidth="200.0" />
+                <Text boundsType="VISUAL" layoutX="49.0" layoutY="254.0" scaleX="1.0" scaleY="1.0" strokeType="OUTSIDE" strokeWidth="0.0" text="* telt mee als een keuze" />
+                <Button layoutX="181.0" layoutY="282.0" mnemonicParsing="false" text="Bevestig" />
+                <Button layoutX="302.0" layoutY="282.0" mnemonicParsing="false" text="Annuleer" />
+              </children>
+            </AnchorPane>
           </content>
         </Tab>
         <Tab text="Media Vraag">
