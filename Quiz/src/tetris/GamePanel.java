@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 public class GamePanel extends JPanel{
 	private static final long serialVersionUID = -759001245054709278L;
@@ -30,11 +31,13 @@ public class GamePanel extends JPanel{
 	{
 		this.grid = grid;
 		repaint();
+		System.out.println("update:" + SwingUtilities.isEventDispatchThread());
 	}
 	
 	public void paintComponent(Graphics g)
 	{
 		super.paintComponent(g);
+		System.out.println("paint: "+ SwingUtilities.isEventDispatchThread());
 		for(int i=0;i<width;i++){
 			for(int j=0;j<height;j++){
 				if(grid[i][j] > 0){

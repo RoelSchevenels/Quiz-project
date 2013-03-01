@@ -40,7 +40,7 @@ public class TetrisPanel extends JPanel {
 		setPreferredSize(new Dimension(200,200));
 		setFocusable(true);
 		player = new JLabel("<html><br />Player " + ((playernum == 0) ? "" : playernum)+"</html>");
-		instructions = new JLabel("<html>←↓→ om te bewegen,<br />↑ om te draaien.</html>");
+		instructions = new JLabel("<html><center>←↓→ om te bewegen,<br />↑ om te draaien.</center></html>");
 		player.setHorizontalAlignment(SwingConstants.CENTER);
 		instructions.setHorizontalAlignment(SwingConstants.CENTER);
 		add(player, BorderLayout.NORTH);

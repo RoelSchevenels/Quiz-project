@@ -5,9 +5,12 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 public class Game{
 	private GamePanel panel;
+	private JPanel parentPanel;
 	private JFrame frame;
 	private int[][] grid;
 	private int player;
@@ -17,7 +20,7 @@ public class Game{
 	private boolean playing;
 	private ExecutorService ex;
 	
-	public Game()
+	public Game(JPanel parentPanel)
 	{
 		grid = new int[10][20];
 		player = 1;
@@ -25,18 +28,21 @@ public class Game{
 		playing = false;
 		ex = Executors.newCachedThreadPool();
 		
+		this.parentPanel = parentPanel;
 		makeGUI();
 	}
 	
 	public void makeGUI()
 	{
-		frame = new JFrame("Tetris");
-		panel = new GamePanel(20,20,10);
-		frame.add(panel);
-		panel.setPreferredSize(new Dimension(200,400));
-		frame.pack();
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setVisible(true);
+		int margin = 10;
+		int maxwidth = parentPanel.getWidth() - margin;
+		int maxheight = parentPanel.getHeight() - margin;
+		int xtiles = 10;
+		int ytiles = 20;
+		int tilesize = Math.min((maxwidth/xtiles), (maxheight/ytiles));
+		panel = new GamePanel(tilesize,ytiles,xtiles);
+		panel.setPreferredSize(new Dimension(xtiles*tilesize,ytiles*tilesize));
+		parentPanel.add(panel);
 	}
 
 	private class Core implements Runnable{
@@ -66,6 +72,8 @@ public class Game{
 			}else{
 				p.move(0,1);
 				panel.update(p.apply(grid));
+				parentPanel.repaint();
+				
 			}
 		}
 	}

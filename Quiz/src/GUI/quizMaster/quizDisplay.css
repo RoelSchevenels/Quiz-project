@@ -18,12 +18,13 @@
  */
 
 
-/* kleuren die over heel de stijl gebruikt worden declareren */
+/* kleuren en lettertypes die over heel de stijl gebruikt worden declareren */
 .root {
 	collor1: rgb(240,70,25);
 	collor2: rgb(240,125,25);
 	gradient: linear-gradient(to bottom,
 				collor1 0%, collor2 100%);
+	font1: 'Georgia';
 }
 
 .slide-in-bar {
@@ -66,13 +67,13 @@
 
 .finish-text, .round-text, .question-text {
 	-fx-text-alignment: center;
-	-fx-font: 52px 'comic sans ms';
+	-fx-font: 52px font1;
 	-fx-fill: white;
 	
 }
 
 .multiple-choise-text {
-	-fx-font: 30px 'comic sans ms';
+	-fx-font: 30px font1;
 	-fx-fill: white;
 }
 
@@ -81,7 +82,7 @@
 }
 
 .answer-text {
-	-fx-font: 42px 'comic sans ms';
+	-fx-font: 42px font1;
 	-fx-fill: green;
 }
 

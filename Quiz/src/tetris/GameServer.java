@@ -1,5 +1,6 @@
 package tetris;
 
+import java.awt.Dimension;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -7,6 +8,9 @@ import java.util.Hashtable;
 import java.util.Vector;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import network.ConnectionWorker;
 import Protocol.submits.AuthSubmit;
@@ -118,10 +122,22 @@ public class GameServer {
 		this.online = true;
 		clientSocket = null;
 		workers = new Vector<ConnectionWorker>();
-		game = new Game();
+		startGame();
 		roles = new Hashtable<Integer, String>();
 		activePlayer="";
 	}
+	
+	private void startGame()
+	{
+		JFrame frame = new JFrame();
+		JPanel panel = new JPanel();
+		panel.setPreferredSize(new Dimension(400, 400));
+		frame.add(panel);
+		frame.pack();
+		frame.setVisible(true);
+		game = new Game(panel);
+	}
+	
 	public GameServer(int port)
 	{
 		this.port = port;
