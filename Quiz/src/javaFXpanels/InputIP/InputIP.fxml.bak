@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane id="inputAnchor" fx:id="anchorPane" prefHeight="250.0" prefWidth="340.0" xmlns:fx="http://javafx.com/fxml" fx:controller="javaFXpanels.InputIP.InputIPController">
+  <!-- TODO Add Nodes -->
+  <children>
+    <AnchorPane fx:id="inputAnchor" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <children>
+        <Label fx:id="labelIP" layoutX="53.0" text="Geef het IP-adres van de server in:" AnchorPane.topAnchor="67.0" />
+        <TextField fx:id="inputIP" layoutX="46.0" prefWidth="154.0" AnchorPane.topAnchor="123.0" />
+        <Button fx:id="buttonConfirm" layoutX="211.0" mnemonicParsing="false" prefHeight="22.0" text="Bevestig" AnchorPane.topAnchor="123.0" />
+      </children>
+    </AnchorPane>
+    <AnchorPane fx:id="progressAnchor" prefHeight="200.0" prefWidth="200.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <children>
+        <ProgressIndicator fx:id="loadingIndicator" layoutX="153.0" layoutY="105.0" progress="-1.0" />
+      </children>
+    </AnchorPane>
+  </children>
+</AnchorPane>

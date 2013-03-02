@@ -311,7 +311,7 @@ public class QuestionDisplayController implements Initializable {
 
 	//een oude ronde verwijderen
 	private void removeRound(RoundSubmit round) {
-		if(round!= null) {
+		if(round!= null && questionsForRound.get(round) != null) {
 			questionsForRound.get(round).removeListener(questionListener);
 			questionAccordion.getPanes().clear();
 		}
