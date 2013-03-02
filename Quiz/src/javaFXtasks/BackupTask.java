@@ -73,9 +73,9 @@ public class BackupTask extends Task implements ProgressListener {
     }
     
     @Override
-    public void finnish() {
+    public void finish() {
         updateProgress(1, 1);
-        updateMessage("Finnished");
+        updateMessage("Finished");
     }
 
     @Override

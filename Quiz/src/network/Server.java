@@ -294,6 +294,11 @@ public class Server {
 			removeThread(id);
 		}
 	}
+	
+	public int getPort()
+	{
+		return this.port;
+	}
 
 	//tess die database opstart en autodiscovery
 	public static void main(String arg[])

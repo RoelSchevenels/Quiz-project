@@ -17,6 +17,8 @@ import javax.swing.JFrame;
 public class AutoDiscoverServer {
 	private static AutoDiscoverServer instance;
 	private boolean sending = false;
+	private int port;
+	private int defaultPort = 1234;
 
 	public static AutoDiscoverServer getInstance()
 	{
@@ -26,7 +28,9 @@ public class AutoDiscoverServer {
 		return instance;
 	}
 	
-	private AutoDiscoverServer() {};
+	private AutoDiscoverServer() {
+		this.port = defaultPort;
+	};
 	
 	public void start() throws IOException {
 		if(sending == false) {
@@ -60,7 +64,7 @@ public class AutoDiscoverServer {
 				// al host multicast address gebruiken
 				p.setAddress(InetAddress.getByAddress(new byte[] { (byte)25, (byte)105, (byte)121, (byte)87 }));
 				//p.setAddress(InetAddress.getByAddress(new byte[] {(byte) 127, (byte) 0, (byte) 0, (byte) 1}));
-				p.setPort(1234);
+				p.setPort(port);
 				p.setData(bytes);
 
 				while (sending) {
@@ -87,8 +91,19 @@ public class AutoDiscoverServer {
 				}
 			}
 
-		}
+		}	
 	}
+
+	public int getPort()
+	{
+		return port;
+	}
+
+	public void setPort(int port)
+	{
+		this.port = port;
+	}
+	
 	public static void main(String[] args)
 	{
 		try {

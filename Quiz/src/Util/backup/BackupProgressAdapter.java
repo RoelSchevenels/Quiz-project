@@ -118,7 +118,7 @@ public class BackupProgressAdapter implements BackupProgressListener {
 		}
 
 		for(ProgressListener p : clone) {
-			p.finnish();
+			p.finish();
 		}
 	}
 
