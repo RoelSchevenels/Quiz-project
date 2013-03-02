@@ -196,6 +196,7 @@ public class QuestionDisplayController implements Initializable {
 
 			@Override
 			public void handleFxSubmit(Submit r) {
+				System.out.println("Antwoord");
 				QuestionSubmit submit = (QuestionSubmit) r;
 				if(roundForId.containsKey(submit.getQuestionRoundId())) {
 					RoundSubmit s = roundForId.get(submit.getQuestionRoundId());

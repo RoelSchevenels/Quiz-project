@@ -413,14 +413,19 @@ public class DatabaseUtil {
 
 		Server.getInstance().sendToPlayers(submit);
 
-		for(Question q: round.getQuestions()) {
-			submitQuestion(quiz, round,q);
+		System.out.println("ronde verzonden :" + round.getQuestions().size());
+		
+		
+		for(int i= 0; i < round.getQuestions().size(); i++) {
+			System.out.println(round.getQuestions().get(0));
+			submitQuestion(quiz, round, round.getQuestions().get(0));
 		}
 	}
 
 	public static void submitQuestion(Quiz quiz, QuestionRound round,Question q) {
 		QuestionType type;
 		String[] possibilities = null;
+		System.out.println("vraag aanmaken");
 		if(q instanceof MusicQuestion) {
 			type= QuestionType.MUSIC;
 		} else if (q instanceof MusicQuestion) {
@@ -443,8 +448,8 @@ public class DatabaseUtil {
 				round.getRoundId(),
 				q.getQuestionId(),
 				q.getQuestion(),possibilities);
-
-		Server.getInstance().sendToPlayers(submit);
+		System.out.println("vraag verzenden");
+		Server.getInstance().sendToTeams(submit);
 
 	}
 

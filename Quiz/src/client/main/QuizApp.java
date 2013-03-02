@@ -164,7 +164,6 @@ public class QuizApp extends Application {
 		}
 	}
 
-
 	public void connectToQuiz(TeamLoginResponse r) {
 		try {
 			ConnectToQuizController c = (ConnectToQuizController) setFxml(connectToQuizLocation);
