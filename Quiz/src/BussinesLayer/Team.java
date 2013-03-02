@@ -107,4 +107,9 @@ public class Team {
 	public Player getTeamCreator() {
 		return teamCreator;
 	}
+	
+	@Override
+	public String toString() {
+		return teamName;
+	}
 }

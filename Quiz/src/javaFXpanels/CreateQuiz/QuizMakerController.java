@@ -74,7 +74,6 @@ public class QuizMakerController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         messageMaker = new MessageProvider(root);
         session = ConnectionUtil.getSession();
-        transaction = session.beginTransaction();
         initBindings();
         root.getChildren().removeAll(createQuizPane,createRoundsPane);
         createQuizPane.setVisible(true);
@@ -133,6 +132,7 @@ public class QuizMakerController implements Initializable {
     @FXML
     private void createRoundPressed() {
     	if(validateText(roundsText)) {
+    		transaction = session.beginTransaction();
     		QuestionRound round = new QuestionRound(roundsText.getText());
     		session.saveOrUpdate(round);
     		currentQuiz.addRound(round);
@@ -153,7 +153,7 @@ public class QuizMakerController implements Initializable {
     	if(currentRound == null) {
     		messageMaker.showWarning("Eerst een ronde selecteren");
     	} else {
-    		messageMaker.showPane(createRoundsPane);
+    		messageMaker.showPane(createQuestionPane);
     	}
     	
     }
@@ -180,6 +180,7 @@ public class QuizMakerController implements Initializable {
     			return;
     		}
     		
+    		transaction = session.beginTransaction();
     		Quiz q = new Quiz(quizText.getText(), quizMaster);
     		q.setMaxTeams(maxTeams);
     		q.setMinTeams(minTeams);
@@ -206,7 +207,8 @@ public class QuizMakerController implements Initializable {
     
     public void setQuizMaster(QuizMaster q) {
     	quisses.getItems().setAll(q.getQuissen());
-    	session.saveOrUpdate(q);
+    	//session.saveOrUpdate(q);
+    	quizMaster = q;
     }
     
     private boolean validateText(TextInputControl... fields) {

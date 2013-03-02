@@ -130,4 +130,9 @@ public abstract class Question {
  	public static String getDiscription() {
         throw new IllegalStateException("Deze methode moet door subclasses overschreven worden");
     }
+ 	
+ 	@Override
+ 	public String toString() {
+ 		return question.toString();
+ 	}
 }

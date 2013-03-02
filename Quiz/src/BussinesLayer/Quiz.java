@@ -158,4 +158,9 @@ public class Quiz {
 	public List<QuestionRound> getRounds() {
 		return rounds;
 	}
+	
+	@Override
+	public String toString() {
+		return quizName;
+	}
 }

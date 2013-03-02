@@ -70,7 +70,8 @@ public class ScreenManager {
 			frames.put(name, w);
 			bindFrame(f, w);
 		}
-
+		
+		//
 		w.setPrefersFullScreen(prefFullScreen);
 
 		if(prefFullScreen) {
@@ -78,7 +79,7 @@ public class ScreenManager {
 		} else if(w.isFullScreen()) {
 			removeFullscreen(w);
 		}
-
+		//
 		return w.getFrame();
 	}
 	
