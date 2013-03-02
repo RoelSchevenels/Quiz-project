@@ -6,7 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
 import org.hibernate.Session;
-import screenManger.ScreenManeger;
+import screenManger.ScreenManager;
 
 import Util.ConnectionUtil;
 
@@ -76,7 +76,7 @@ public class TestQuizMasterFrame extends Application {
     	ConnectionUtil.StartDataBase();
     	
         //launch(args);
-        JFrame f = ScreenManeger.getInstance().getFrame("quiz",false);
+        JFrame f = ScreenManager.getInstance().getFrame("quiz",false);
         f.setVisible(true);
         f.requestFocus();
         f.setSize(500, 500);

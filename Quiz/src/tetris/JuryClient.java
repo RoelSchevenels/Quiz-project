@@ -45,7 +45,6 @@ public class JuryClient extends ConnectionWorker{
 			} catch (UnknownHostException e) {
 				System.out.println("Server niet gevonden");
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

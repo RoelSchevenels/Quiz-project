@@ -16,8 +16,12 @@ public class Installer {
 	private static JFileChooser jfc;
 	public static void main(String arg[]) throws IOException
 	{
-		String regex = "<property name=\"hibernate.connection.url\">jdbc:h2:.*</property>";
-		String replacement = "<property name=\"hibernate.connection.url\">jdbc:h2:%s</property>";
+		String[] regex = {"<property name=\"hibernate.connection.url\">jdbc:h2:.*</property>",
+				"<property name=\"hibernate.show_sql\">.*</property>",
+				" <property name=\"hibernate.use_sql_comments\">.*</property>"};
+		String[] replacement = {"<property name=\"hibernate.connection.url\">jdbc:h2:%s</property>",
+				"<property name=\"hibernate.show_sql\">false</property>",
+		" <property name=\"hibernate.use_sql_comments\">false</property>"};
 		String home = System.getProperty("user.home"); 
 		jfc = new JFileChooser();
 		jfc.setCurrentDirectory(new File(home));
@@ -26,14 +30,18 @@ public class Installer {
 		File destination = getFile("Quiz.jar",true,"Gezipte bestanden", "jar","zip");		
 		File db = getFile("Quiz", true, "Database", "db");
 		
-		replacement = String.format(replacement, db.getAbsolutePath());
+		replacement[0] = String.format(replacement[0], db.getAbsolutePath());
 		
 		File content = ZipUtil.getFromZip(zipfile, "hibernate.cfg.xml");
 		File newcontent = new File("hibernate.cfg.xml");
 		Scanner s = new Scanner(new FileInputStream(content));
 		FileWriter out = new FileWriter(newcontent);
 		while(s.hasNext()) {
-			out.write(s.nextLine().replaceAll(regex, replacement));
+			String line = s.nextLine();
+			for (int i=0;i<regex.length;i++) {
+				line = line.replaceAll(regex[i], replacement[i]);
+			}
+			out.write(line);
 		}
 		s.close();
 		out.close();

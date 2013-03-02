@@ -38,8 +38,8 @@ import BussinesLayer.resources.MediaResource;
 import GUI.quizMaster.MediaFrame;
 
 
-public class ScreenManeger {
-	private static ScreenManeger instance;
+public class ScreenManager {
+	private static ScreenManager instance;
 
 	private HashSet<ScreenWrapper> availableScreens;
 	private HashSet<FrameWrapper> visibleFrames;
@@ -47,7 +47,7 @@ public class ScreenManeger {
 
 
 
-	private ScreenManeger() {
+	private ScreenManager() {
 		frames = new HashMap<String, FrameWrapper>();
 		availableScreens = new HashSet<ScreenWrapper>();
 		visibleFrames = new HashSet<FrameWrapper>();
@@ -80,6 +80,15 @@ public class ScreenManeger {
 		}
 
 		return w.getFrame();
+	}
+	
+	public void setFrameFullScreen(String name, boolean fullscreen)
+	{
+		FrameWrapper w = frames.get(name);
+		if(fullscreen)
+			setFullScreenIfPossible(w);
+		else
+			removeFullscreen(w);
 	}
 
 	public MediaFrame getMediaFrame() {
@@ -225,9 +234,9 @@ public class ScreenManeger {
 
 	}
 
-	public static ScreenManeger getInstance() {
+	public static ScreenManager getInstance() {
 		if(instance == null) {
-			instance = new ScreenManeger();
+			instance = new ScreenManager();
 		}
 		return instance;
 	}

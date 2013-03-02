@@ -69,7 +69,6 @@ public abstract class ConnectionWorker implements Runnable {
 		try {
 			this.queue.put(data);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

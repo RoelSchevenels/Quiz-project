@@ -11,7 +11,7 @@ import java.util.List;
 import javaFXpanels.MediaPane.MediaControllerController;
 import javaFXpanels.MessageProvider.MessageProvider;
 
-import screenManger.ScreenManeger;
+import screenManger.ScreenManager;
 
 import javafx.animation.FadeTransition;
 import javafx.animation.FadeTransitionBuilder;
@@ -65,6 +65,7 @@ import BussinesLayer.resources.Resource;
 
 public class QuizMasterDisplay extends AnchorPane{
 	private static double MAX_SLIDEBAR_OPACITY = 0.8;
+	private static String screenName = "main";
 	private SimpleObjectProperty<Question> currentQuestion;
 	private SimpleObjectProperty<QuestionRound> currentRound;
 	private SimpleObjectProperty<Resource> currentResource; 
@@ -169,6 +170,8 @@ public class QuizMasterDisplay extends AnchorPane{
 				if(event.getCode().equals(KeyCode.SPACE)) {
 					togleSlideIn();
 					event.consume();
+				} else if(event.getCode().equals(KeyCode.ESCAPE)) {
+					ScreenManager.getInstance().setFrameFullScreen(QuizMasterDisplay.screenName, false);
 				}
 			}
 		});
@@ -408,10 +411,10 @@ public class QuizMasterDisplay extends AnchorPane{
 				
 				if(q instanceof VideoQuestion) {
 					VideoQuestion v = (VideoQuestion) q;
-					ScreenManeger.getInstance().createMediaFrame(c, v.getMediaResource(), true);
+					ScreenManager.getInstance().createMediaFrame(c, v.getMediaResource(), true);
 				} else {
 					MusicQuestion m = (MusicQuestion) q;
-					ScreenManeger.getInstance().createMediaFrame(c, m.getMediaResource(), false);
+					ScreenManager.getInstance().createMediaFrame(c, m.getMediaResource(), false);
 				}
 				
 				
@@ -419,7 +422,7 @@ public class QuizMasterDisplay extends AnchorPane{
 				messageMaker.showError(e.getMessage());
 			}
 		} else {
-			ScreenManeger.getInstance().clearMediaFrame();
+			ScreenManager.getInstance().clearMediaFrame();
 		}
 	}
 
@@ -428,7 +431,7 @@ public class QuizMasterDisplay extends AnchorPane{
 		Text t = new Text("Einde van de quiz");
 		t.getStyleClass().add("finish-text");
 		t.wrappingWidthProperty().bind(content.widthProperty().add(-20));
-		ScreenManeger.getInstance().clearMediaFrame();
+		ScreenManager.getInstance().clearMediaFrame();
 		content.getChildren().add(t);
 	}
 
@@ -439,7 +442,7 @@ public class QuizMasterDisplay extends AnchorPane{
 		Text t = new Text(name);
 		t.getStyleClass().add("round-text");
 		t.wrappingWidthProperty().bind(content.widthProperty().add(-20));
-		ScreenManeger.getInstance().clearMediaFrame();
+		ScreenManager.getInstance().clearMediaFrame();
 		content.getChildren().add(t);
 	}
 	

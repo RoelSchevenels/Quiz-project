@@ -158,9 +158,7 @@ public class PlayerPanel extends JPanel
 	{
 		@Override
 		public void propertyChange(PropertyChangeEvent evt)
-		{
-			// TODO Auto-generated method stub
-			
+		{			
 			if(evt.getPropertyName().equals("question"))
 			{
 				System.out.println("Question Changed");

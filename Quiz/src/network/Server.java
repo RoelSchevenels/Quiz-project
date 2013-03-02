@@ -300,7 +300,7 @@ public class Server {
 		return this.port;
 	}
 
-	//tess die database opstart en autodiscovery
+	//test die database opstart en autodiscovery
 	public static void main(String arg[])
 	{
 		ConnectionUtil.StartDataBase();
@@ -321,7 +321,6 @@ public class Server {
 			});
 			f.setSize(500, 500);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

@@ -31,7 +31,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
-//TODO: een methode om een pane als message weer te geven
 public class MessageProvider {
 	private AnchorPane parent;
 	private AnchorPane messagePane;

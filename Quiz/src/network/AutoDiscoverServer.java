@@ -113,7 +113,6 @@ public class AutoDiscoverServer {
 			frame.setSize(100,100);
 			frame.setVisible(true);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

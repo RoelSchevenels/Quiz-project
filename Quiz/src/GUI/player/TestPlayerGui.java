@@ -37,7 +37,6 @@ public class TestPlayerGui extends JFrame
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
 				QuizMaster qm = new QuizMaster("Bob", "bla");
 				Question question = new StandardQuestion(qm, "What does the scouter say about his power-level?", "IT'S OVER 9000!!!");
 				pnlPlayer.setQuestion(question);
@@ -52,7 +51,6 @@ public class TestPlayerGui extends JFrame
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
 				QuizMaster qm = new QuizMaster("Bob", "bla");
 				MultipleChoise question = new MultipleChoise(qm);
 				question.setQuestion("How many Namekians does it take to screw in a light bulb?");

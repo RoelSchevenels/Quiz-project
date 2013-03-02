@@ -72,7 +72,7 @@ public class TetrisPanel extends JPanel {
 					new TetrisSubmit(dir).send();
 				} catch (IOException e) {
 					JOptionPane.showMessageDialog(null, "Kan geen verbinding maken met de server");
-					// TODO : MessageProvider hiervoor gebruiken? Kan dat vanuit een JPanel ?
+					// MessageProvider hiervoor gebruiken? Kan dat vanuit een JPanel ?
 				}
 			}
 		}	
