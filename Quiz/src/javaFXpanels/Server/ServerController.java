@@ -1,3 +1,9 @@
+/**
+ * Controller klasse voor de GUI op de server-kant
+ * 
+ * @author De Meersman Vincent
+ */
+
 package javaFXpanels.Server;
 
 import java.net.URL;

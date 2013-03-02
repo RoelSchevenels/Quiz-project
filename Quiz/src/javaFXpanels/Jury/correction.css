@@ -1,6 +1,8 @@
-/*
- * Empty Stylesheet file.
- */
+/**
+  * Stylesheet voor Jury-panel
+  * 
+  * @author De Meersman Vincent
+  */
 
 .mainFxmlClass {
 
@@ -11,27 +13,33 @@
 }
 
 
-/* het stackpane waarin zich het geven antwoord bevindt */
+/* het stackpane waarin zich het gegeven antwoord bevindt */
 #answerBox {
-    
+    -fx-background-color: cornsilk ;
+    -fx-border-style: solid;
+  	-fx-border-color: gradient;
 }
 
 #answerText {
     
 }
 
+/* het stackpane waarin zich de vraag bevindt */
 #questionBox {
-    
+    -fx-border-style: solid;
 }
 
 #questionText {
     
 }
 
+/* het stackpane waarin zich het juiste antwoord bevindt */
 #correctAnswerBox {
-    
+    -fx-background-fills: lightgreen ;
+    -fx-border-style: solid;
+  	-fx-border-color: gradient;
 }
 
 #correctAnswerText {
-    
+
 }
