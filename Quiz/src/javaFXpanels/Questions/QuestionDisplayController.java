@@ -55,7 +55,7 @@ public class QuestionDisplayController implements Initializable {
 	@FXML
 	private VBox openQuestionVbox;
 	@FXML
-	private VBox multipleChoiceVbox;
+	private VBox multipleChoiseVbox;
 	@FXML
 	private VBox imageQuestionVbox;
 	@FXML
@@ -113,12 +113,12 @@ public class QuestionDisplayController implements Initializable {
 		questionForPane = new HashMap<TitledPane,QuestionSubmit>();
 
 		messageMaker = new MessageProvider(root);
-		root.getChildren().removeAll(openQuestionVbox,imageQuestionVbox,multipleChoiceVbox);
+		root.getChildren().removeAll(openQuestionVbox,imageQuestionVbox,multipleChoiseVbox);
 		openQuestionVbox.setVisible(true);
-		multipleChoiceVbox.setVisible(true);
+		multipleChoiseVbox.setVisible(true);
 		imageQuestionVbox.setVisible(true);
 
-		for(VBox box: new VBox[] {openQuestionVbox,multipleChoiceVbox,imageQuestionVbox}) {
+		for(VBox box: new VBox[] {openQuestionVbox,multipleChoiseVbox,imageQuestionVbox}) {
 			AnchorPane.setBottomAnchor(box, 0.0);
 			AnchorPane.setLeftAnchor(box, 0.0);
 			AnchorPane.setRightAnchor(box, 0.0);
@@ -174,7 +174,7 @@ public class QuestionDisplayController implements Initializable {
 			}
 		});
 
-		quizPane.visibleProperty().bind(currentPlayingRound.isNotEqualTo(null));
+		quizPane.visibleProperty().bind(currentPlayingRound.isNotNull());
 	}
 
 	private void startListening() {
@@ -265,7 +265,7 @@ public class QuestionDisplayController implements Initializable {
 			possebilityVBox.getChildren().add(button);
 		}
 
-		return multipleChoiceVbox;
+		return multipleChoiseVbox;
 	}
 
 	private VBox createOpenQuestion(QuestionSubmit submit) {
@@ -332,20 +332,20 @@ public class QuestionDisplayController implements Initializable {
 	@FXML
 	private void submitOpenQuestion() {
 		QuestionSubmit submit = questionForPane.get(questionAccordion.expandedPaneProperty().get());	
-		answerForQuestion.put(submit, submit.createAnswerSubmit(openAnswer.getText()));
+		answerForQuestion.put(submit, submit.createAnswerSubmit(openAnswer.getText(),teamId));
 	}
 
 	@FXML
 	private void submitImageQuestion() {
 		QuestionSubmit submit = questionForPane.get(questionAccordion.expandedPaneProperty().get());	
-		answerForQuestion.put(submit, submit.createAnswerSubmit(imageAnswer.getText()));
+		answerForQuestion.put(submit, submit.createAnswerSubmit(imageAnswer.getText(),teamId));
 	}
 
 	@FXML
 	private void submitMultipleQuestion() {
 		String answer = choises.getSelectedToggle() == null? "": ((RadioButton)choises.getSelectedToggle()).getText();
 		QuestionSubmit submit = questionForPane.get(questionAccordion.expandedPaneProperty().get());
-		answerForQuestion.put(submit, submit.createAnswerSubmit(answer));
+		answerForQuestion.put(submit, submit.createAnswerSubmit(answer,teamId));
 	}
 
 	@FXML

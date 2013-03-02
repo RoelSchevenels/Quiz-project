@@ -175,7 +175,8 @@ public class QuizApp extends Application {
 				@Override
 				public void changed(ObservableValue<? extends Boolean> observable,
 						Boolean oldValue, Boolean newValue) {
-					if(newValue= true) {
+					if(newValue == true) {
+						System.out.println(login.getUserType());
 						startQuiz();
 					}
 				}
@@ -189,7 +190,7 @@ public class QuizApp extends Application {
 
 	private void startQuiz() {
 		try {
-			setFxml(connectToQuizLocation);
+			setFxml(quizLocation);
 
 
 		} catch (IOException e) {

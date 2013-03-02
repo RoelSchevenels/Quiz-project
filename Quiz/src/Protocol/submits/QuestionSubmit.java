@@ -26,8 +26,8 @@ public class QuestionSubmit extends Submit {
 		this.possibilities = possibilities;
 	}
 
-	public AnswerSubmit createAnswerSubmit(String answer) {
-		return new AnswerSubmit(questionRoundId,quizId,questionId,answer);
+	public AnswerSubmit createAnswerSubmit(String answer,int teamID) {
+		return new AnswerSubmit(questionRoundId,quizId,questionId,teamID,answer);
 	}
 
 	

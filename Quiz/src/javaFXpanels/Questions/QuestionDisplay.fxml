@@ -60,12 +60,12 @@
           <content>
             <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
               <children>
-                <ScrollPane id="ScrollPane" hbarPolicy="NEVER" prefHeight="310.0" prefViewportHeight="316.0" prefViewportWidth="458.0" prefWidth="455.0" visible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <ScrollPane id="ScrollPane" fx:id="questionScroll" hbarPolicy="NEVER" prefHeight="310.0" prefViewportHeight="316.0" prefViewportWidth="458.0" prefWidth="455.0" visible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                   <content>
-                    <AnchorPane id="AnchorPane" prefHeight="363.0" prefWidth="500.0">
+                    <AnchorPane id="AnchorPane" fx:id="quizPane" prefHeight="363.0" prefWidth="500.0">
                       <children>
-                        <Text scaleX="1.0" scaleY="1.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="titel-text" text="Text" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0" />
-                        <Accordion expandedPane="$null" prefHeight="316.0" prefWidth="458.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0" />
+                        <Text fx:id="roundTitle" scaleX="1.0" scaleY="1.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="titel-text" text="Text" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0" />
+                        <Accordion fx:id="questionAccordion" expandedPane="$null" prefHeight="316.0" prefWidth="458.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0" />
                       </children>
                     </AnchorPane>
                   </content>
@@ -76,7 +76,7 @@
         </Tab>
         <Tab text="Scores">
           <content>
-            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+            <AnchorPane id="Content" fx:id="scorePane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
           </content>
         </Tab>
       </tabs>
