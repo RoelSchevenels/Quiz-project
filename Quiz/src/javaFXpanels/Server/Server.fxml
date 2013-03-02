@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="serverAnchor" prefHeight="250.0" prefWidth="300.0" xmlns:fx="http://javafx.com/fxml" fx:controller="javaFXpanels.Server.ServerController">
+  <!-- TODO Add Nodes -->
+  <children>
+    <AnchorPane fx:id="controlsAnchor" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <children>
+        <Label fx:id="controlLabel" layoutX="100.0" prefHeight="20.999908447265625" text="Server Controls:" AnchorPane.topAnchor="40.0" />
+        <Button fx:id="maakQuiz" layoutX="106.0" mnemonicParsing="false" onAction="#makeNewQuiz" text="Maak Quiz" AnchorPane.topAnchor="84.0" />
+        <Button fx:id="speelQuiz" layoutX="106.0" mnemonicParsing="false" onAction="#playQuiz" text="Speel Quiz" AnchorPane.topAnchor="125.0" />
+        <Button fx:id="maakBackup" layoutX="98.0" mnemonicParsing="false" onAction="#makeBackup" text="Maak Backup" AnchorPane.topAnchor="166.0" />
+      </children>
+    </AnchorPane>
+  </children>
+</AnchorPane>
