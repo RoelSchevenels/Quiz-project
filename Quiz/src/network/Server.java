@@ -84,7 +84,6 @@ public class Server {
 	{
 		if (instance == null) {
 			instance = new Server();
-			instance.start();
 		}
 		return instance;
 	}
@@ -262,8 +261,8 @@ public class Server {
 				new SubmitListener() {
 					public void handleSubmit(Submit r)
 					{
-						// TODO Auto-generated method stub
-
+						TetrisSubmit ts = (TetrisSubmit) r; 
+						System.out.println(ts.getMovement());
 					}
 				});
 	}
