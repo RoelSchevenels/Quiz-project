@@ -8,6 +8,7 @@ import network.Client;
 import Protocol.responses.LoginResponse;
 import Protocol.responses.LoginResponse.UserType;
 import Protocol.responses.TeamLoginResponse;
+import javaFXpanels.Jury.CorrectionController;
 import javaFXpanels.Login.LoginPanel;
 import javaFXpanels.MessageProvider.MessageProvider;
 import javaFXpanels.Questions.QuestionDisplayController;
@@ -26,11 +27,12 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
-public class QuizApp extends Application {
+public class ZaalQuizApp extends Application {
 	private static URL loginLocation;
 	private static URL teamLoginLocation;
 	private static URL connectToQuizLocation;
 	private static URL quizLocation;
+	private static URL jurryLocation;
 	private AnchorPane root;
 	private LoginResponse login;
 	private MessageProvider messageMaker;
@@ -40,6 +42,7 @@ public class QuizApp extends Application {
 		teamLoginLocation = TeamLoginController.class.getResource("teamLogin.fxml");
 		quizLocation = QuestionDisplayController.class.getResource("QuestionDisplay.fxml");
 		connectToQuizLocation = ConnectToQuizController.class.getResource("connectToQuiz.fxml");
+		jurryLocation = CorrectionController.class.getResource("correction.fxml");
 	}
 
 	@Override
@@ -120,7 +123,7 @@ public class QuizApp extends Application {
 					if(newValue!= null) {
 						login = newValue;
 						if(newValue.getUserType().equals(UserType.JURY)) {
-							startJurry(newValue);
+							connectToQuiz(null);
 						} else if(newValue.getUserType().equals(UserType.PLAYER)) {
 							startTeamLoginPane(newValue);
 						}
@@ -137,9 +140,13 @@ public class QuizApp extends Application {
 		}
 	}
 
-	private void startJurry(LoginResponse newValue) {
-		// TODO Auto-generated method stub
-
+	private void startJurry(LoginResponse login) {
+		try {
+			CorrectionController c = (CorrectionController) setFxml(jurryLocation);
+			c.setJurry(login);
+		} catch (IOException e) {
+			messageMaker.showError("Fatale fout");
+		}
 	}
 
 	private void startTeamLoginPane(LoginResponse r) {
@@ -168,14 +175,22 @@ public class QuizApp extends Application {
 			ConnectToQuizController c = (ConnectToQuizController) setFxml(connectToQuizLocation);
 			System.out.println(login.getUserType());
 			c.setMode(login.getUserType());
-			c.setTeamLogin(r);
+			if(r!= null) {
+				c.setTeamLogin(r);
+			}
 			c.readyProperty().addListener(new ChangeListener<Boolean>() {
 				@Override
 				public void changed(ObservableValue<? extends Boolean> observable,
 						Boolean oldValue, Boolean newValue) {
 					if(newValue == true) {
-						System.out.println(login.getUserType());
-						startQuiz();
+						switch (login.getUserType()) {
+						case PLAYER:
+							startPlayerQuiz();
+							break;
+						case JURY:
+							startJurry(login);
+							break;
+						}
 					}
 				}
 			});
@@ -186,7 +201,7 @@ public class QuizApp extends Application {
 		}
 	}
 
-	private void startQuiz() {
+	private void startPlayerQuiz() {
 		try {
 			setFxml(quizLocation);
 

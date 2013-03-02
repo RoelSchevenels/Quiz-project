@@ -9,7 +9,6 @@ public class AnswerSubmit extends Submit {
 	private String answer;
 	
 	
-	
 	public AnswerSubmit(int roundId, int quizId, int questionId,int teamid, String answer) {
 		this.roundId = roundId;
 		this.quizId = quizId;

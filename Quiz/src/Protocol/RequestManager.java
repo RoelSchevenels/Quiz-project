@@ -7,6 +7,8 @@ import Protocol.requests.Request;
 
 public class RequestManager {
 	/**
+	 * zorgt dat de juiste request listener wordt uitgevoerd bij het binnen komen van een request
+	 * voorkomt de nood aan een gigantische switch
 	 * @author Vrolijkx
 	 * @author Roel
 	 */

@@ -1,3 +1,6 @@
+/**
+ * @author vrolijkx
+ */
 package Protocol;
 
 import Protocol.submits.Submit;

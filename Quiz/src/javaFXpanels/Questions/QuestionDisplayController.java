@@ -25,6 +25,8 @@ import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
+import javafx.scene.control.ScrollPaneBuilder;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.ToggleGroup;
@@ -132,7 +134,10 @@ public class QuestionDisplayController implements Initializable {
 	private void initBindings() {
 		//zorgen dat de content van de scrollpane de juiste brete aanhoud
 		quizPane.prefWidthProperty().bind(questionScroll.widthProperty().add(-5));
-		//TODO wrappings zetten
+		//wrappings zetten
+		openQuestionText.wrappingWidthProperty().bind(openQuestionVbox.widthProperty().add(-20));
+		multipleChoiceText.wrappingWidthProperty().bind(multipleChoiseVbox.widthProperty().add(-20));
+		imageQuestionText.wrappingWidthProperty().bind(imageQuestionVbox.widthProperty().add(-20));
 
 		questionListener = new ListChangeListener<QuestionSubmit>() {
 			@Override
@@ -193,7 +198,6 @@ public class QuestionDisplayController implements Initializable {
 		});
 
 		SubmitManager.addSubmitListener(QuestionSubmit.class, new FxSubmitListener() {
-
 			@Override
 			public void handleFxSubmit(Submit r) {
 				System.out.println("Antwoord");
@@ -203,7 +207,6 @@ public class QuestionDisplayController implements Initializable {
 					questionsForRound.get(s).add(submit);
 				}
 
-				//TODO: Task maken die de image op de achtergrond laad
 				if(submit.getType().equals(QuestionType.PICTURE)) {
 					loadImage(submit.getQuestionId());
 				}
@@ -215,14 +218,30 @@ public class QuestionDisplayController implements Initializable {
 	private void createQuestionFor(TitledPane pane) {
 		QuestionSubmit submit = questionForPane.get(pane);
 		AnchorPane child = (AnchorPane) pane.getContent();
+		VBox question;
 
 		if(submit.getType().equals(QuestionType.PICTURE)) {
-			child.getChildren().add(createImageQuestion(submit));
+			question = createImageQuestion(submit);
 		} else if(submit.getType().equals(QuestionType.MULTIPLECHOISE)) {
-			child.getChildren().add(createMultipleQuestion(submit));
+			question = createMultipleQuestion(submit);
 		} else {
-			child.getChildren().add(createOpenQuestion(submit));
+			question = createOpenQuestion(submit);
 		}
+		
+		ScrollPane s = ScrollPaneBuilder.create()
+				.content(question)
+				.vbarPolicy(ScrollBarPolicy.AS_NEEDED)
+				.hbarPolicy(ScrollBarPolicy.NEVER)
+				.build();
+		
+		//child.setPrefHeight(question.getPrefHeight());
+		child.getChildren().clear();
+		child.getChildren().add(s);
+		
+		AnchorPane.setBottomAnchor(s, 0.0);
+		AnchorPane.setLeftAnchor(s, 0.0);
+		AnchorPane.setRightAnchor(s, 0.0);
+		AnchorPane.setTopAnchor(s, 0.0);
 
 	}
 
@@ -327,11 +346,12 @@ public class QuestionDisplayController implements Initializable {
 		} catch (IOException e) {
 			messageMaker.showWarning("Kon afbeelding niet ophalen");
 		}
-
 	}
 
 	@FXML
 	private void submitOpenQuestion() {
+		System.out.println("submit");
+		
 		QuestionSubmit submit = questionForPane.get(questionAccordion.expandedPaneProperty().get());	
 		answerForQuestion.put(submit, submit.createAnswerSubmit(openAnswer.getText(),teamId));
 	}
