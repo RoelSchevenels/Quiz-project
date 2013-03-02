@@ -94,7 +94,7 @@
                 </HBox>
                 <HBox id="HBox" alignment="CENTER_LEFT" spacing="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="70.0">
                   <children>
-                    <Label minWidth="-Infinity" prefWidth="-1.0" text="vorige backup locatie:" textFill="BLACK" HBox.hgrow="NEVER" />
+                    <Label minWidth="-Infinity" prefWidth="-1.0" text="Locatie vorige backup:" textFill="BLACK" HBox.hgrow="NEVER" />
                     <Label fx:id="pervieusLocationLabel" maxWidth="-1.0" text="previeus_location" wrapText="false" HBox.hgrow="SOMETIMES" HBox.margin="$x2" />
                   </children>
                 </HBox>
