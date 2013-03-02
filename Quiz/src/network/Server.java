@@ -84,6 +84,7 @@ public class Server {
 	{
 		if (instance == null) {
 			instance = new Server();
+			instance.start();
 		}
 		return instance;
 	}
@@ -98,8 +99,7 @@ public class Server {
 			System.out.println("Wachten op verbindingen...");
 			while (online) {
 				clientSocket = serverSocket.accept();
-				workers.add(new ServerConnectionWorker(clientSocket,
-						workerindex));
+				workers.add(new ServerConnectionWorker(clientSocket,workerindex));
 				ex.execute(workers.get(workerindex));
 				workerindex++;
 			}
