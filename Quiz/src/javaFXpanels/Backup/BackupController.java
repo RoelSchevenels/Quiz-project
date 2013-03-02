@@ -1,5 +1,5 @@
 /**
- * dit is de controller voor het backupPanel / backupAnchor
+f * dit is de controller voor het backupPanel / backupAnchor
  * wordt automatisch uit de fxml geladen
  * @author vrolijkx
  */

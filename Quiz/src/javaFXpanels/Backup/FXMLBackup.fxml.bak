@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane id="AnchorPane" fx:id="backupAnchor" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="700.0" rotate="0.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml" fx:controller="javaFXpanels.Backup.FXMLBackupController">
+<AnchorPane id="AnchorPane" fx:id="backupAnchor" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="700.0" rotate="0.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml" fx:controller="javaFXpanels.Backup.BackupController">
   <children>
     <HBox id="HBox" alignment="CENTER" prefWidth="600.0" spacing="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="11.0">
       <children>
@@ -45,7 +45,7 @@
       <children>
         <AnchorPane id="AnchorPane" VBox.vgrow="ALWAYS">
           <children>
-            <TableView fx:id="table" focusTraversable="true" onMouseClicked="#checkTableSelection" prefHeight="207.0" prefWidth="604.0" tableMenuButtonVisible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <TableView fx:id="table" focusTraversable="true" onMouseClicked="#checkTableSelection" prefHeight="207.0" prefWidth="604.0" scaleZ="1.0" tableMenuButtonVisible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
           </children>
         </AnchorPane>
         <AnchorPane id="AnchorPane" fx:id="backupInfoAnchor" prefHeight="0.0" prefWidth="-1.0" styleClass="pane_with_border" visible="false">
@@ -66,7 +66,7 @@
                         <Insets right="20.0" fx:id="x1" />
                       </HBox.margin>
                     </Label>
-                    <Label text="Groote" textFill="BLACK" />
+                    <Label text="Grootte" textFill="BLACK" />
                     <Label fx:id="sizeLabel" text="size_value" />
                   </children>
                 </HBox>
