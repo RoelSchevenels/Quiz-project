@@ -46,6 +46,12 @@ public class Client extends ConnectionWorker {
 		}
 		return instance;
 	}
+	
+	public static Client getInstance(String ip) throws UnknownHostException, IOException
+	{
+		serverIp = ip;
+		return getInstance();
+	}
 
 	private static InetAddress discover() throws IOException
 	{
@@ -67,7 +73,7 @@ public class Client extends ConnectionWorker {
 
 	public static void main(String arg[]) throws UnknownHostException, IOException
 	{
-		Client.getInstance();
+		Client.getInstance("127.0.0.1");
 	}
 
 	public void handleInput(String input)
