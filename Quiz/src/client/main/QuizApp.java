@@ -35,7 +35,6 @@ public class QuizApp extends Application {
 	private LoginResponse login;
 	private MessageProvider messageMaker;
 
-
 	static {
 		loginLocation = LoginPanel.class.getResource("Login.fxml");
 		teamLoginLocation = TeamLoginController.class.getResource("teamLogin.fxml");
