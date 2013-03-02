@@ -9,7 +9,6 @@ package javaFXpanels.MessageProvider;
 
 import java.util.ArrayList;
 
-import com.sun.javafx.geom.Shape;
 import com.sun.javafx.tk.FontMetrics;
 import com.sun.javafx.tk.Toolkit;
 

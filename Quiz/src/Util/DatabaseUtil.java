@@ -82,7 +82,6 @@ public class DatabaseUtil {
 			t.rollback();
 			throw ex;
 		}
-		s.close();
 	}
 
 	public static User getUser(String username) {
@@ -90,7 +89,6 @@ public class DatabaseUtil {
 		User u = (User) s.createQuery("select u from User u where u.userName = :name")
 				.setParameter("name", username)
 				.uniqueResult();
-		s.close();
 		return u;
 
 	}
@@ -100,7 +98,6 @@ public class DatabaseUtil {
 		User u = (User) s.createQuery("select u from User u where u.id = :id")
 				.setParameter("id", userId)
 				.uniqueResult();
-		s.close();
 		return u;
 	}
 
@@ -110,7 +107,6 @@ public class DatabaseUtil {
 				.setParameter("id", creatorId)
 				.setParameter("name", TeamName)
 				.uniqueResult();
-		s.close();
 		return t;
 	}
 
@@ -386,7 +382,7 @@ public class DatabaseUtil {
 		try {
 			Quiz q = getQuiz(request.getQuizId());
 			Team t = getTeam(request.getTeamId());
-			if(q.getTeams().size() > q.getMaxTeams() || q.getTeams().contains(t) ) {
+			if(q.getTeams().size() < q.getMaxTeams() || q.getTeams().contains(t) ) {
 				//dit team staat al in de lijst
 				if(!q.getTeams().contains(t)) {
 					q.addTeam(t);

@@ -7,7 +7,7 @@
 }
 
 .quiz-naam {
-	-fx-font: "Serif", 40px
+	-fx-font: 40px,'Georgia';
 }
 
 .loading-pane {

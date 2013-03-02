@@ -10,7 +10,7 @@ import javafx.scene.layout.VBoxBuilder;
 import javafx.scene.text.Text;
 
 
-public class LoadingPane extends StackPane {
+public class LoadingPane extends VBox {
 	private AnchorPane parrent;
 	private ProgressIndicator progress;
 	private Text loadText;
@@ -19,13 +19,9 @@ public class LoadingPane extends StackPane {
 		progress = new ProgressIndicator();
 		progress.setProgress(-1);
 		loadText = new Text("");
+		getChildren().addAll(progress,loadText);
 
-		VBox box = VBoxBuilder.create()
-				.alignment(Pos.CENTER)
-				.children(progress,loadText)
-				.build();
 
-		this.getChildren().add(box);
 		this.setVisible(false);
 		this.setAlignment(Pos.CENTER);
 		this.setFocused(true);
@@ -44,8 +40,8 @@ public class LoadingPane extends StackPane {
 		
 		if(!this.isVisible() && this.parrent!=null  &&!this.parrent.getChildren().contains(this)) {
 			parrent.getChildren().add(this);
-			parrent.requestFocus();
 			this.setVisible(true);
+			this.requestFocus();
 		}
 	}
 

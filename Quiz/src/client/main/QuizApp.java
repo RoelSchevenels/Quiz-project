@@ -9,7 +9,6 @@ import Protocol.responses.LoginResponse;
 import Protocol.responses.LoginResponse.UserType;
 import Protocol.responses.TeamLoginResponse;
 import javaFXpanels.Login.LoginPanel;
-import javaFXpanels.MessageProvider.LoadingPane;
 import javaFXpanels.MessageProvider.MessageProvider;
 import javaFXpanels.Questions.QuestionDisplayController;
 import javaFXpanels.TeamLogin.TeamLoginController;
@@ -34,7 +33,6 @@ public class QuizApp extends Application {
 	private static URL quizLocation;
 	private AnchorPane root;
 	private LoginResponse login;
-	private LoadingPane loadingPane;
 	private MessageProvider messageMaker;
 
 
@@ -47,15 +45,17 @@ public class QuizApp extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
-		loadingPane = new LoadingPane();
 		root = new AnchorPane();
-		
+		System.out.println(root);
 
 		primaryStage.setMinHeight(600.0);
 		primaryStage.setMinWidth(700.0);
-		primaryStage.setScene(new Scene(root));
+		Scene s = new Scene(root, 600, 700);
+		primaryStage.setScene(s);
+		
 		primaryStage.show();
-
+		
+		System.out.println(root);
 		//TODO: fatsoenlijk afsluiten
 		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 
@@ -77,7 +77,6 @@ public class QuizApp extends Application {
 	}
 
 	private void startDetectServer() {
-		loadingPane.showLoading("Connecteren met de server", root);
 		try {
 			Client.getInstance();
 		} catch (UnknownHostException e) {
@@ -87,7 +86,6 @@ public class QuizApp extends Application {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		loadingPane.hide();
 	}
 
 	/**
@@ -170,6 +168,8 @@ public class QuizApp extends Application {
 	public void connectToQuiz(TeamLoginResponse r) {
 		try {
 			ConnectToQuizController c = (ConnectToQuizController) setFxml(connectToQuizLocation);
+			System.out.println(login.getUserType());
+			c.setMode(login.getUserType());
 			c.setTeamLogin(r);
 			c.readyProperty().addListener(new ChangeListener<Boolean>() {
 				@Override

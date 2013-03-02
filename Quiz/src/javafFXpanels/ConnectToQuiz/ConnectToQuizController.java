@@ -17,6 +17,7 @@ import Protocol.requests.SuccesResponse;
 import Protocol.responses.ExceptionResponse;
 import Protocol.responses.GetQuizResponse;
 import Protocol.responses.LoginResponse;
+import Protocol.responses.LoginResponse.UserType;
 import Protocol.responses.Response;
 import Protocol.responses.TeamLoginResponse;
 
@@ -42,13 +43,13 @@ public class ConnectToQuizController implements Initializable {
 	private AnchorPane root;
 	@FXML
 	private Text quizText;
-
 	
 	private MessageProvider messageMaker;
 	private LoadingPane loadingPane;
 	private TeamLoginResponse team;
 	private SimpleObjectProperty<GetQuizResponse> quis;
 	private SimpleBooleanProperty ready;
+	private UserType type;
 	
 	/**
 	 * Initializes the controller class.
@@ -59,34 +60,23 @@ public class ConnectToQuizController implements Initializable {
 		ready = new SimpleBooleanProperty();
 		messageMaker = new MessageProvider(root);
 		loadingPane = new LoadingPane();
-		initBinding();
 		refresh();
 	} 
 
-	private void initBinding() {
-		quizText.textProperty().bind(Bindings
-				.createStringBinding(new Callable<String>() {
-
-					@Override
-					public String call() throws Exception {
-						if(loadingPane.visibleProperty().get()) {
-							return "";
-						} else if(quis.get().equals(null)) {
-							return "Geen quiz gevonden";
-						} else {
-							return quis.get().getQuizName();
-						}
-					}
-				}, loadingPane.visibleProperty(), quis));
-	}
 
 	@FXML
 	private void addToQuiz() {
+		System.out.println(type);
 		if(quis.get() == null) {
 			messageMaker.showWarning("Geen quiz om op te conecteren");
 			return;
+		} else if(type == null) {
+			messageMaker.showWarning("Use setMode on this controller");
+		} else if(type.equals(UserType.JURY)) {
+			ready.set(true);
+			return;
 		}
-		
+			
 		ConnectToQuizRequest r;
 		try {
 			r = new ConnectToQuizRequest(team.getTeamId(),quis.get().getQuizId());
@@ -103,6 +93,8 @@ public class ConnectToQuizController implements Initializable {
 			});
 			r.send();
 			loadingPane.showLoading("Connecteren met quiz", root);
+			
+			
 		} catch (IdRangeException | IOException e) {
 			messageMaker.showError("Problemen met comunicatie met server");
 		}
@@ -117,12 +109,16 @@ public class ConnectToQuizController implements Initializable {
 			r.onResponse(new FxResponseListener() {
 				@Override
 				public void handleFxResponse(Response response) {
+					loadingPane.hide();
 					if(response instanceof ExceptionResponse) {
 						messageMaker.showError(((ExceptionResponse) response).getExceptionMessage());
 					} else if(response instanceof GetQuizResponse) {
 						quis.set((GetQuizResponse) response);
+						quizText.setText(((GetQuizResponse) response).getQuizName());
+					} else {
+						quizText.setText("Er is Voolopig geen\nQuiz om aan deel te nemen");
 					}
-					loadingPane.hide();
+					
 				}
 			});
 			r.send();
@@ -136,6 +132,7 @@ public class ConnectToQuizController implements Initializable {
 
 	public void setTeamLogin(TeamLoginResponse login) {
 		team = login;
+
 	}
 	
 	public boolean isReady() {
@@ -144,5 +141,9 @@ public class ConnectToQuizController implements Initializable {
 	
 	public ReadOnlyBooleanProperty readyProperty() {
 		return ready;
+	}
+
+	public void setMode(UserType t) {
+		type = t;
 	}
 }

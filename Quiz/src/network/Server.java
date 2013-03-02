@@ -63,6 +63,13 @@ public class Server {
 		this.players = new ArrayList<Integer>();
 		this.jury = new ArrayList<Integer>();
 		this.playingTeams = new ArrayList<Integer>();
+		Executors.newSingleThreadExecutor().execute(new Runnable() {
+			
+			@Override
+			public void run() {
+				start();
+			}
+		});
 		mapRequests();
 		mapSubmits();
 	}
@@ -249,14 +256,6 @@ public class Server {
 			}
 		});
 	
-		RequestManager.addRequestListener(GetQuizRequest.class, new RequestListener() {
-			
-			@Override
-			public void handleRequest(Request r) {
-				new TimeOutResponse(r.getRequestId()).send();
-				
-			}
-		});
 	}
 
 	private void mapSubmits()
@@ -295,13 +294,7 @@ public class Server {
 	{
 		ConnectionUtil.StartDataBase();
 		
-		Executors.newSingleThreadExecutor().execute(new Runnable() {
-			
-			@Override
-			public void run() {
-				getInstance().start();
-			}
-		});
+		Server.getInstance();
 		
 		try {
 			AutoDiscoverServer.getInstance().start();

@@ -24,8 +24,4 @@ public class GetQuizResponse extends Response {
 	public void setQuizName(String quizName) {
 		this.quizName = quizName;
 	}
-	
-	
-	
-
 }
