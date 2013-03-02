@@ -91,6 +91,7 @@ public class MessageProvider {
 				.toY(0.0)
 				.build();
 
+		
 		//de hide transition
 		hideTransition = TranslateTransitionBuilder
 				.create()
@@ -100,6 +101,16 @@ public class MessageProvider {
 				.build();
 
 		//als de contentPane veranderd
+		
+		hideTransition.setOnFinished(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent event) {
+				contentPane.get().setVisible(false);
+				expanded.set(false);
+			}
+		});
+		
 		contentPane.addListener(new ChangeListener<Pane>() {
 			@Override
 			public void changed(ObservableValue<? extends Pane> observable,
@@ -107,24 +118,20 @@ public class MessageProvider {
 				if(newValue!= null) {
 					showTransition.setNode(newValue);
 					hideTransition.setNode(newValue);
+					
 					hideTransition.toYProperty().bind(newValue.heightProperty().add(20).multiply(-1));
-					newValue.clipProperty().set(clipingBox);
+					
 					newValue.setTranslateY(-newValue.getPrefHeight() - 20);
+					if(!parent.getChildren().contains(newValue)) {
+						parent.getChildren().add(newValue);
+					}
+					//newValue.setClip(clipingBox);
+					newValue.getStylesheets()
+						.add(this.getClass().getResource("message.css").toExternalForm());
+					newValue.getStyleClass().add("content-pane");
+					locatePane(newValue);
 				}
-				if(oldValue != null) {
-					oldValue.setClip(null);
-				}
-			}
-		});
-
-		//messagPane verbergen na hide trasition
-		hideTransition.onFinishedProperty().addListener(new ChangeListener<Object>() {
-			@Override
-			public void changed(ObservableValue<? extends Object> observable,
-					Object oldValue, Object newValue) {
-				contentPane.get().setVisible(false);
-				expanded.set(false);
-
+				
 			}
 		});
 	}
@@ -188,11 +195,13 @@ public class MessageProvider {
 
 	public void hide() {
 		if(expanded.get()) {
-			hideTransition.play();
+			
 
 			for(Node n: notMouseTransparantChilderen) {
 				n.setMouseTransparent(false);
-			}	
+			}
+			notMouseTransparantChilderen.clear();
+			hideTransition.play();
 		}
 	}
 
@@ -223,6 +232,7 @@ public class MessageProvider {
 		messagePane.setTranslateY(-height - 20);
 	}
 
+	
 	//de belangrijkste methode
 	public void showPane(final Pane p) {
 		if(expanded.get() && !contentPane.get().equals(p)) {
@@ -236,10 +246,9 @@ public class MessageProvider {
 
 			});
 			hide();
-		} else {
+		} else if(!expanded.get()){
 			contentPane.set(p);
 			p.setVisible(true);
-			showTransition.play();
 			expanded.set(true);
 			notMouseTransparantChilderen.clear();
 			for(Node n: parent.getChildren()) {
@@ -248,6 +257,8 @@ public class MessageProvider {
 					notMouseTransparantChilderen.add(n);
 				}
 			}
+			showTransition.play();
+			p.requestFocus();
 		}
 	}
 

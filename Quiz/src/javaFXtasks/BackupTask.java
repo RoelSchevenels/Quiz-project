@@ -16,6 +16,7 @@ import javafx.concurrent.Task;
  *
  * @author vrolijkx
  */
+@SuppressWarnings("rawtypes")
 public class BackupTask extends Task implements ProgressListener {
     private final File file;
     private final String name;

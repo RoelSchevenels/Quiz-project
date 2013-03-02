@@ -10,29 +10,63 @@
 
 <AnchorPane id="AnchorPane" fx:id="root" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml" fx:controller="javaFXpanels.CreateQuiz.QuizMakerController">
   <children>
-    <AnchorPane id="AnchorPane" disable="false" layoutX="140.0" layoutY="104.0" prefHeight="192.0" visible="false">
+    <AnchorPane fx:id="createRoundsPane" layoutX="21.0" layoutY="14.0" minHeight="-Infinity" prefHeight="70.0" prefWidth="246.0" visible="false">
       <children>
-        <Label layoutX="47.0" layoutY="3.0" text="Quiznaam:" />
-        <TextField layoutX="121.0" layoutY="0.0" prefWidth="200.0" />
-        <Label layoutX="0.0" layoutY="31.0" prefWidth="-1.0" text="Min. aantal teams:">
+        <VBox id="VBox" alignment="CENTER" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+          <children>
+            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+              <children>
+                <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="-Infinity" minWidth="-Infinity" text="Ronde naam:">
+                  <HBox.margin>
+                    <Insets left="5.0" right="5.0" />
+                  </HBox.margin>
+                </Label>
+                <TextField fx:id="roundsText" prefWidth="-1.0" HBox.hgrow="NEVER">
+                  <HBox.margin>
+                    <Insets left="10.0" right="10.0" />
+                  </HBox.margin>
+                </TextField>
+              </children>
+              <VBox.margin>
+                <Insets top="5.0" />
+              </VBox.margin>
+            </HBox>
+            <HBox id="HBox" alignment="CENTER" spacing="5.0">
+              <children>
+                <Button alignment="CENTER_LEFT" mnemonicParsing="false" onAction="#createRoundPressed" text="Voeg ronde toe" />
+                <Button mnemonicParsing="false" onAction="#cancel" text="Annuleer" />
+              </children>
+              <padding>
+                <Insets bottom="10.0" />
+              </padding>
+            </HBox>
+          </children>
+        </VBox>
+      </children>
+    </AnchorPane>
+    <AnchorPane id="AnchorPane" fx:id="createQuizPane" disable="false" layoutX="140.0" layoutY="104.0" maxWidth="-Infinity" minHeight="-Infinity" prefHeight="195.0" prefWidth="327.0" visible="false">
+      <children>
+        <Label layoutX="47.0" layoutY="14.0" text="Quiznaam:" />
+        <TextField fx:id="quizText" layoutX="121.0" layoutY="11.0" prefWidth="200.0" />
+        <Label layoutX="0.0" layoutY="42.0" prefWidth="-1.0" text="Min. aantal teams:">
           <rotationAxis>
             <Point3D />
           </rotationAxis>
         </Label>
-        <TextField layoutX="121.0" layoutY="28.0" prefWidth="30.0" />
-        <Label layoutX="166.0" layoutY="31.0" text="Max. aantal teams:" />
-        <TextField layoutX="291.0" layoutY="28.0" prefWidth="30.0" />
-        <Label layoutX="67.0" layoutY="58.0" text="Locatie:" />
-        <TextArea layoutX="121.0" layoutY="58.0" prefHeight="85.0" prefWidth="200.0" wrapText="true" />
-        <Button layoutX="121.0" layoutY="170.0" mnemonicParsing="false" text="Annuleer" />
-        <Button layoutX="257.0" layoutY="170.0" mnemonicParsing="false" text="Verder" />
+        <TextField fx:id="minTeamsText" layoutX="121.0" layoutY="39.0" prefWidth="30.0" />
+        <Label layoutX="166.0" layoutY="42.0" text="Max. aantal teams:" />
+        <TextField fx:id="maxTeamsText" layoutX="291.0" layoutY="39.0" prefWidth="30.0" />
+        <Label layoutX="67.0" layoutY="69.0" text="Locatie:" />
+        <TextArea fx:id="locationText" layoutX="121.0" layoutY="69.0" prefHeight="85.0" prefWidth="200.0" wrapText="true" />
+        <Button layoutX="121.0" layoutY="170.0" mnemonicParsing="false" onAction="#cancel" text="Annuleer" />
+        <Button layoutX="257.0" layoutY="170.0" mnemonicParsing="false" onAction="#creatQuizPressed" text="Verder" />
       </children>
     </AnchorPane>
-    <SplitPane dividerPositions="0.30434782608695654, 0.4866220735785953" focusTraversable="true" prefHeight="401.0" prefWidth="450.0" AnchorPane.bottomAnchor="2.5" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="-2.5">
+    <SplitPane dividerPositions="0.30434782608695654, 0.4866220735785953" focusTraversable="true" prefHeight="401.0" prefWidth="450.0" visible="true" AnchorPane.bottomAnchor="2.5" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="-2.5">
       <items>
         <AnchorPane minHeight="0.0" minWidth="100.0" prefHeight="398.0" prefWidth="0.0">
           <children>
-            <ListView fx:id="quisses" prefHeight="245.0" prefWidth="200.0" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0" />
+            <ListView fx:id="quisses" prefHeight="332.9998779296875" prefWidth="179.0" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0" />
             <Button mnemonicParsing="false" onAction="#addQuizPressed" text="Quiz Toevoegen" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
             <Label alignment="CENTER" minHeight="-Infinity" prefHeight="30.0" prefWidth="200.0" text="Quissen" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
           </children>
