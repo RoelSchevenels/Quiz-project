@@ -4,10 +4,28 @@
  */
 package javaFXpanels.Jury;
 
+import java.io.IOException;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.ResourceBundle;
+import javaFXpanels.MessageProvider.MessageProvider;
 
+import network.Client;
+
+import org.h2.value.Value;
+
+import Protocol.FxResponseListener;
+import Protocol.exceptions.IdRangeException;
+import Protocol.requests.AnswerRequest;
 import Protocol.responses.AnswerResponse;
+import Protocol.responses.ExceptionResponse;
+import Protocol.responses.GetQuizResponse;
+import Protocol.responses.LoginResponse;
+import Protocol.responses.Response;
+import Protocol.responses.LoginResponse.UserType;
+import Protocol.responses.TimeOutResponse;
+import Protocol.submits.AnswerSubmit;
+import Protocol.submits.CorrectSubmit;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -45,14 +63,19 @@ public class CorrectionController implements Initializable {
     private Button correctButton;
     @FXML
     private Button wrongButton;
-    private int AnswerId;
-    private int jurryId;
+    @FXML
+    private Button refreshButton;
+    private LoginResponse jury;
+    private GetQuizResponse quiz;
+    private AnswerResponse answer;
+    private MessageProvider messageMaker;
     
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+    	messageMaker = new MessageProvider(root);
     	initBindings();
     }   
     
@@ -69,19 +92,67 @@ public class CorrectionController implements Initializable {
     
     
     @FXML
-    private void SubmitIncorrect() {
-    	
-    	clear();
+    private void submitIncorrect() {
+    	CorrectSubmit submit = new CorrectSubmit(answer.getAnswerId(),
+    			jury.getUserId(), 0);
+    	sendCorrection(submit);
     }
     
     @FXML
-    private void SubmitCorrect() {
-    	
-    	clear();
+    private void submitCorrect() {
+    	CorrectSubmit submit = new CorrectSubmit(answer.getAnswerId(),
+    			jury.getUserId(),
+    			answer.getMaxScore());
+    	sendCorrection(submit);
     }
     
-    public void setQuestion(AnswerResponse response) {
+    private void sendCorrection(CorrectSubmit s) {
+    	try {
+			Client.getInstance().send(s);
+			clear();
+			refresh();
+		} catch (IOException e) {
+			messageMaker.showError("Problemen met de communicatie");
+		}
+    }
+    
+    @FXML
+    private void refresh() {
+    	//een antwoord aanvragen
+    	try {
+			AnswerRequest req = new AnswerRequest();
+			req.setQuizId(quiz.getQuizId());
+			req.onResponse(new FxResponseListener() {
+				
+				@Override
+				public void handleFxResponse(Response response) {
+					if(response instanceof ExceptionResponse) {
+						messageMaker.showError(((ExceptionResponse) response).getExceptionMessage());
+					} else if(response instanceof TimeOutResponse) {
+						messageMaker.showInfo("Er zijn nog geen vragen\nom te verbeteren druk\nRefresh om opnieuw te proberen");
+						refreshButton.setDisable(true);
+					} else if(response instanceof AnswerResponse) {
+						answer = (AnswerResponse) response;
+						setToCorrect(answer);
+					}		
+				}
+			});
+			req.send();
+			
+		} catch (IdRangeException | IOException e) {
+			messageMaker.showError("Problemen met communicatie met server");
+		}
+    }
+    
+    private void setToCorrect(AnswerResponse response) {
+    	correctAnswerText.setText(response.getCorrectAnswer());
+    	answerText.setText(response.getGivenAnswer());
+    	questionText.setText(response.getQuestion());
     	
+    	//de knoppen goed zetten
+    	refreshButton.setDisable(true);
+    	correctButton.setDisable(false);
+    	wrongButton.setDisable(false);
     }
     
     //zet alles wat nodig is onzichtbaar
@@ -90,4 +161,24 @@ public class CorrectionController implements Initializable {
     	wrongButton.setDisable(true);
     	correctionBox.setOpacity(0.0);
     }
+    
+    public void setJurry(LoginResponse jury) {
+    	if(jury.getUserType().equals(UserType.JURY)) {
+    		this.jury = jury;
+    	} else {
+    		throw new IllegalArgumentException("De megegeven gebruiker moet een jurry zijn");
+    	}	
+    	if(quiz!=null) {
+    		refresh();
+    	}
+    }
+    
+   public void setQuiz(GetQuizResponse quiz) {
+	   this.quiz = quiz;
+	   if(jury!=null) {
+		   refresh();
+	   }
+   }
+    
+
 }

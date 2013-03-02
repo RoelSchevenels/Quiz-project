@@ -22,6 +22,7 @@ import Protocol.requests.CreateTeamRequest;
 import Protocol.requests.CreateUserRequest;
 import Protocol.requests.GetTeamsRequest;
 import Protocol.requests.LoginRequest;
+import Protocol.requests.PictureRequest;
 import Protocol.requests.Request;
 import Protocol.requests.TeamLoginRequest;
 import Protocol.submits.IdRangeSubmit;
@@ -251,6 +252,14 @@ public class Server {
 			public void handleRequest(Request r) {
 				DatabaseUtil.handleConnectToQuiz((ConnectToQuizRequest) r);
 				
+			}
+		});
+		
+		RequestManager.addRequestListener(PictureRequest.class, new RequestListener() {
+			
+			@Override
+			public void handleRequest(Request r) {
+				DatabaseUtil.handlePictureRequest((PictureRequest) r);				
 			}
 		});
 	

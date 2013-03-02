@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane id="AnchorPane" fx:id="root" prefHeight="417.0" prefWidth="610.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml" fx:controller="javaFXpanels.Jurry.CorrectionController">
+<AnchorPane id="AnchorPane" fx:id="root" prefHeight="417.0" prefWidth="610.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml" fx:controller="javaFXpanels.Jury.CorrectionController">
   <children>
     <ScrollPane fx:id="correctionPane" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="586.0" vbarPolicy="AS_NEEDED" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <content>
@@ -46,8 +46,9 @@
     </ScrollPane>
     <HBox id="HBox" alignment="CENTER_RIGHT" spacing="10.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
       <children>
-        <Button fx:id="wrongButton" mnemonicParsing="false" onAction="#SubmitIncorrect" text="Fout" />
-        <Button fx:id="correctButton" mnemonicParsing="false" onAction="#SubmitIncorrect" text="Correct" />
+        <Button fx:id="refreshButton" mnemonicParsing="false" onAction="#refresh" text="refresh" />
+        <Button fx:id="wrongButton" mnemonicParsing="false" onAction="#submitIncorrect" text="Fout" />
+        <Button fx:id="correctButton" mnemonicParsing="false" onAction="#submitCorrect" text="Correct" />
       </children>
     </HBox>
   </children>

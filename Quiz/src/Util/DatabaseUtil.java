@@ -53,11 +53,25 @@ public class DatabaseUtil {
 	//map met Al verzonden antwoorden
 	private static ConcurrentHashMap<Integer, Answer> sendAnswers = new ConcurrentHashMap<Integer, Answer>();
 
+
+	public static void startTransaction() {
+		Transaction t = ConnectionUtil.getSession().beginTransaction();
+	}
+
+	public static void Commit() {
+		Session s = ConnectionUtil.getSession();
+		Transaction t = s.getTransaction();
+		if(t!= null) {
+			t.commit();
+		}
+
+	}
+
 	/**
 	 * sla een object op in de database
 	 * @param b object to be saved in the datbase
 	 */
-	public static void saveObject(Object b) {
+	private static void saveObject(Object b) {
 		Session s = ConnectionUtil.getSession();
 		Transaction t = s.beginTransaction();
 		s.saveOrUpdate(b);
@@ -69,19 +83,13 @@ public class DatabaseUtil {
 	 * een rollback wordt uitgevoerd bij een misluking.
 	 * @param b
 	 */
-	public static void saveObjects(Object... b) {
+	private static void saveObjects(Object... b) {
 		Session s = ConnectionUtil.getSession();
 		Transaction t = s.beginTransaction();
-		try {
-			for(Object o:b) {
-				s.saveOrUpdate(o);
-			}
-			t.commit();
-		} catch(Exception ex) {
-			//rollback uitvoeren en de exeption door geven
-			t.rollback();
-			throw ex;
+		for(Object o:b) {
+			s.saveOrUpdate(o);
 		}
+		t.commit();
 	}
 
 	public static User getUser(String username) {
@@ -414,11 +422,11 @@ public class DatabaseUtil {
 		Server.getInstance().sendToPlayers(submit);
 
 		System.out.println("ronde verzonden :" + round.getQuestions().size());
-		
-		
+
+
 		for(int i= 0; i < round.getQuestions().size(); i++) {
-			System.out.println(round.getQuestions().get(0));
-			submitQuestion(quiz, round, round.getQuestions().get(0));
+			System.out.println(round.getQuestions().get(i));
+			submitQuestion(quiz, round, round.getQuestions().get(i));
 		}
 	}
 

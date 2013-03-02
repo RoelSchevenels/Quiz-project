@@ -8,53 +8,41 @@ public class AnswerResponse extends Response {
 	private int questionID;
 	private int quizId;
 	private int answerId;
+	private int roundId;
+	private int maxScore;
 	private String question;
 	private String correctAnswer;
 	private String givenAnswer;
 	private String AnswerPerson;
 	
 	
-	
 	public AnswerResponse(int RequestId) {
 		super(RequestId);
 	}
-
-
 
 	public int getQuestionID() {
 		return questionID;
 	}
 
-
-
 	public void setQuestionID(int questionID) {
 		this.questionID = questionID;
 	}
-
-
 
 	public int getQuizId() {
 		return quizId;
 	}
 
-
-
 	public void setQuizId(int quizId) {
 		this.quizId = quizId;
 	}
-
-
 
 	public int getAnswerId() {
 		return answerId;
 	}
 
-
-
 	public void setAnswerId(int roundId) {
 		this.answerId = roundId;
 	}
-
 
 	public String getQuestion() {
 		return question;
@@ -103,6 +91,30 @@ public class AnswerResponse extends Response {
 
 	public void setType(QuestionType type) {
 		this.type = type;
+	}
+
+
+
+	public int getRoundId() {
+		return roundId;
+	}
+
+
+
+	public void setRoundId(int roundId) {
+		this.roundId = roundId;
+	}
+
+
+
+	public int getMaxScore() {
+		return maxScore;
+	}
+
+
+
+	public void setMaxScore(int maxScore) {
+		this.maxScore = maxScore;
 	}
 
 	

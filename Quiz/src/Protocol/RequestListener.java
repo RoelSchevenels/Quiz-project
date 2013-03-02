@@ -1,3 +1,7 @@
+/**
+ * simple inteface
+ * @author vrolijkx
+ */
 package Protocol;
 
 import Protocol.requests.Request;

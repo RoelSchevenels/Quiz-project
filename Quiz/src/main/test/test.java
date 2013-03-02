@@ -14,6 +14,7 @@ import network.AutoDiscoverServer;
 import network.Server;
 
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import BussinesLayer.QuestionRound;
 import BussinesLayer.Quiz;
@@ -80,7 +81,7 @@ public class test {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				DatabaseUtil.submitRound(quiz, quiz.getRounds().get(0));
-				System.out.println("Aantal Vragen: "+  quiz.getRounds().size());
+				System.out.println("Aantal Vragen: "+  quiz.getRounds().get(0).getQuestions().size());
 				
 			}
 		});
@@ -97,20 +98,26 @@ public class test {
 		try {
 			ConnectionUtil.StartDataBase();
 			
+			Session s = ConnectionUtil.getSession();
+			Transaction t = s.beginTransaction();
+			
 			QuizMaster tony = new QuizMaster("Tony", "Tony");
 	        QuestionRound ronde1 = new QuestionRound("De eerste ronde");
 	        QuestionRound ronde2 = new QuestionRound("De totaal arbitraire winaars aanduidings ronde");
 	        QuestionRound ronde3 = new QuestionRound("De finale");
 	        
-	        DatabaseUtil.saveObjects(tony,ronde1,ronde2,ronde3);
+	        s.save(tony);
+	        s.save(ronde1);
+	        s.save(ronde2);
+	        s.save(ronde3);
 	        
 	        Question q1 = new StandardQuestion(tony);
 	        q1.setQuestion("Wat zijn de beste koeken van Lu?");
 	        q1.setCorrectAnswer("Dinosoarus koeken");
 
-	        DatabaseUtil.saveObject(q1);
+	        s.save(q1);
 	        
-	        Session s = ConnectionUtil.getSession();
+	        
 	        PictureQuestion pic = (PictureQuestion) s.createQuery("select p from PictureQuestion p").uniqueResult();
 	        MediaQuestion med = (MediaQuestion) s.createQuery("select m from VideoQuestion m").uniqueResult();
 	        System.out.println(med.getQuestion());
@@ -121,9 +128,8 @@ public class test {
 	        q2.addValue("het pikken van andermans duiven");
 	        q2.addValue("Een zo goed mogelijke imitatie van een duif neerzetten");
 	        q2.setCorrectAnswer("het pikken van andermans duiven");
-	        
-	        
-	        DatabaseUtil.saveObject(q2);
+	       
+	        s.save(q2);
 	        
 	        q1.addQuestionRound(ronde2);
 	        q2.addQuestionRound(ronde3);
@@ -137,7 +143,11 @@ public class test {
 	        q.addRound(ronde2);
 	        q.addRound(ronde3);
 	        
-	        DatabaseUtil.saveObject(q);
+	        s.save(q);
+	        
+	        t.commit();
+	        s.close();
+	        
 	        
 	        return q;
 			

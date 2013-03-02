@@ -23,8 +23,11 @@
           <children>
             <Label id="oplossing" fx:id="openQuestionOplossingLabel" text="Oplossing:" />
             <TextField fx:id="openAnswer" prefWidth="200.0" />
-            <Button id="openAnswerConfirm" fx:id="openConfirm" mnemonicParsing="false" text="Bevestigen" />
+            <Button id="openAnswerConfirm" fx:id="openConfirm" mnemonicParsing="false" onAction="#submitOpenQuestion" text="Bevestigen" />
           </children>
+          <VBox.margin>
+            <Insets bottom="10.0" left="10.0" right="5.0" top="5.0" />
+          </VBox.margin>
         </HBox>
       </children>
     </VBox>
@@ -35,37 +38,51 @@
           <children>
             <Label fx:id="multipleChoiceOplossingLabel" layoutX="0.0" layoutY="0.0" text="Selecteer je antwoord:" />
             <VBox id="multipleChoiceVBox" fx:id="possebilityVBox" prefHeight="-1.0" prefWidth="-1.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="20.0" />
-            <Button fx:id="multipleChoiceConfirm" mnemonicParsing="false" text="Bevestigen" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+            <Button fx:id="multipleChoiceConfirm" mnemonicParsing="false" onAction="#submitMultipleQuestion" text="Bevestigen" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" />
           </children>
+          <VBox.margin>
+            <Insets bottom="10.0" top="2.0" />
+          </VBox.margin>
         </AnchorPane>
       </children>
     </VBox>
     <VBox id="VBox" fx:id="imageQuestionVbox" alignment="CENTER" layoutX="74.0" layoutY="71.0" minWidth="-1.0" spacing="5.0" visible="false">
       <children>
         <Text fx:id="imageQuestionText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="question" text="Foto-vraag" />
-        <ImageView fx:id="imageQuestionView" fitHeight="210.0" fitWidth="280.0" pickOnBounds="true" preserveRatio="true" />
+        <ImageView fx:id="imageQuestionView" fitHeight="210.0" fitWidth="280.0" pickOnBounds="true" preserveRatio="true">
+          <image>
+            <Image url="@loading.gif" />
+          </image>
+        </ImageView>
         <HBox id="HBox" alignment="CENTER" spacing="5.0">
           <children>
             <Label fx:id="imageQuestionOplossingLabel" text="Oplossing:" />
             <TextField fx:id="imageAnswer" prefWidth="200.0" />
-            <Button fx:id="imageConfirm" mnemonicParsing="false" text="Bevestig" />
+            <Button fx:id="imageConfirm" mnemonicParsing="false" onAction="#submitImageQuestion" text="Bevestig" />
           </children>
+          <VBox.margin>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
+          </VBox.margin>
         </HBox>
       </children>
     </VBox>
-    <Button mnemonicParsing="false" text="Stuur Antwoorden" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0" />
     <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <tabs>
         <Tab text="Quissen">
           <content>
-            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+            <AnchorPane id="Content" minHeight="-1.0" minWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0">
               <children>
                 <ScrollPane id="ScrollPane" fx:id="questionScroll" hbarPolicy="NEVER" prefHeight="310.0" prefViewportHeight="316.0" prefViewportWidth="458.0" prefWidth="455.0" visible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                   <content>
-                    <AnchorPane id="AnchorPane" fx:id="quizPane" prefHeight="363.0" prefWidth="500.0">
+                    <AnchorPane id="AnchorPane" fx:id="quizPane" prefHeight="-1.0" prefWidth="-1.0">
                       <children>
-                        <Text fx:id="roundTitle" scaleX="1.0" scaleY="1.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="titel-text" text="Text" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0" />
-                        <Accordion fx:id="questionAccordion" expandedPane="$null" prefHeight="316.0" prefWidth="458.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0" />
+                        <VBox id="VBox" alignment="CENTER" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <children>
+                            <Text fx:id="roundTitle" scaleX="1.0" scaleY="1.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="titel-text" text="Text" />
+                            <Accordion fx:id="questionAccordion" expandedPane="$null" prefHeight="-1.0" prefWidth="-1.0" />
+                            <Button mnemonicParsing="false" onAction="#sendRound" text="Stuur Antwoorden" />
+                          </children>
+                        </VBox>
                       </children>
                     </AnchorPane>
                   </content>
