@@ -33,16 +33,16 @@ public class ConnectionUtil {
 	 * 		   wss wordt de quiz app 2 maal geopend.
 	 */
 	public static void StartDataBase() throws HibernateException{
-		System.out.println("start");
+		System.out.println("Start");
 		configureSessionFactory();
 		Session s = getNewSession();
 
 		//kijken of de database gepopuleert is
 		try {
-			System.out.println("querie uitVoeren");
+			System.out.println("Query uitvoeren.");
 			ScrollableResults r = s.createQuery("select q from Quiz q").scroll();
 			r.close();
-			System.out.println("querie uitgevoerd");
+			System.out.println("Query uitgevoerd.");
 		} catch (HibernateException e) {
 			//de database bestaat wss niet
 			createCleanDatabase();

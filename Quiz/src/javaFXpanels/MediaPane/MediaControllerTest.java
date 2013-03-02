@@ -30,7 +30,6 @@ public class  MediaControllerTest extends JFrame {
 			
 			f.setMovie(r);
 			f.setController(controller.getController());
-			System.out.println("frames maken");
 			
 			
 			MediaFrame f2 = new MediaFrame();

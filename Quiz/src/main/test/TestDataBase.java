@@ -48,7 +48,6 @@ public class TestDataBase {
 			ConnectionUtil.createCleanDatabase();
 			ConnectionUtil.getHibernateConfiguration();
 		} catch( HibernateException e) {
-			System.out.println("het lukt niet");
 			e.printStackTrace();
 			return;
 		}

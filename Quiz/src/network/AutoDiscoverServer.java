@@ -68,7 +68,6 @@ public class AutoDiscoverServer {
 				while (sending) {
 					try {
 						ss.send(p);
-						//System.out.println("Sent " + p.getData());
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}

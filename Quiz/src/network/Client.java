@@ -108,7 +108,7 @@ public class Client extends ConnectionWorker {
 	{
 		sentRequests.put(r.getRequestId(), r);
 		send(r);
-		System.out.println("verzondenn");
+		System.out.println("verzonden");
 	}
 
 	@Override

@@ -164,7 +164,7 @@ public class MessageProvider {
 		try {
 			setStylesheet(this.getClass().getResource("message.css").toExternalForm());
 		} catch(Exception e) {
-			System.out.println("failed to load style sheet");
+			System.out.println("Failed to load style sheet.");
 		}
 		locatePane(messagePane);
 
