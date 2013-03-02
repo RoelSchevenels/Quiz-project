@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" fx:id="root" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml" fx:controller="javaFXpanels.CreateQuiz.QuizMakerController">
+  <children>
+    <AnchorPane id="AnchorPane" disable="false" layoutX="140.0" layoutY="104.0" prefHeight="192.0" visible="false">
+      <children>
+        <Label layoutX="47.0" layoutY="3.0" text="Quiznaam:" />
+        <TextField layoutX="121.0" layoutY="0.0" prefWidth="200.0" />
+        <Label layoutX="0.0" layoutY="31.0" prefWidth="-1.0" text="Min. aantal teams:">
+          <rotationAxis>
+            <Point3D />
+          </rotationAxis>
+        </Label>
+        <TextField layoutX="121.0" layoutY="28.0" prefWidth="30.0" />
+        <Label layoutX="166.0" layoutY="31.0" text="Max. aantal teams:" />
+        <TextField layoutX="291.0" layoutY="28.0" prefWidth="30.0" />
+        <Label layoutX="67.0" layoutY="58.0" text="Locatie:" />
+        <TextArea layoutX="121.0" layoutY="58.0" prefHeight="85.0" prefWidth="200.0" wrapText="true" />
+        <Button layoutX="121.0" layoutY="170.0" mnemonicParsing="false" text="Annuleer" />
+        <Button layoutX="257.0" layoutY="170.0" mnemonicParsing="false" text="Verder" />
+      </children>
+    </AnchorPane>
+    <SplitPane dividerPositions="0.30434782608695654, 0.4866220735785953" focusTraversable="true" prefHeight="401.0" prefWidth="450.0" AnchorPane.bottomAnchor="2.5" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="-2.5">
+      <items>
+        <AnchorPane minHeight="0.0" minWidth="100.0" prefHeight="398.0" prefWidth="0.0">
+          <children>
+            <ListView fx:id="quisses" prefHeight="245.0" prefWidth="200.0" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0" />
+            <Button mnemonicParsing="false" onAction="#addQuizPressed" text="Quiz Toevoegen" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+            <Label alignment="CENTER" minHeight="-Infinity" prefHeight="30.0" prefWidth="200.0" text="Quissen" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+          </children>
+        </AnchorPane>
+        <AnchorPane minHeight="0.0" minWidth="100.0" prefHeight="160.0" prefWidth="100.0">
+          <children>
+            <ListView id="vragen" fx:id="rounds" prefHeight="245.0" prefWidth="200.0" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0" />
+            <Button mnemonicParsing="false" onAction="#addRoundPressed" text="Ronde toevoegen..." AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+            <Label alignment="CENTER" minHeight="-Infinity" prefHeight="30.0" prefWidth="200.0" text="Rondes" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+          </children>
+        </AnchorPane>
+        <AnchorPane minHeight="0.0" minWidth="100.0" prefHeight="-1.0" prefWidth="-1.0">
+          <children>
+            <Label alignment="CENTER" minHeight="-Infinity" prefHeight="30.0" prefWidth="200.0" text="Vragen" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <Button mnemonicParsing="false" onAction="#addQuestionPressed" text="Vraag toevoegen" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+            <ListView id="vragen" fx:id="questions" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0" />
+          </children>
+        </AnchorPane>
+      </items>
+    </SplitPane>
+  </children>
+  <stylesheets>
+    <URL value="@quizmaker.css" />
+  </stylesheets>
+</AnchorPane>

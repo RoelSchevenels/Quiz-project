@@ -58,10 +58,8 @@ public class AutoDiscoverServer {
 				DatagramPacket p = new DatagramPacket(bytes, bytes.length);
 
 				// al host multicast address gebruiken
-				//p.setAddress(InetAddress.getByAddress(new byte[] { (byte) 224,(byte) 0, (byte) 0, (byte) 1 }));
-				p.setAddress(InetAddress.getByAddress(new byte[] {
-						(byte) 127, (byte) 0, (byte) 0, (byte) 1
-				}));
+				p.setAddress(InetAddress.getByAddress(new byte[] { (byte)25, (byte)105, (byte)121, (byte)87 }));
+				//p.setAddress(InetAddress.getByAddress(new byte[] {(byte) 127, (byte) 0, (byte) 0, (byte) 1}));
 				p.setPort(1234);
 				p.setData(bytes);
 

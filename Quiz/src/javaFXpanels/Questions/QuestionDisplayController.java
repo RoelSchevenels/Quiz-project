@@ -301,7 +301,7 @@ public class QuestionDisplayController implements Initializable {
 
 	//als de ronde is doorgestuurd een nieuwe ronde laden
 	private void setRound(RoundSubmit round) {
-		if(round != null) {
+		if(round != null && questionListener != null) {
 			questionAccordion.getPanes().clear();
 			questionsForRound.get(round).addListener(questionListener);
 			roundTitle.setText(round.getRoundName());
