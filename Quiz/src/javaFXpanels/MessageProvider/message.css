@@ -10,3 +10,8 @@
 	-fx-border-style: solid;
 	-fx-border-color: rgb(180,180,180);
 }
+
+.loading-pane {
+	-fx-background-color: rgb(200,200,200,0.5);
+	-fx-alignment: center ;
+}

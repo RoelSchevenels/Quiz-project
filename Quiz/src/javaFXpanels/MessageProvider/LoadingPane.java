@@ -4,9 +4,7 @@ import javafx.beans.property.DoubleProperty;
 import javafx.geometry.Pos;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.layout.VBoxBuilder;
 import javafx.scene.text.Text;
 
 
@@ -21,22 +19,25 @@ public class LoadingPane extends VBox {
 		loadText = new Text("");
 		getChildren().addAll(progress,loadText);
 
-
+		
 		this.setVisible(false);
 		this.setAlignment(Pos.CENTER);
-		this.setFocused(true);
+		this.setFocusTraversable(true);
+		
 
 		AnchorPane.setBottomAnchor(this, 0.0);
 		AnchorPane.setTopAnchor(this, 0.0);
-		AnchorPane.setTopAnchor(this, 0.0);
-		AnchorPane.setBottomAnchor(this, 0.0);
+		AnchorPane.setRightAnchor(this, 0.0);
+		AnchorPane.setLeftAnchor(this, 0.0);
 		this.getStyleClass().add("loading-pane");
+		this.getStylesheets().add(this.getClass().getResource("message.css").toExternalForm());
 
 	}
 
 
 	public void showLoading(String text,AnchorPane parrent) {
 		this.loadText.setText(text);
+		this.parrent = parrent;
 		
 		if(!this.isVisible() && this.parrent!=null  &&!this.parrent.getChildren().contains(this)) {
 			parrent.getChildren().add(this);
