@@ -26,7 +26,7 @@ public class QuizMaster extends User {
 	@SuppressWarnings("unused")
 	private QuizMaster() {}; //hibernate Constructor
 
-	public Collection<Quiz> getQuissen() {
+	public List<Quiz> getQuissen() {
 		return quissen;
 	}
 }
