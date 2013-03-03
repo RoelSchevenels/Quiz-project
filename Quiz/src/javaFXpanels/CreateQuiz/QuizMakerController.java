@@ -4,24 +4,17 @@
  */
 package javaFXpanels.CreateQuiz;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
 import javaFXpanels.MessageProvider.MessageProvider;
-
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-
-import Util.ConnectionUtil;
-import Util.DatabaseUtil;
-
-import BussinesLayer.QuestionRound;
-import BussinesLayer.Quiz;
-import BussinesLayer.QuizMaster;
-import BussinesLayer.questions.Question;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
@@ -29,6 +22,17 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.layout.AnchorPane;
+
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+import BussinesLayer.QuestionRound;
+import BussinesLayer.Quiz;
+import BussinesLayer.QuizMaster;
+import BussinesLayer.questions.Question;
+import Util.ConnectionUtil;
+import Util.DatabaseUtil;
 
 /**
  * FXML Controller class
@@ -59,6 +63,7 @@ public class QuizMakerController implements Initializable {
 	@FXML
 	private TextField roundsText;
 	private AnchorPane createQuestionPane;
+	private CreateQuestionController createQuestionController;
 	
 	private MessageProvider messageMaker;
 	private Session session;
@@ -78,11 +83,37 @@ public class QuizMakerController implements Initializable {
         root.getChildren().removeAll(createQuizPane,createRoundsPane);
         createQuizPane.setVisible(true);
         createRoundsPane.setVisible(true);
-        
+        loadQuestionMaker();
     }
     
-    private void initBindings() {
-    	
+    private void loadQuestionMaker() {
+    	try {
+    		FXMLLoader loader = new FXMLLoader();
+    		loader.setLocation(CreateQuestionController.class.getResource("createQuestion.fxml"));
+    		createQuestionPane = (AnchorPane) loader.load();
+    		createQuestionController = loader.getController();
+    		createQuestionController.setOnCancel(new EventHandler<ActionEvent>() {
+				
+				@Override
+				public void handle(ActionEvent event) {
+					cancel();
+				}
+			});
+    		createQuestionController.setOnFinish(new EventHandler<ActionEvent>() {
+
+				@Override
+				public void handle(ActionEvent event) {
+					AddQuestion(createQuestionController.getCurrentQuestion());
+					
+				}
+			});
+    		
+    	} catch( IOException e) {
+    		messageMaker.showError("Kan vragen panneel niet laden");
+    	}	
+    }
+      
+    private void initBindings() {	
     	//zorgen dat er maar 1 geselecteerd kan worden
     	quisses.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
     	rounds.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
@@ -114,9 +145,24 @@ public class QuizMakerController implements Initializable {
 				}
 				
 			}
-		});
-
+		});	
+    }
+    
+    private void AddQuestion(Question q) {
+    	session = ConnectionUtil.getSession();
+    	transaction = session.beginTransaction();
+    	session.saveOrUpdate(q);
+    	currentRound.addQuestion(q);
+    	session.merge(currentRound);
     	
+    	try {
+    		transaction.commit();
+    		questions.getItems().add(q);
+    		messageMaker.hide();
+    	} catch(HibernateException ex) {
+    		ex.printStackTrace();
+    		messageMaker.showError("kon niet aan de database toevoegen");
+    	}
     }
     
     @FXML
@@ -126,16 +172,16 @@ public class QuizMakerController implements Initializable {
     	} else {
     		messageMaker.showPane(createRoundsPane);
     	}
-    	
     }
     
     @FXML
     private void createRoundPressed() {
     	if(validateText(roundsText)) {
+    		session = ConnectionUtil.getSession();
     		transaction = session.beginTransaction();
     		QuestionRound round = new QuestionRound(roundsText.getText());
+    		round.addQuiz(currentQuiz);
     		session.saveOrUpdate(round);
-    		currentQuiz.addRound(round);
     		try {
     			transaction.commit();
     		} catch(HibernateException ex) {
@@ -152,8 +198,11 @@ public class QuizMakerController implements Initializable {
     private void addQuestionPressed() {
     	if(currentRound == null) {
     		messageMaker.showWarning("Eerst een ronde selecteren");
+    	} else if(createQuestionPane != null) {
+    		createQuestionController.show(quizMaster);
+    		messageMaker.showPane(createQuestionPane);	
     	} else {
-    		messageMaker.showPane(createQuestionPane);
+    		messageMaker.showError("kan geen vragen aanmaken");
     	}
     	
     }
@@ -180,7 +229,7 @@ public class QuizMakerController implements Initializable {
     			return;
     		}
     		
-    		transaction = session.beginTransaction();
+    		transaction = ConnectionUtil.getSession().beginTransaction();
     		Quiz q = new Quiz(quizText.getText(), quizMaster);
     		q.setMaxTeams(maxTeams);
     		q.setMinTeams(minTeams);
@@ -206,9 +255,18 @@ public class QuizMakerController implements Initializable {
     }
     
     public void setQuizMaster(QuizMaster q) {
+    	session = ConnectionUtil.getSession();
+    	transaction = session.beginTransaction();
+    	session.merge(q);
+    	try {
+    		transaction.commit();
+    	} catch (Exception ex) {
+    		transaction.rollback();
+    		//het object bevond zich al op de huidig thread/session
+    	}
     	quisses.getItems().setAll(q.getQuissen());
-    	//session.saveOrUpdate(q);
     	quizMaster = q;
+    	
     }
     
     private boolean validateText(TextInputControl... fields) {

@@ -27,7 +27,7 @@
   <mapping class="BussinesLayer.questions.MediaQuestion"/>
   <mapping class="BussinesLayer.questions.PictureQuestion"/>
   <mapping class="BussinesLayer.questions.VideoQuestion"/>
-  <mapping class="BussinesLayer.questions.PictureQuestion"/>
+  <mapping class="BussinesLayer.questions.MusicQuestion"/>
   
  </session-factory>
 </hibernate-configuration>

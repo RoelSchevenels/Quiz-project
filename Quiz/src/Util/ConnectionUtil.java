@@ -23,6 +23,7 @@ import BussinesLayer.Jury;
 public class ConnectionUtil {
 	private static SessionFactory sessionFactory;
 	private static Configuration configuration;
+	private static Session s;
 
 	/**
 	 * deze methode zal kijken of de database in order is.

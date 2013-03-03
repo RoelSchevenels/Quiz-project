@@ -8,7 +8,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="245.00019999999495" prefWidth="441.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml" fx:controller="javaFXpanels.CreateQuiz.CreateQuestionController">
+<AnchorPane id="AnchorPane" fx:id="root" minHeight="-Infinity" prefHeight="240.0" prefWidth="450.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml" fx:controller="javaFXpanels.CreateQuiz.CreateQuestionController">
   <children>
     <TabPane prefHeight="400.310546875" prefWidth="450.0" tabClosingPolicy="UNAVAILABLE" visible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <tabs>
@@ -24,14 +24,14 @@
                       </GridPane.margin>
                     </Label>
                     <Label text="Antwoord:" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.margin="$x1" GridPane.rowIndex="1" GridPane.valignment="TOP" />
-                    <TextArea prefWidth="200.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                    <TextArea fx:id="openQuestionText" prefWidth="200.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="0">
                       <GridPane.margin>
                         <Insets right="10.0" top="5.0" fx:id="x4" />
                       </GridPane.margin>
                     </TextArea>
-                    <TextArea prefWidth="200.0" wrapText="true" GridPane.columnIndex="1" GridPane.margin="$x4" GridPane.rowIndex="1" />
-                    <Button disable="true" mnemonicParsing="false" text="Bevestig" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="NEVER" />
-                    <Button mnemonicParsing="false" onAction="#cancel" text="Annuleer" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                    <TextArea fx:id="openAnswerText" prefWidth="200.0" wrapText="true" GridPane.columnIndex="1" GridPane.margin="$x4" GridPane.rowIndex="1" />
+                    <Button fx:id="openAcceptButton" defaultButton="false" disable="false" mnemonicParsing="false" onAction="#addOpenQuestion" text="Bevestig" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="NEVER" />
+                    <Button cancelButton="true" mnemonicParsing="false" onAction="#cancel" text="Annuleer" GridPane.columnIndex="1" GridPane.rowIndex="2">
                       <GridPane.margin>
                         <Insets left="5.0" />
                       </GridPane.margin>
@@ -67,26 +67,30 @@
                         <Insets left="10.0" right="10.0" />
                       </GridPane.margin>
                     </Label>
-                    <Button mnemonicParsing="false" text="Bevestig" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.valignment="CENTER" GridPane.vgrow="NEVER" />
-                    <Button mnemonicParsing="false" onAction="#cancel" text="Annuleer" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                    <Button fx:id="multipleAcceptButton" mnemonicParsing="false" onAction="#addMultipleChoiceQuestion" text="Bevestig" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.valignment="CENTER" GridPane.vgrow="NEVER" />
+                    <Button cancelButton="true" mnemonicParsing="false" onAction="#cancel" text="Annuleer" GridPane.columnIndex="1" GridPane.rowIndex="3">
                       <GridPane.margin>
                         <Insets left="5.0" />
                       </GridPane.margin>
                     </Button>
-                    <TextField prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                    <Button mnemonicParsing="false" text="Voeg Toe" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                    <TextField id="mutlipleChoiseBox" fx:id="multiplePosibilityText" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                    <Button fx:id="multipleAddButton" mnemonicParsing="false" onAction="#addpossibilty" text="Voeg Toe" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                       <GridPane.margin>
                         <Insets right="10.0" fx:id="x3" />
                       </GridPane.margin>
                     </Button>
-                    <TextArea prefHeight="71.0" prefWidth="90.0" wrapText="true" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="0">
+                    <TextArea fx:id="multipleQuestionText" prefHeight="71.0" prefWidth="90.0" wrapText="true" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="0">
                       <GridPane.margin>
                         <Insets right="10.0" top="10.0" />
                       </GridPane.margin>
                     </TextArea>
                     <ScrollPane id="ScrollPane" hbarPolicy="NEVER" prefViewportHeight="50.0" prefViewportWidth="321.0" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.margin="$x3" GridPane.rowIndex="2">
                       <content>
-                        <VBox prefHeight="-1.0" prefWidth="-1.0" />
+                        <VBox fx:id="multipleChoiseBox" alignment="CENTER_LEFT" prefHeight="-1.0" prefWidth="-1.0" spacing="5.0">
+                          <padding>
+                            <Insets right="5.0" top="5.0" fx:id="x2" />
+                          </padding>
+                        </VBox>
                       </content>
                     </ScrollPane>
                   </children>
@@ -122,14 +126,14 @@
                         <Insets left="10.0" right="10.0" top="10.0" fx:id="x1" />
                       </GridPane.margin>
                     </Label>
-                    <TextArea prefWidth="200.0" wrapText="true" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="0">
+                    <TextArea fx:id="mediaQuestionText" prefWidth="200.0" wrapText="true" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="0">
                       <GridPane.margin>
                         <Insets right="5.0" top="5.0" fx:id="x2" />
                       </GridPane.margin>
                     </TextArea>
-                    <TextArea prefWidth="200.0" wrapText="true" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.margin="$x2" GridPane.rowIndex="1" />
-                    <Button disable="true" mnemonicParsing="false" text="Bevestig" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.valignment="CENTER" GridPane.vgrow="NEVER" />
-                    <Button mnemonicParsing="false" onAction="#cancel" text="Annuleer" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="3">
+                    <TextArea fx:id="mediaAnswerText" prefWidth="200.0" wrapText="true" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.margin="$x2" GridPane.rowIndex="1" />
+                    <Button fx:id="mediaAcceptButton" disable="false" mnemonicParsing="false" onAction="#addMediaQuestion" text="Bevestig" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.valignment="CENTER" GridPane.vgrow="NEVER" />
+                    <Button cancelButton="true" mnemonicParsing="false" onAction="#cancel" text="Annuleer" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="3">
                       <GridPane.margin>
                         <Insets left="5.0" />
                       </GridPane.margin>
@@ -139,8 +143,8 @@
                         <Insets right="10.0" fx:id="x3" />
                       </GridPane.margin>
                     </Label>
-                    <Label fx:id="fileLabel" text="File" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                    <Button mnemonicParsing="false" text="Bestand..." GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                    <Label fx:id="fileLabel" text="" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                    <Button mnemonicParsing="false" onAction="#chooseFile" text="Bestand..." GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                       <GridPane.margin>
                         <Insets left="5.0" />
                       </GridPane.margin>

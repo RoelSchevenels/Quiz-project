@@ -8,6 +8,8 @@ import javafx.scene.layout.AnchorPane;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
+import org.hibernate.Session;
+
 import BussinesLayer.QuizMaster;
 import Util.ConnectionUtil;
 import Util.DatabaseUtil;
@@ -21,7 +23,8 @@ public class CreateQuizTest {
                 
                 
                 QuizMaster q = (QuizMaster) DatabaseUtil.getUser("cony");
-                ConnectionUtil.getSession().close();
+                
+                Session s = ConnectionUtil.getSession();
                 
                 JFrame frame = new JFrame("JavaFX 2 in Swing");
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -30,6 +33,7 @@ public class CreateQuizTest {
 				try {
 					test = new FXMLToPanel<AnchorPane,QuizMakerController>(QuizMakerController.class.getResource("quizMaker.fxml"));
 					test.getController().setQuizMaster(q);
+					
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

@@ -49,7 +49,16 @@ public class MultipleChoise extends Question{
 		synchronized (possibilities) {
 			possibilities.add(pos);
 		}
+	}
+	
+	public void setValues(String... values) {
+		synchronized (possibilities) {
+			possibilities.clear();
+		}
 		
+		for(String s: values) {
+			addValue(s);
+		}
 	}
 	
 }

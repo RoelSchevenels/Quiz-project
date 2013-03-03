@@ -24,7 +24,7 @@
 	collor2: rgb(240,125,25);
 	gradient: linear-gradient(to bottom,
 				collor1 0%, collor2 100%);
-	font1: 'Georgia';
+	font1: "georgia";
 }
 
 .slide-in-bar {
