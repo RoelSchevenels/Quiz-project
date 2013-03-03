@@ -258,12 +258,14 @@ public class CreateQuestionController implements Initializable {
     		}
     		currentQuestion.setQuestion(multipleQuestionText.getText());
     		//text van de geselecteerde radiobutton;
-    		currentQuestion.setCorrectAnswer(((RadioButton)toggleGroup.getSelectedToggle()).getText());
+    		RadioButton selected = (RadioButton)toggleGroup.getSelectedToggle();
+    		currentQuestion.setCorrectAnswer(selected.getText());
     		
     		String[] possibible = new String[toggleGroup.getToggles().size()];
     		int i = 0;
     		for(Toggle b: toggleGroup.getToggles()) {
     			possibible[i] = ((RadioButton) b).getText();
+    			System.out.println(possibible[i]);
     		}
     		((MultipleChoise) currentQuestion).setValues(possibible);
     		saveCurrentQuestion();

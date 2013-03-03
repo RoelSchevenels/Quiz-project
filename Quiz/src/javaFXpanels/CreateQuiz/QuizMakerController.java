@@ -279,5 +279,21 @@ public class QuizMakerController implements Initializable {
     	return true;
     }
     
+    //wegens te weinig tijd
+    private EventHandler<ActionEvent> onQuizPlay;
+
+    @FXML
+    private void PlayQuiz() {
+    	if(onQuizPlay!= null) {
+    		onQuizPlay.handle(new ActionEvent());
+    	}
+    }
+    
+    public void setOnPlayQuiz(EventHandler<ActionEvent> event) {
+    	onQuizPlay = event;
+    }
    
+    public Quiz getCurrentQuiz() {
+    	return currentQuiz;
+    }
 }

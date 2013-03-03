@@ -28,7 +28,7 @@ public class TestQuizMasterFrame extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        Scene scene = new Scene(new QuizMasterDisplay(createTestQuiz()));
+        Scene scene = new Scene(new QuizMasterPlayDisplay(createTestQuiz()));
         primaryStage.setScene(scene);
         primaryStage.show();
 
@@ -82,8 +82,8 @@ public class TestQuizMasterFrame extends Application {
         //MediaFrame f2 = ScreenManeger.getInstance().getMediaFrame();
         
         new JFXPanel(); 
-        QuizMasterDisplay q = new QuizMasterDisplay(createTestQuiz());
-        PaneToPanel<QuizMasterDisplay> qDip = new PaneToPanel<QuizMasterDisplay>(q);
+        QuizMasterPlayDisplay q = new QuizMasterPlayDisplay(createTestQuiz());
+        PaneToPanel<QuizMasterPlayDisplay> qDip = new PaneToPanel<QuizMasterPlayDisplay>(q);
         
         f.setLayout(new BorderLayout());
         f.add(qDip, "Center");

@@ -19,12 +19,16 @@
 
 
 /* kleuren en lettertypes die over heel de stijl gebruikt worden declareren */
-.root {
+
+.quizmaster-display {
+	-fx-background-color: gradient;					
+	-fx-text-fill: white;
 	collor1: rgb(240,70,25);
 	collor2: rgb(240,125,25);
 	gradient: linear-gradient(to bottom,
 				collor1 0%, collor2 100%);
-	font1: "georgia";
+	font1: "Georgia";
+	
 }
 
 .slide-in-bar {
@@ -49,12 +53,6 @@
 
 .slide-in-list .list-cell:filled:selected:focused, .list-cell:filled:selected {
 	-fx-background-color: gradient;
-}
-
-.quizmaster-display {
-	-fx-background-color: gradient;					
-	-fx-text-fill: white;
-	
 }
 
 .scroll-pane {

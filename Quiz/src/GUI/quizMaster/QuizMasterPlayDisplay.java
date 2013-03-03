@@ -63,7 +63,7 @@ import BussinesLayer.resources.Resource;
 
 
 
-public class QuizMasterDisplay extends AnchorPane{
+public class QuizMasterPlayDisplay extends AnchorPane{
 	private static double MAX_SLIDEBAR_OPACITY = 0.8;
 	private static String screenName = "main";
 	private SimpleObjectProperty<Question> currentQuestion;
@@ -89,7 +89,7 @@ public class QuizMasterDisplay extends AnchorPane{
 	private ParallelTransition slideInAnimations;
 	private boolean slidedOut;
 
-	public QuizMasterDisplay(Quiz q) {
+	public QuizMasterPlayDisplay(Quiz q) {
 		quiz = q;
 		rounds = quiz.getRounds();
 		this.currentRound = new SimpleObjectProperty<QuestionRound>();
@@ -171,7 +171,7 @@ public class QuizMasterDisplay extends AnchorPane{
 					togleSlideIn();
 					event.consume();
 				} else if(event.getCode().equals(KeyCode.ESCAPE)) {
-					ScreenManager.getInstance().setFrameFullScreen(QuizMasterDisplay.screenName, false);
+					ScreenManager.getInstance().setFrameFullScreen(QuizMasterPlayDisplay.screenName, false);
 				}
 			}
 		});

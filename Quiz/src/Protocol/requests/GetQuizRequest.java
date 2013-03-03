@@ -5,7 +5,6 @@ import java.net.UnknownHostException;
 
 import Protocol.exceptions.IdRangeException;
 import Protocol.responses.GetQuizResponse;
-import Protocol.responses.Response;
 
 public class GetQuizRequest extends Request {
 	private static final long serialVersionUID = -1222660330044304313L;
@@ -16,7 +15,7 @@ public class GetQuizRequest extends Request {
 	}
 
 	@Override
-	public Response createResponse() {
+	public GetQuizResponse createResponse() {
 		return new GetQuizResponse(requestId);
 	}
 	
