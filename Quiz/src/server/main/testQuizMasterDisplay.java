@@ -7,6 +7,8 @@ import javafx.scene.layout.AnchorPane;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
+import screenManger.ScreenManager;
+
 public class testQuizMasterDisplay {
 
 	/**
@@ -20,7 +22,8 @@ public class testQuizMasterDisplay {
 	            @Override
 	            public void run() {
 	                
-	                JFrame frame = new JFrame("JavaFX 2 in Swing");
+	                JFrame frame =  ScreenManager.getInstance().getFrame("main");
+	                frame.setTitle("Test");
 	                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	                
 	                PaneToPanel<AnchorPane> p = new PaneToPanel<AnchorPane>(new QuizMasterDisplay());

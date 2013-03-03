@@ -88,43 +88,41 @@ public class LoginPanelServer implements Initializable {
 	private RadioButton radioKwisser;
 	@FXML
 	private RadioButton radioJury;
-	
+
 	@SuppressWarnings("unused")
 	private QuizMaster quizMaster;
 	private EventHandler<ActionEvent> onLoggedIn;
-	
+
 	private MessageProvider messageProvider;
 	private SimpleObjectProperty<LoginResponse> loginResponse;
-	
+
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		messageProvider = new MessageProvider(loginAnchor);
 		loginResponse = new SimpleObjectProperty<LoginResponse>();
-			
+
 	}
-	
+
 	@FXML
 	private void buttonGoClicked(){
 		if (fieldGebruiker.getText().isEmpty() || fieldWachtwoord.getText().isEmpty()) {
 			messageProvider.showWarning("Geen gebruikersnaam en/of wachtwoord ingevuld.");
 		} else {
-				User user = DatabaseUtil.getUser(fieldGebruiker.getText());
-				ConnectionUtil.getSession().close();
-				if (user == null){
-					messageProvider.showWarning("De gebruiker bestaat niet.");
-				} else if (user instanceof QuizMaster) {
-					if (user.checkPassword(fieldWachtwoord.getText())){
-						setQuizMaster((QuizMaster) user);
-						fireLoggedIn();
-					} else {
-						messageProvider.showError("Wachtwoord incorrect.");
-					}
-				} else {
-					messageProvider.showInfo("Hier kunnen alleen Quizmasters inloggen.");
-				}
+			Session s = ConnectionUtil.getSession();
+			QuizMaster q = (QuizMaster) s.createQuery("select q from QuizMaster q where q.userName = :name")
+					.setParameter("name", fieldGebruiker.getText())
+					.uniqueResult();
+			s.close();
+			if (q == null){
+				messageProvider.showWarning("De gebruiker bestaat niet.");
+			} else {
+				setQuizMaster(q);
+				fireLoggedIn();
+				
+			}
 		}
 	}
-	
+
 	@FXML	
 	private void buttonRegisterClicked(){
 		centerAnchor.setVisible(false);
@@ -132,31 +130,31 @@ public class LoginPanelServer implements Initializable {
 		registerPane.setVisible(true);
 		registerPane.setDisable(false);
 	}
-	
+
 	@FXML
 	private void buttonRegGoClicked(){
 		if (fieldRegGebruikersnaam.getText().isEmpty() || fieldRegWachtwoord.getText().isEmpty()
 				|| fieldRegVoornaam.getText().isEmpty() || fieldRegNaam.getText().isEmpty() ||
 				fieldRegEmail.getText().isEmpty() || fieldRegWachtwoordOpnieuw.getText().isEmpty()) {
-			
+
 			messageProvider.showWarning("Gelieve alle velden in te vullen.");
-			
+
 		} else if (!(fieldRegWachtwoord.getText().equals(fieldRegWachtwoordOpnieuw.getText()))) {
-			
+
 			messageProvider.showWarning("Wachtwoorden komen niet overeen.");
-			
+
 		} else {
 			QuizMaster q = new QuizMaster(fieldRegGebruikersnaam.getText(), fieldRegWachtwoord.getText());
 			q.setFirstName(fieldRegVoornaam.getText());
 			q.setLastName(fieldRegNaam.getText());
 			q.setEmail(fieldRegEmail.getText());
-			
+
 			Session s = ConnectionUtil.getSession();
 			try {
 				Transaction t = s.beginTransaction();
 				s.save(q);
 				t.commit();
-				
+
 			} catch(HibernateException ex) {
 				messageProvider.showError("Kon gebruiker niet aanmaken");
 				return;
@@ -166,7 +164,7 @@ public class LoginPanelServer implements Initializable {
 			fireLoggedIn();
 		}
 	}
-	
+
 	@FXML
 	private void buttonRegAnnuleerClicked(){
 		centerAnchor.setVisible(true);
@@ -174,7 +172,7 @@ public class LoginPanelServer implements Initializable {
 		registerPane.setVisible(false);
 		registerPane.setDisable(true);
 	}
-	
+
 	public LoginResponse getLoginResponse() {
 		return loginResponse.get();
 	}
@@ -190,15 +188,15 @@ public class LoginPanelServer implements Initializable {
 	public void setQuizMaster(QuizMaster quizMaster) {
 		this.quizMaster = quizMaster;
 	}
-	
+
 	public void setOnLoggedIn(EventHandler<ActionEvent> event) {
 		this.onLoggedIn = event;
 	}
-	
+
 	private void fireLoggedIn() {
 		if(onLoggedIn != null) { 
 			onLoggedIn.handle(new ActionEvent());
 		}
 	}
-		
+
 }

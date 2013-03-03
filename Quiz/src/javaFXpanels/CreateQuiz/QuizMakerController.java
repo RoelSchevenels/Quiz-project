@@ -71,11 +71,16 @@ public class QuizMakerController implements Initializable {
 	private Quiz currentQuiz;
 	private QuestionRound currentRound;
 	
+	public QuizMakerController() {
+		session = ConnectionUtil.getSession();
+	}
+	
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+    	
         messageMaker = new MessageProvider(root);
         initBindings();
         root.getChildren().removeAll(createQuizPane,createRoundsPane);
@@ -147,11 +152,9 @@ public class QuizMakerController implements Initializable {
     }
     
     private void AddQuestion(Question q) {
-    	session = ConnectionUtil.getSession();
     	transaction = session.beginTransaction();
     	session.saveOrUpdate(q);
-    	currentRound.addQuestion(q);
-    	session.saveOrUpdate(currentRound);
+    	q.addQuestionRound(currentRound);
     	
     	try {
     		transaction.commit();
@@ -175,10 +178,9 @@ public class QuizMakerController implements Initializable {
     @FXML
     private void createRoundPressed() {
     	if(validateText(roundsText)) {
-    		session = ConnectionUtil.getSession();
     		transaction = session.beginTransaction();
     		QuestionRound round = new QuestionRound(roundsText.getText());
-    		round.addQuiz(currentQuiz);
+    		currentQuiz.addRound(round);
     		session.saveOrUpdate(round);
     		session.saveOrUpdate(currentQuiz);
     		try {
@@ -228,7 +230,7 @@ public class QuizMakerController implements Initializable {
     			return;
     		}
     		
-    		transaction = ConnectionUtil.getSession().beginTransaction();
+    		transaction = session.beginTransaction();
     		Quiz q = new Quiz(quizText.getText(), quizMaster);
     		q.setMaxTeams(maxTeams);
     		q.setMinTeams(minTeams);
@@ -254,7 +256,6 @@ public class QuizMakerController implements Initializable {
     }
     
     public void setQuizMaster(QuizMaster q) {
-    	session = ConnectionUtil.getSession();
     	transaction = session.beginTransaction();
     	session.saveOrUpdate(q);
     	try {
