@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.collections.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+
+<AnchorPane id="AnchorPane" fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="164.0" prefWidth="393.0" xmlns:fx="http://javafx.com/fxml" fx:controller="javaFXpanels.BlokkenJury.BlokkenJuryController">
+  <children>
+    <AnchorPane prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <children>
+        <SplitPane dividerPositions="0.3452685421994885" focusTraversable="true" prefHeight="164.0" prefWidth="393.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+          <items>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+              <children>
+                <Button layoutX="14.0" layoutY="51.0" mnemonicParsing="false" onAction="#displayTetris" text="Geef tetris weer" textAlignment="CENTER" />
+              </children>
+            </AnchorPane>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+              <children>
+                <Label layoutX="87.0" layoutY="25.0" text="Aantal blokken" />
+                <ComboBox fx:id="cmb" layoutX="87.0" layoutY="52.0" prefHeight="21.0" prefWidth="79.0" visibleRowCount="5">
+                  <items>
+                    <FXCollections fx:factory="observableArrayList">
+                      <String fx:value="Item 1" />
+                      <String fx:value="Item 2" />
+                      <String fx:value="Item 3" />
+                    </FXCollections>
+                  </items>
+                </ComboBox>
+                <Button layoutX="14.0" layoutY="109.0" mnemonicParsing="false" onAction="#startPlayerOne" text="Start Speler 1" />
+                <Button layoutX="148.0" layoutY="109.0" mnemonicParsing="false" onAction="#startPlayerTwo" text="Start Speler 2" textAlignment="RIGHT" />
+              </children>
+            </AnchorPane>
+          </items>
+        </SplitPane>
+      </children>
+    </AnchorPane>
+  </children>
+</AnchorPane>
