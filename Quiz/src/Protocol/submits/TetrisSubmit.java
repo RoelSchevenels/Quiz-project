@@ -1,14 +1,17 @@
-package Protocol.submits;
+ package Protocol.submits;
 
-public class TetrisSubmit extends Submit {
-	private static final long serialVersionUID = 1201029080815867510L;
+public class TetrisSubmit extends IdentifiedSubmit {
+	/**
+	 * @author Roel
+	 */
+	private static final long serialVersionUID = -2695430118916850507L;
 	private char movement;
 
 	public char getMovement()
 	{
 		return movement;
 	}
-
+	
 	public void setMovement(char movement)
 	{
 		this.movement = movement;
@@ -18,5 +21,5 @@ public class TetrisSubmit extends Submit {
 	{
 		super();
 		this.movement = movement;
-	}	
+	}
 }

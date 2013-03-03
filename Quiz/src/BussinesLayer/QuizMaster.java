@@ -5,6 +5,7 @@
 package BussinesLayer;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.DiscriminatorValue;
@@ -25,7 +26,7 @@ public class QuizMaster extends User {
 	@SuppressWarnings("unused")
 	private QuizMaster() {}; //hibernate Constructor
 
-	public List<Quiz> getQuissen() {
+	public Collection<Quiz> getQuissen() {
 		return quissen;
 	}
 }

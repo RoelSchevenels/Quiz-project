@@ -14,6 +14,6 @@ public class GameTest {
 		frame.add(panel);
 		frame.pack();
 		frame.setVisible(true);
-		new Game(panel);
+		Game.initAndGet(panel);
 	}
 }

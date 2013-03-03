@@ -27,7 +27,7 @@ public class QuestionRound {
 	private String name;
 	
 	@ManyToMany(mappedBy="rounds")
-	private List<Quiz> quises = new ArrayList<Quiz>();
+	private Collection<Quiz> quises = new ArrayList<Quiz>();
 	@ManyToMany(mappedBy="questionRounds")
 	private List<Question> questions = new ArrayList<Question>();
 	

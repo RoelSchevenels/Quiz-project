@@ -4,6 +4,8 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import tetris.Game;
+
 import BussinesLayer.Answer;
 import BussinesLayer.Jury;
 import Protocol.RequestListener;
@@ -18,8 +20,10 @@ import Protocol.requests.LoginRequest;
 import Protocol.requests.PictureRequest;
 import Protocol.requests.Request;
 import Protocol.requests.TeamLoginRequest;
+import Protocol.submits.AuthSubmit;
 import Protocol.submits.CorrectSubmit;
 import Protocol.submits.Submit;
+import Protocol.submits.TetrisStartSubmit;
 import Protocol.submits.TetrisSubmit;
 import Util.ConnectionUtil;
 import Util.DatabaseUtil;
@@ -93,14 +97,6 @@ public class Mapper {
 	
 	protected static void mapSubmits()
 	{
-		SubmitManager.addSubmitListener(TetrisSubmit.class,
-				new SubmitListener() {
-					public void handleSubmit(Submit s)
-					{
-						TetrisSubmit ts = (TetrisSubmit) s; 
-						System.out.println(ts.getMovement());
-					}
-				});
 		SubmitManager.addSubmitListener(CorrectSubmit.class,
 			new SubmitListener(){
 				public void handleSubmit(Submit s)
@@ -120,5 +116,50 @@ public class Mapper {
 					}
 				}
 		});
+		
+		/*** Specifiek voor blokken ***/
+		SubmitManager.addSubmitListener(TetrisSubmit.class,
+				new SubmitListener() {
+					public void handleSubmit(Submit s)
+					{
+						TetrisSubmit ts = (TetrisSubmit) s;
+						Game game = Game.getInstance();
+						if (game.isActivePlayer(ts.getConnectionId())) {
+							char dir = ts.getMovement();
+							switch(dir){
+							case 'l':
+								game.left();
+								break;
+							case 'd':
+								game.down();
+								break;
+							case 'r':
+								game.right();
+								break;
+							case 'u':
+								game.rotate();
+								break;
+							}
+						}
+					}
+				});
+		SubmitManager.addSubmitListener(TetrisStartSubmit.class, 
+				new SubmitListener(){
+					public void handleSubmit(Submit s)
+					{
+						TetrisStartSubmit tss = (TetrisStartSubmit)s;
+						Game.getInstance().start(tss.getPlayer(), tss.getPieces());
+					}
+				});
+		SubmitManager.addSubmitListener(AuthSubmit.class,
+				new SubmitListener(){
+					public void handleSubmit(Submit s)
+					{
+						if (((AuthSubmit)s).getRole().equals("player")) {
+							Game.getInstance().addConnection(((AuthSubmit)s).getConnectionId());
+						}
+					}
+				});
+		/*** Einde specifiek voor blokken ***/
 	}
 }

@@ -132,4 +132,10 @@ public class ConnectionUtil {
 			configuration = null;
 		}
 	}
+	
+	public static void CloseAllSessions() {
+		if(sessionFactory!=null) {
+			CloseSessionFactory();
+		}
+	}
 }

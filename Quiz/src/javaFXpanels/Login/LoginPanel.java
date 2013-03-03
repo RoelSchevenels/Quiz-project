@@ -183,11 +183,11 @@ public class LoginPanel implements Initializable {
 				messageProvider
 						.showError("Fout bij het aanmaken van nieuwe gebruiker.");
 			} catch (UnknownHostException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				messageProvider
+				.showError("Fout bij het aanmaken van nieuwe gebruiker.");
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				messageProvider
+				.showError("Fout bij het aanmaken van nieuwe gebruiker.");
 			}
 		}
 	}

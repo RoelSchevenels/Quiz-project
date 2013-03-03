@@ -109,6 +109,7 @@ public class LoginPanelServer implements Initializable {
 			messageProvider.showWarning("Geen gebruikersnaam en/of wachtwoord ingevuld.");
 		} else {
 				User user = DatabaseUtil.getUser(fieldGebruiker.getText());
+				ConnectionUtil.getSession().close();
 				if (user == null){
 					messageProvider.showWarning("De gebruiker bestaat niet.");
 				} else if (user instanceof QuizMaster) {

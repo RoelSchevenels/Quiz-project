@@ -17,6 +17,7 @@ import Protocol.RequestManager;
 import Protocol.SubmitManager;
 import Protocol.requests.Request;
 import Protocol.submits.IdRangeSubmit;
+import Protocol.submits.IdentifiedSubmit;
 import Protocol.submits.Submit;
 import Util.ConnectionUtil;
 /**
@@ -166,6 +167,9 @@ public class Server {
 	{
 		System.out.println("data komt binnen");
 		if (data instanceof Submit) {
+			if (data instanceof IdentifiedSubmit) {
+				((IdentifiedSubmit)data).setConnectionId(id);
+			}
 			SubmitManager.fireSubmit((Submit) data);
 		} else if (data instanceof Request) {
 			Request r = (Request) data;

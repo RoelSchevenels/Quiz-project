@@ -57,7 +57,7 @@ public class test {
 		
 		
 		QuizMaster q = (QuizMaster) DatabaseUtil.getUser("Tony");
-		final Quiz quiz = q.getQuissen().get(0);
+		//final Quiz quiz = q.getQuissen();
 		
 		RequestManager.addRequestListener(GetQuizRequest.class, new RequestListener() {
 			

@@ -1,6 +1,9 @@
 package Protocol.submits;
 
-public class AuthSubmit extends Submit{
+public class AuthSubmit extends IdentifiedSubmit{
+	/**
+	 * @author Roel
+	 */
 	private static final long serialVersionUID = -5898023737423437866L;
 	private String role;
 	

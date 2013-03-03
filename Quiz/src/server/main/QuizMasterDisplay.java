@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import Util.ConnectionUtil;
 import javaFXpanels.CreateQuiz.QuizMakerController;
 import javaFXpanels.LoginServer.LoginPanelServer;
 import javaFXpanels.MessageProvider.LoadingPane;
@@ -39,7 +41,6 @@ public class QuizMasterDisplay extends AnchorPane {
 			@Override
 			public void run() {
 				StartServer();
-				
 			}
 		});
 	}

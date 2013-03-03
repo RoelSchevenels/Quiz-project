@@ -261,7 +261,7 @@ public class QuizMakerController implements Initializable {
     		transaction.commit();
     	} catch (Exception ex) {
     		transaction.rollback();
-    		//het object bevond zich al op de huidig thread/session
+    		session.saveOrUpdate(q);
     	}
     	quisses.getItems().setAll(q.getQuissen());
     	quizMaster = q;

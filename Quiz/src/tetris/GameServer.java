@@ -138,7 +138,7 @@ public class GameServer {
 		frame.add(panel);
 		frame.pack();
 		frame.setVisible(true);
-		game = new Game(panel);
+		game = Game.initAndGet(panel);
 	}
 	
 	public GameServer(int port)

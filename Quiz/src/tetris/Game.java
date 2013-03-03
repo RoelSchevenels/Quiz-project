@@ -9,17 +9,19 @@ import javax.swing.JPanel;
  * @author Roel
  */
 public class Game{
+	private static Game instance;
 	private GamePanel panel;
 	private JPanel parentPanel;
 	private int[][] grid;
 	private int player;
+	private int[] playerconnections = {-1,-1};
 	private int pieces;
 	private int interval;
 	private Piece p;
 	private boolean playing;
 	private ExecutorService ex;
 	
-	public Game(JPanel parentPanel)
+	private Game(JPanel parentPanel)
 	{
 		grid = new int[10][20];
 		player = 1;
@@ -29,6 +31,18 @@ public class Game{
 		
 		this.parentPanel = parentPanel;
 		makeGUI();
+	}
+	
+	public static Game initAndGet(JPanel parentPanel)
+	{
+		if (instance == null) {
+			instance = new Game(parentPanel);
+		}
+		return instance;
+	}
+	public static Game getInstance()
+	{
+		return instance;
 	}
 	
 	public void makeGUI()
@@ -140,6 +154,18 @@ public class Game{
 		}else{
 			System.out.println("Ongeldig spelersnummer");
 			return false;
+		}
+	}
+	public boolean isActivePlayer(int connectionId)
+	{
+		return playerconnections[player - 1] == connectionId;
+	}
+	public void addConnection(int connectionId)
+	{
+		if (playerconnections[0] == -1) {
+			playerconnections[0] = connectionId;
+		} else if(playerconnections[1] == -1) {
+			playerconnections[1] = connectionId;
 		}
 	}
 	public void start(String player, int pieces)
