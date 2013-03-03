@@ -357,7 +357,7 @@ public class DatabaseUtil {
 	public static void handleCorrectSubmit(CorrectSubmit submit) {
 		try {
 			Answer a = getAnswer(submit.getAnswerId());
-			Jury j = (Jury) getUser(submit.getJurryId());
+			Jury j = (Jury) getUser(submit.getJuryId());
 			a.correct(j,submit.getScore());
 			saveObject(a);
 		} catch(Exception e) {
@@ -476,6 +476,13 @@ public class DatabaseUtil {
 		}
 
 		saveObject(a);
+	}
+	
+	public static void setAnswerCorrected(Answer answer)
+	{
+		if(sendAnswers.containsKey(answer.getAnswerId())) {
+			sendAnswers.remove(answer.getAnswerId());
+		}
 	}
 
 }
