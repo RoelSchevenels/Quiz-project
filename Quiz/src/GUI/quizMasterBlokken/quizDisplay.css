@@ -1,0 +1,106 @@
+/**
+ * de quizMasterDisplay default style gestijld aan de hand
+ * van de volgende classes:
+ * +quizmaster-display
+ * +slide-in-pane
+ * +slide-in-bar
+ * +slide-in-list
+ * +finish-text
+ * +round-text
+ * +question-text
+ * +answer-text
+ * +multiple-choise-text
+ * +correct-answer //juiste multiple-choise-text
+ * +question-image
+ * +question-mediacontrols
+ * 
+ * @author Vrolijkx
+ */
+
+
+/* kleuren en lettertypes die over heel de stijl gebruikt worden declareren */
+.root {
+	collor1: rgb(222,171,49);
+	collor2: rgb(218,222,93);
+	gradient: linear-gradient(to bottom,
+				collor1 0%, collor2 100%);
+	font1: "Century Gothic";
+}
+
+.slide-in-bar {
+	-fx-cursor: hand;
+}
+
+.slide-in-pane {
+	-fx-border-style: solid;
+}
+
+/*blauwe standaard focus rand weg halen */
+.slide-in-list:focused {
+  -fx-background-color: rgb(255,255,255,0);
+  -fx-background-insets: 0, 0, 0;
+  -fx-background-radius: 0, 0, 0;
+  -fx-border-style: solid;
+  -fx-border-color: gradient;
+  -fx-padding: 0; /* 0.083333em; */
+  
+}
+
+
+.slide-in-list .list-cell:filled:selected:focused, .list-cell:filled:selected {
+	-fx-background-color: gradient;
+}
+
+.quizmaster-display {
+	-fx-background-color: gradient;					
+	-fx-text-fill: white;
+	
+}
+
+.scroll-pane {
+	-fx-background-color: rgba(255,255,255,0.0);
+}
+
+.text {
+	-fx-font-smoothing-type: lcd;
+}
+
+.finish-text, .round-text, .question-text {
+	-fx-text-alignment: center;
+	-fx-font: 52px font1;
+	-fx-fill: white;
+	
+}
+
+.multiple-choise-text {
+	-fx-font: 30px font1;
+	-fx-fill: white;
+}
+
+.correct-answer {
+	-fx-fill: rgb(33,255,33);
+}
+
+.answer-text {
+	-fx-font: 42px font1;
+	-fx-fill: green;
+}
+
+/** test css die niet super is
+.question-pagiation .bullet-button:selected {
+	-fx-background-color: transparent,  
+							linear-gradient(to bottom,
+							collor1 0%, collor2 100%), white, 
+							linear-gradient(to bottom,
+							collor1 0%, collor2 100%);
+}
+
+.question-pagiation .bullet-button{
+	-fx-background-color: transparent, linear-gradient(to bottom,
+							collor1 0%, collor2 100%);
+}
+
+.question-pagiation .pagination-control .left-arrow, .right-arrow {
+
+}
+*/

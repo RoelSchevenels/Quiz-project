@@ -59,7 +59,7 @@ public class InputIPController implements Initializable {
 		}	catch (UnknownHostException uhe) {
 			messageProvider.showError("Gelieve een geldig IP-adres in te geven.");
 		} catch (IOException ioe) {
-			messageProvider.showError("Kan geen verbinding maken met de server");
+			messageProvider.showError("Kan geen verbinding maken met de server.");
 		}
 	}
 	

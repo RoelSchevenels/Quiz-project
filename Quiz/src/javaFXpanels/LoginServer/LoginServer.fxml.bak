@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+
+<AnchorPane id="AnchorPane" fx:id="loginAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml" fx:controller="javaFXpanels.Login.LoginPanel">
+  <children>
+    <StackPane prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <children>
+        <AnchorPane id="Content" fx:id="centerAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="345.0" prefWidth="450.0" visible="true" StackPane.alignment="CENTER">
+          <children>
+            <ImageView id="login_portal.png" fitHeight="205.0" fitWidth="276.0" AnchorPane.bottomAnchor="124.0" AnchorPane.leftAnchor="87.0" AnchorPane.rightAnchor="85.0" AnchorPane.topAnchor="14.0">
+              <effect>
+                <Reflection topOffset="-15.0" />
+              </effect>
+              <image>
+                <Image url="@login_portal.png" preserveRatio="true" smooth="true" />
+              </image>
+            </ImageView>
+            <Label fx:id="labelGebruiker" layoutX="102.0" layoutY="225.0" text="Gebruiker:" />
+            <TextField fx:id="fieldGebruiker" prefWidth="200.0" AnchorPane.bottomAnchor="98.0" AnchorPane.leftAnchor="184.0" AnchorPane.rightAnchor="64.0" AnchorPane.topAnchor="223.0" />
+            <Label fx:id="labelWachtwoord" text="Wachtwoord:" AnchorPane.bottomAnchor="68.0" AnchorPane.leftAnchor="87.0" AnchorPane.rightAnchor="279.0" AnchorPane.topAnchor="259.0" />
+            <PasswordField fx:id="fieldWachtwoord" prefWidth="133.0" text="" AnchorPane.bottomAnchor="66.0" AnchorPane.leftAnchor="184.0" AnchorPane.rightAnchor="131.0" AnchorPane.topAnchor="255.0" />
+            <Label fx:id="labelGeenGebruiker" text="Nog geen gebruiker?" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="128.0" AnchorPane.rightAnchor="189.0" AnchorPane.topAnchor="313.0" />
+            <Button fx:id="buttonGo" mnemonicParsing="false" onAction="#buttonGoClicked" prefHeight="22.000099999997474" prefWidth="55.0" text="GO!" AnchorPane.bottomAnchor="66.0" AnchorPane.leftAnchor="329.0" AnchorPane.rightAnchor="64.0" AnchorPane.topAnchor="254.0" />
+            <Button fx:id="buttonRegistreer" mnemonicParsing="false" onAction="#buttonRegisterClicked" text="Registreer" AnchorPane.bottomAnchor="13.0" AnchorPane.leftAnchor="265.0" AnchorPane.rightAnchor="97.0" AnchorPane.topAnchor="309.0" />
+          </children>
+        </AnchorPane>
+        <Pane fx:id="registerPane" disable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="372.0" prefWidth="572.0" visible="false" StackPane.alignment="CENTER">
+          <children>
+            <Label fx:id="labelRegNaam" layoutX="218.0" layoutY="50.0" text="Naam:" />
+            <TextField fx:id="fieldRegNaam" layoutX="265.0" layoutY="47.0" prefWidth="200.0" />
+            <Label fx:id="labelRegVoornaam" layoutX="190.0" layoutY="79.0" text="Voornaam:" />
+            <TextField fx:id="fieldRegVoornaam" layoutX="265.0" layoutY="76.0" prefWidth="200.0" />
+            <Label fx:id="labelRegGebruikersnaam" layoutX="151.0" layoutY="109.0" text="Gebruikersnaam:" />
+            <TextField fx:id="fieldRegGebruikersnaam" layoutX="265.0" layoutY="106.0" prefWidth="200.0" />
+            <Label fx:id="labelRegEmail" layoutX="174.0" layoutY="142.0" text="e-mail adres:" />
+            <TextField fx:id="fieldRegEmail" layoutX="265.0" layoutY="139.0" prefWidth="200.0" />
+            <Label fx:id="labelRegWachtwoord" layoutX="179.0" layoutY="175.0" text="Wachtwoord:" />
+            <PasswordField fx:id="fieldRegWachtwoord" layoutX="265.0" layoutY="172.0" prefWidth="200.0" />
+            <Label fx:id="labelRegWachtwoordOpnieuw" layoutX="120.0" layoutY="206.0" text="Wachtwoord opnieuw:" />
+            <PasswordField fx:id="fieldRegWachtwoordOpnieuw" layoutX="265.0" layoutY="203.0" prefWidth="200.0" />
+            <Label fx:id="labelRegType" layoutX="169.0" layoutY="245.0" text="Registreer als:" />
+            <RadioButton fx:id="radioKwisser" layoutX="267.0" layoutY="244.0" mnemonicParsing="false" selected="true" text="Kwisser">
+              <toggleGroup>
+                <ToggleGroup fx:id="type" />
+              </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="radioJury" layoutX="267.0" layoutY="269.0" mnemonicParsing="false" text="Jury-lid" toggleGroup="$type" />
+            <Button fx:id="buttonRegConfirm" layoutX="200.0" layoutY="313.0" mnemonicParsing="false" onAction="#buttonRegGoClicked" text="Regisreer!" />
+            <Button fx:id="buttonRegAnnuleer" layoutX="306.0" layoutY="314.0" mnemonicParsing="false" onAction="#buttonRegAnnuleerClicked" text="Annuleer" />
+          </children>
+        </Pane>
+      </children>
+    </StackPane>
+  </children>
+</AnchorPane>
