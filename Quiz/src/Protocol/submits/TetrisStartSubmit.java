@@ -1,6 +1,7 @@
 package Protocol.submits;
 
 public class TetrisStartSubmit extends Submit{
+	private static final long serialVersionUID = 6820216682689456904L;
 	private String player;
 	private int pieces;
 	

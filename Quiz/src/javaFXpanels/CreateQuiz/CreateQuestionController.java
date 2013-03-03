@@ -10,29 +10,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.concurrent.Callable;
 
-import javax.swing.text.StyledEditorKit.BoldAction;
-
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-
-import Util.ConnectionUtil;
-
-import BussinesLayer.QuizMaster;
-import BussinesLayer.questions.MediaQuestion;
-import BussinesLayer.questions.MultipleChoise;
-import BussinesLayer.questions.MusicQuestion;
-import BussinesLayer.questions.PictureQuestion;
-import BussinesLayer.questions.Question;
-import BussinesLayer.questions.StandardQuestion;
-import BussinesLayer.questions.VideoQuestion;
-import BussinesLayer.resources.MediaResource;
-import BussinesLayer.resources.PictureResource;
-
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -50,6 +29,16 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
+import BussinesLayer.QuizMaster;
+import BussinesLayer.questions.MediaQuestion;
+import BussinesLayer.questions.MultipleChoise;
+import BussinesLayer.questions.MusicQuestion;
+import BussinesLayer.questions.PictureQuestion;
+import BussinesLayer.questions.Question;
+import BussinesLayer.questions.StandardQuestion;
+import BussinesLayer.questions.VideoQuestion;
+import BussinesLayer.resources.MediaResource;
+import BussinesLayer.resources.PictureResource;
 
 /**
  * FXML Controller class

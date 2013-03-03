@@ -6,26 +6,15 @@
 package javaFXpanels.MediaPane;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
 
-import org.hibernate.mapping.Set;
-
-import BussinesLayer.resources.MediaResource;
-
-
-import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
-import javafx.stage.Stage;
-import javafx.stage.Window;
+import BussinesLayer.resources.MediaResource;
 
 public class MediaPlayerPane extends AnchorPane {
 	private ArrayList<Node> childeren;

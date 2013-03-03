@@ -1,6 +1,8 @@
 package Protocol.submits;
 
 public class QuestionSubmit extends Submit {
+	private static final long serialVersionUID = -5862326744272002396L;
+
 	public static enum QuestionType {OPEN,MOVIE,MUSIC,MULTIPLECHOISE,PICTURE};
 	private int quizId;
 	private int questionRoundId;

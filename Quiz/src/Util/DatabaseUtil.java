@@ -55,6 +55,7 @@ public class DatabaseUtil {
 
 
 	public static void startTransaction() {
+		@SuppressWarnings("unused")
 		Transaction t = ConnectionUtil.getSession().beginTransaction();
 	}
 
@@ -83,6 +84,7 @@ public class DatabaseUtil {
 	 * een rollback wordt uitgevoerd bij een misluking.
 	 * @param b
 	 */
+	@SuppressWarnings("unused")
 	private static void saveObjects(Object... b) {
 		Session s = ConnectionUtil.getSession();
 		Transaction t = s.beginTransaction();

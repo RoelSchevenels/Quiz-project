@@ -6,26 +6,9 @@ package javaFXpanels.Jury;
 
 import java.io.IOException;
 import java.net.URL;
-import java.net.UnknownHostException;
 import java.util.ResourceBundle;
+
 import javaFXpanels.MessageProvider.MessageProvider;
-
-import network.Client;
-
-import org.h2.value.Value;
-
-import Protocol.FxResponseListener;
-import Protocol.exceptions.IdRangeException;
-import Protocol.requests.AnswerRequest;
-import Protocol.responses.AnswerResponse;
-import Protocol.responses.ExceptionResponse;
-import Protocol.responses.GetQuizResponse;
-import Protocol.responses.LoginResponse;
-import Protocol.responses.Response;
-import Protocol.responses.LoginResponse.UserType;
-import Protocol.responses.TimeOutResponse;
-import Protocol.submits.AnswerSubmit;
-import Protocol.submits.CorrectSubmit;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -34,6 +17,18 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import network.Client;
+import Protocol.FxResponseListener;
+import Protocol.exceptions.IdRangeException;
+import Protocol.requests.AnswerRequest;
+import Protocol.responses.AnswerResponse;
+import Protocol.responses.ExceptionResponse;
+import Protocol.responses.GetQuizResponse;
+import Protocol.responses.LoginResponse;
+import Protocol.responses.LoginResponse.UserType;
+import Protocol.responses.Response;
+import Protocol.responses.TimeOutResponse;
+import Protocol.submits.CorrectSubmit;
 
 /**
  * FXML Controller class

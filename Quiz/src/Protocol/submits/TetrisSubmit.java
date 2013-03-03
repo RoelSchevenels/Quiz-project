@@ -1,6 +1,7 @@
 package Protocol.submits;
 
 public class TetrisSubmit extends Submit {
+	private static final long serialVersionUID = 1201029080815867510L;
 	private char movement;
 
 	public char getMovement()

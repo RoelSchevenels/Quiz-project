@@ -41,6 +41,7 @@ public class RequestManager {
 		}
 	}
 	
+	@SuppressWarnings("rawtypes")
 	public static void removeRequestListener(Class requestClass) {
 		listeners.remove(requestClass.getName());
 	}

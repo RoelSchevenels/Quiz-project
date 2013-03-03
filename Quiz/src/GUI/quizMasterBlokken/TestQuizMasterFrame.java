@@ -18,7 +18,6 @@ import BussinesLayer.questions.MultipleChoise;
 import BussinesLayer.questions.PictureQuestion;
 import BussinesLayer.questions.Question;
 import BussinesLayer.questions.StandardQuestion;
-import com.sun.javafx.tk.Toolkit;
 
 import javaFXToSwing.PaneToPanel;
 import javafx.application.Application;

@@ -3,12 +3,9 @@
  */
 package BussinesLayer.questions;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import javax.imageio.ImageIO;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 

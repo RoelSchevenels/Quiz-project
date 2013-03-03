@@ -6,33 +6,21 @@
 package screenManger;
 
 
-import java.awt.Frame;
-import java.awt.event.ActionEvent;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
-
-import javaFXToSwing.FXMLToPanel;
-import javaFXpanels.MediaPane.MediaControllerController;
 import javaFXpanels.MediaPane.MediaPaneController;
 
-import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.layout.AnchorPane;
 
-import javax.swing.AbstractAction;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
-
 
 import BussinesLayer.resources.MediaResource;
 import GUI.quizMaster.MediaFrame;

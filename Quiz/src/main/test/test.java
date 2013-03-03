@@ -2,7 +2,6 @@ package main.test;
 
 
 import java.awt.BorderLayout;
-import java.awt.Button;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -26,19 +25,17 @@ import BussinesLayer.questions.Question;
 import BussinesLayer.questions.StandardQuestion;
 import Protocol.RequestListener;
 import Protocol.RequestManager;
-import Protocol.SubmitListener;
-import Protocol.SubmitManager;
 import Protocol.requests.GetQuizRequest;
-import Protocol.requests.GetTeamsRequest;
 import Protocol.requests.Request;
 import Protocol.responses.GetQuizResponse;
-import Protocol.submits.Submit;
 import Util.ConnectionUtil;
 import Util.DatabaseUtil;
 
 public class test {
 
+	@SuppressWarnings("unused")
 	private static long start;
+	@SuppressWarnings("unused")
 	private static long end;
 
 	/**
@@ -94,6 +91,7 @@ public class test {
 		
 	}
 	
+	@SuppressWarnings("unused")
 	private static Quiz CreateQuiz() {
 		try {
 			ConnectionUtil.StartDataBase();

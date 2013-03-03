@@ -3,17 +3,9 @@ package javaFXToSwing;
 
 
 import java.awt.Dimension;
-import java.io.IOException;
-import java.net.URL;
-
-import javax.swing.SwingUtilities;
-
-import com.sun.javafx.tk.Toolkit;
 
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 

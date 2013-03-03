@@ -1,6 +1,7 @@
 package Protocol.submits;
 
 public class IdRangeSubmit extends Submit{
+	private static final long serialVersionUID = 3233854411196079621L;
 	private int min, max;
 
 	public IdRangeSubmit(int min, int max)

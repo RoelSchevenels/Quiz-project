@@ -1,8 +1,8 @@
 package javaFXpanels.CreateQuiz;
 
 import java.io.IOException;
-
 import javaFXToSwing.FXMLToPanel;
+
 import javafx.scene.layout.AnchorPane;
 
 import javax.swing.JFrame;
@@ -24,7 +24,8 @@ public class CreateQuizTest {
                 
                 QuizMaster q = (QuizMaster) DatabaseUtil.getUser("cony");
                 
-                Session s = ConnectionUtil.getSession();
+                @SuppressWarnings("unused")
+				Session s = ConnectionUtil.getSession();
                 
                 JFrame frame = new JFrame("JavaFX 2 in Swing");
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

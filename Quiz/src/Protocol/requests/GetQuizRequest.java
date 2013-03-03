@@ -8,6 +8,7 @@ import Protocol.responses.GetQuizResponse;
 import Protocol.responses.Response;
 
 public class GetQuizRequest extends Request {
+	private static final long serialVersionUID = -1222660330044304313L;
 
 	public GetQuizRequest() throws IdRangeException, UnknownHostException,
 			IOException {

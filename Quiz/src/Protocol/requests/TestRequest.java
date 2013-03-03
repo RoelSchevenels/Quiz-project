@@ -9,6 +9,7 @@ import Protocol.responses.TestResponse;
  * @author Roel
  */
 public class TestRequest extends Request{
+	private static final long serialVersionUID = 4131672112215563556L;
 	private String message;
 
 	public TestRequest(String message) throws IdRangeException, UnknownHostException,IOException

@@ -5,9 +5,7 @@
  */
 package javaFXpanels.LoginServer;
 
-import java.io.IOException;
 import java.net.URL;
-import java.net.UnknownHostException;
 import java.util.ResourceBundle;
 
 
@@ -15,13 +13,7 @@ import javaFXpanels.MessageProvider.MessageProvider;
 
 import BussinesLayer.QuizMaster;
 import BussinesLayer.User;
-import Protocol.FxResponseListener;
-import Protocol.exceptions.IdRangeException;
-import Protocol.requests.LoginRequest;
-import Protocol.responses.ExceptionResponse;
 import Protocol.responses.LoginResponse;
-import Protocol.responses.Response;
-import Util.ConnectionUtil;
 import Util.DatabaseUtil;
 
 import javafx.beans.property.ReadOnlyObjectProperty;
@@ -91,6 +83,8 @@ public class LoginPanelServer implements Initializable {
 	private RadioButton radioKwisser;
 	@FXML
 	private RadioButton radioJury;
+	
+	@SuppressWarnings("unused")
 	private QuizMaster quizMaster;
 	
 	private MessageProvider messageProvider;

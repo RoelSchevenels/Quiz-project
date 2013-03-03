@@ -32,7 +32,6 @@ import BussinesLayer.Quiz;
 import BussinesLayer.QuizMaster;
 import BussinesLayer.questions.Question;
 import Util.ConnectionUtil;
-import Util.DatabaseUtil;
 
 /**
  * FXML Controller class

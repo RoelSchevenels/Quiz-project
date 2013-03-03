@@ -5,26 +5,10 @@ package javafFXpanels.ConnectToQuiz;
 
 import java.io.IOException;
 import java.net.URL;
-import java.net.UnknownHostException;
 import java.util.ResourceBundle;
-import java.util.concurrent.Callable;
-
-import Protocol.FxResponseListener;
-import Protocol.exceptions.IdRangeException;
-import Protocol.requests.ConnectToQuizRequest;
-import Protocol.requests.GetQuizRequest;
-import Protocol.requests.SuccesResponse;
-import Protocol.responses.ExceptionResponse;
-import Protocol.responses.GetQuizResponse;
-import Protocol.responses.LoginResponse;
-import Protocol.responses.LoginResponse.UserType;
-import Protocol.responses.Response;
-import Protocol.responses.TeamLoginResponse;
 
 import javaFXpanels.MessageProvider.LoadingPane;
 import javaFXpanels.MessageProvider.MessageProvider;
-
-import javafx.beans.binding.Bindings;
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -32,6 +16,16 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+import Protocol.FxResponseListener;
+import Protocol.exceptions.IdRangeException;
+import Protocol.requests.ConnectToQuizRequest;
+import Protocol.requests.GetQuizRequest;
+import Protocol.requests.SuccesResponse;
+import Protocol.responses.ExceptionResponse;
+import Protocol.responses.GetQuizResponse;
+import Protocol.responses.LoginResponse.UserType;
+import Protocol.responses.Response;
+import Protocol.responses.TeamLoginResponse;
 
 /**
  * FXML Controller class

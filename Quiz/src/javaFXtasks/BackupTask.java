@@ -4,13 +4,12 @@
  */
 package javaFXtasks;
 
+import java.io.File;
+
+import javafx.concurrent.Task;
 import Util.backup.Backup;
 import Util.backup.BackupProgressAdapter;
 import Util.backup.ProgressListener;
-import java.io.File;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.concurrent.Task;
 
 /**
  *

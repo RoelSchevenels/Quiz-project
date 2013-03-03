@@ -12,8 +12,6 @@ import java.util.ResourceBundle;
 import java.util.concurrent.Callable;
 
 import javaFXpanels.MessageProvider.MessageProvider;
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.SimpleObjectProperty;

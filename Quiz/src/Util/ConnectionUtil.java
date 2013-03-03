@@ -23,6 +23,7 @@ import BussinesLayer.Jury;
 public class ConnectionUtil {
 	private static SessionFactory sessionFactory;
 	private static Configuration configuration;
+	@SuppressWarnings("unused")
 	private static Session s;
 
 	/**

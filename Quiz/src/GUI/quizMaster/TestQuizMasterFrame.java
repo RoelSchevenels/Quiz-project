@@ -1,15 +1,19 @@
 package GUI.quizMaster;
 
 import java.awt.BorderLayout;
+import javaFXToSwing.PaneToPanel;
+
+import javafx.application.Application;
+import javafx.embed.swing.JFXPanel;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
 import org.hibernate.Session;
+
 import screenManger.ScreenManager;
-
-import Util.ConnectionUtil;
-
 import BussinesLayer.QuestionRound;
 import BussinesLayer.Quiz;
 import BussinesLayer.QuizMaster;
@@ -18,13 +22,7 @@ import BussinesLayer.questions.MultipleChoise;
 import BussinesLayer.questions.PictureQuestion;
 import BussinesLayer.questions.Question;
 import BussinesLayer.questions.StandardQuestion;
-import com.sun.javafx.tk.Toolkit;
-
-import javaFXToSwing.PaneToPanel;
-import javafx.application.Application;
-import javafx.embed.swing.JFXPanel;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
+import Util.ConnectionUtil;
 
 public class TestQuizMasterFrame extends Application {
 

@@ -12,13 +12,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
-import javax.imageio.ImageIO;
-
-import org.hibernate.internal.util.BytesHelper;
-
-
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
+
+import javax.imageio.ImageIO;
 
 public class PictureResource extends Resource {
 	private File file;

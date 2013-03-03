@@ -43,6 +43,8 @@ public class InputIPController implements Initializable {
 	private Label labelIP;
 	
 	private MessageProvider messageProvider;
+	
+	@SuppressWarnings("unused")
 	private StartClientTask startClientTask;
 
 	@Override
