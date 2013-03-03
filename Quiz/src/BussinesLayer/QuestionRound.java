@@ -27,7 +27,7 @@ public class QuestionRound {
 	private String name;
 	
 	@ManyToMany(mappedBy="rounds")
-	private Collection<Quiz> quises = new ArrayList<Quiz>();
+	private List<Quiz> quises = new ArrayList<Quiz>();
 	@ManyToMany(mappedBy="questionRounds")
 	private List<Question> questions = new ArrayList<Question>();
 	
@@ -53,14 +53,12 @@ public class QuestionRound {
 	public void addQuiz(Quiz q) {
 		if(!quises.contains(q)) {
 			quises.add(q);
-			q.addRound(this);
 		}
 	}
 	
 	public void removeQuiz(Quiz q) {
 		if(quises.contains(q)) {
 			quises.remove(q);
-			q.removeRound(this);
 		}
 	}
 	
@@ -71,14 +69,12 @@ public class QuestionRound {
 	public void addQuestion(Question q) {
 		if(!questions.contains(q)) {
 			questions.add(q);
-			q.addQuestionRound(this);
 		}
 	}
 	
 	public void removeQuestion(Question q) {
 		if(questions.contains(q)) {
 			questions.remove(q);
-			q.removeQuestionRound(this);
 		}
 	}
 	

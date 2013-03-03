@@ -4,12 +4,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
-import org.hibernate.annotations.common.util.impl.Log;
-
-import BussinesLayer.QuizMaster;
-
-
 import javaFXpanels.CreateQuiz.QuizMakerController;
 import javaFXpanels.LoginServer.LoginPanelServer;
 import javaFXpanels.MessageProvider.LoadingPane;
@@ -26,6 +20,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import BussinesLayer.QuizMaster;
 
 public class QuizMasterDisplay extends AnchorPane {
 	private static URL LoginLocation = LoginPanelServer.class.getResource("LoginServer.fxml");

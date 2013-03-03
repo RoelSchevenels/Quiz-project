@@ -7,21 +7,8 @@ package javaFXpanels.LoginServer;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-
 import javaFXpanels.MessageProvider.MessageProvider;
-<<<<<<< HEAD
 
-import BussinesLayer.QuizMaster;
-import BussinesLayer.User;
-import Protocol.responses.LoginResponse;
-import Util.DatabaseUtil;
-
-=======
->>>>>>> De quiz kan aangemaakt worden
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
@@ -35,6 +22,11 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
 import BussinesLayer.QuizMaster;
 import BussinesLayer.User;
 import Protocol.responses.LoginResponse;
@@ -166,9 +158,10 @@ public class LoginPanelServer implements Initializable {
 				
 			} catch(HibernateException ex) {
 				messageProvider.showError("Kon gebruiker niet aanmaken");
+				return;
 			}
 			s.close();
-			
+			quizMaster = q;
 			fireLoggedIn();
 		}
 	}

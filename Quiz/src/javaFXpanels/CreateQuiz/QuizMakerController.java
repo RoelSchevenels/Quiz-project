@@ -77,7 +77,6 @@ public class QuizMakerController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         messageMaker = new MessageProvider(root);
-        session = ConnectionUtil.getSession();
         initBindings();
         root.getChildren().removeAll(createQuizPane,createRoundsPane);
         createQuizPane.setVisible(true);
@@ -152,7 +151,7 @@ public class QuizMakerController implements Initializable {
     	transaction = session.beginTransaction();
     	session.saveOrUpdate(q);
     	currentRound.addQuestion(q);
-    	session.merge(currentRound);
+    	session.saveOrUpdate(currentRound);
     	
     	try {
     		transaction.commit();
@@ -181,6 +180,7 @@ public class QuizMakerController implements Initializable {
     		QuestionRound round = new QuestionRound(roundsText.getText());
     		round.addQuiz(currentQuiz);
     		session.saveOrUpdate(round);
+    		session.saveOrUpdate(currentQuiz);
     		try {
     			transaction.commit();
     		} catch(HibernateException ex) {
@@ -256,7 +256,7 @@ public class QuizMakerController implements Initializable {
     public void setQuizMaster(QuizMaster q) {
     	session = ConnectionUtil.getSession();
     	transaction = session.beginTransaction();
-    	session.merge(q);
+    	session.saveOrUpdate(q);
     	try {
     		transaction.commit();
     	} catch (Exception ex) {

@@ -25,7 +25,7 @@ public class testQuizMasterDisplay {
 	                
 	                PaneToPanel<AnchorPane> p = new PaneToPanel<AnchorPane>(new QuizMasterDisplay());
 	                
-	                frame.setContentPane(p);
+	                frame.add(p);
 	                frame.setSize(800, 500);
 	                frame.setLocationRelativeTo(null);
 	                frame.setVisible(true);

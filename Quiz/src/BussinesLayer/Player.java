@@ -33,7 +33,6 @@ public class Player extends User {
 	public void AddTeam(Team team) {
 		if(!teams.contains(team)) {
 			this.teams.add(team);
-			team.addPlayer(this);
 		}
 	}
 	

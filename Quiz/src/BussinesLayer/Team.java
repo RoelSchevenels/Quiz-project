@@ -85,14 +85,12 @@ public class Team {
 	public void addPlayer(Player p) {
 		if(!players.contains(p)) {
 			players.add(p);
-			p.AddTeam(this);
 		}
 	}
 	
 	public void removerPlayer(Player p) {
 		if(players.contains(p)) {
 			players.remove(p);
-			p.AddTeam(this);
 		}
 	}
 

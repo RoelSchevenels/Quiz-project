@@ -144,14 +144,12 @@ public class Quiz {
 	public void addRound(QuestionRound round) {
 		if(!rounds.contains(round)) {
 			rounds.add(round);
-			round.addQuiz(this);
 		}
 	}
 	
 	public void removeRound(QuestionRound round) {
 		if(rounds.contains(round)) {
 			rounds.remove(round);
-			round.removeQuiz(this);
 		}
 	}
 

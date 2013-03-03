@@ -103,14 +103,12 @@ public abstract class Question {
 	public void addQuestionRound(QuestionRound round) {
 		if(!questionRounds.contains(round)) {
 			questionRounds.add(round);
-			round.addQuestion(this);
 		}
 	}
 	
 	public void removeQuestionRound(QuestionRound round) {
 		if(questionRounds.contains(round)) {
 			questionRounds.remove(round);
-			round.removeQuestion(this);
 		}
 	}
 	
