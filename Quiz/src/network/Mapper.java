@@ -113,6 +113,7 @@ public class Mapper {
 						Answer answer = DatabaseUtil.getAnswer(cs.getAnswerId());
 						Jury jury = (Jury)DatabaseUtil.getUser(cs.getJuryId());
 						answer.correct(jury, score);
+						DatabaseUtil.setAnswerCorrected(answer);
 						t.commit();
 					}catch (HibernateException he) {
 						
