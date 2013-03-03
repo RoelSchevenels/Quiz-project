@@ -5,14 +5,22 @@ import java.net.URL;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import org.hibernate.annotations.common.util.impl.Log;
 
+import BussinesLayer.QuizMaster;
+
+
+import javaFXpanels.CreateQuiz.QuizMakerController;
+import javaFXpanels.LoginServer.LoginPanelServer;
 import javaFXpanels.MessageProvider.LoadingPane;
 import javaFXpanels.MessageProvider.MessageProvider;
+import javaFXpanels.Server.ServerController;
 import javaFXtasks.StartServerTask;
 
 import javafx.application.Platform;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.embed.swing.JFXPanel;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -20,8 +28,12 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
 public class QuizMasterDisplay extends AnchorPane {
+	private static URL LoginLocation = LoginPanelServer.class.getResource("LoginServer.fxml");
+	private static URL choisePanel = ServerController.class.getResource("Server.fxml");
+	private static URL createQuizLocation = QuizMakerController.class.getResource("quizMaker.fxml");
 	private MessageProvider messageMaker;
 	private LoadingPane p;
+	private QuizMaster quizMaster;
 	
 	public QuizMasterDisplay() {
 		messageMaker = new MessageProvider(this);
@@ -36,8 +48,7 @@ public class QuizMasterDisplay extends AnchorPane {
 			}
 		});
 	}
-	
-	
+		
 	@SuppressWarnings("unchecked")
 	private  void StartServer() {
 		StartServerTask task = new StartServerTask();
@@ -66,16 +77,59 @@ public class QuizMasterDisplay extends AnchorPane {
 		
 	}
 
+	private void startLoginPane() {
+		try {
+			final LoginPanelServer controller = (LoginPanelServer) setFxml(LoginLocation);
+			controller.setOnLoggedIn(new EventHandler<ActionEvent>() {
 
+				@Override
+				public void handle(ActionEvent event) {
+					quizMaster = controller.getQuizMaster();
+					startChoiseMenu();
+				}
+			});
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	private void startChoiseMenu() {
+		try {
+			ServerController controlle = (ServerController) setFxml(choisePanel);
+			controlle.setOnMakeBackup(new EventHandler<ActionEvent>() {
 
+				@Override
+				public void handle(ActionEvent event) {
+					startBackup();
+				}
+			});
+			controlle.setOnMakeQuiz(new EventHandler<ActionEvent>() {
 
-	protected void startLoginPane() {
-		// TODO Auto-generated method stub
+				@Override
+				public void handle(ActionEvent event) {
+					startCreateQuiz();
+				}
+			});
+		} catch (IOException e) {
+			messageMaker.showError("Fatale fout");
+		}
+	}
+	
+	private void startCreateQuiz() {
+		try {
+			QuizMakerController controller = (QuizMakerController) setFxml(createQuizLocation);
+			controller.setQuizMaster(quizMaster);
+		} catch (IOException e) {
+			messageMaker.showError("Fatale Fout");
+		}
 		
 	}
 
-
-
+	private void startBackup() {
+		
+	}
 
 	/**
 	 * laad ieder soort pane van FXML en zet het als het huidige actieve paneel

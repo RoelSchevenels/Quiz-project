@@ -8,16 +8,24 @@ package javaFXpanels.LoginServer;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import javaFXpanels.MessageProvider.MessageProvider;
+<<<<<<< HEAD
 
 import BussinesLayer.QuizMaster;
 import BussinesLayer.User;
 import Protocol.responses.LoginResponse;
 import Util.DatabaseUtil;
 
+=======
+>>>>>>> De quiz kan aangemaakt worden
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -27,6 +35,11 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import BussinesLayer.QuizMaster;
+import BussinesLayer.User;
+import Protocol.responses.LoginResponse;
+import Util.ConnectionUtil;
+import Util.DatabaseUtil;
 
 public class LoginPanelServer implements Initializable {
 	@FXML
@@ -86,6 +99,7 @@ public class LoginPanelServer implements Initializable {
 	
 	@SuppressWarnings("unused")
 	private QuizMaster quizMaster;
+	private EventHandler<ActionEvent> onLoggedIn;
 	
 	private MessageProvider messageProvider;
 	private SimpleObjectProperty<LoginResponse> loginResponse;
@@ -107,7 +121,8 @@ public class LoginPanelServer implements Initializable {
 					messageProvider.showWarning("De gebruiker bestaat niet.");
 				} else if (user instanceof QuizMaster) {
 					if (user.checkPassword(fieldWachtwoord.getText())){
-						quizMaster = (QuizMaster) user;
+						setQuizMaster((QuizMaster) user);
+						fireLoggedIn();
 					} else {
 						messageProvider.showError("Wachtwoord incorrect.");
 					}
@@ -142,6 +157,19 @@ public class LoginPanelServer implements Initializable {
 			q.setFirstName(fieldRegVoornaam.getText());
 			q.setLastName(fieldRegNaam.getText());
 			q.setEmail(fieldRegEmail.getText());
+			
+			Session s = ConnectionUtil.getSession();
+			try {
+				Transaction t = s.beginTransaction();
+				s.save(q);
+				t.commit();
+				
+			} catch(HibernateException ex) {
+				messageProvider.showError("Kon gebruiker niet aanmaken");
+			}
+			s.close();
+			
+			fireLoggedIn();
 		}
 	}
 	
@@ -159,6 +187,24 @@ public class LoginPanelServer implements Initializable {
 
 	public ReadOnlyObjectProperty<LoginResponse> loginResponseProperty() {
 		return loginResponse;
+	}
+
+	public QuizMaster getQuizMaster() {
+		return quizMaster;
+	}
+
+	public void setQuizMaster(QuizMaster quizMaster) {
+		this.quizMaster = quizMaster;
+	}
+	
+	public void setOnLoggedIn(EventHandler<ActionEvent> event) {
+		this.onLoggedIn = event;
+	}
+	
+	private void fireLoggedIn() {
+		if(onLoggedIn != null) { 
+			onLoggedIn.handle(new ActionEvent());
+		}
 	}
 		
 }
